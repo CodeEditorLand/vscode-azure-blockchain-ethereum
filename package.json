@@ -579,7 +579,7 @@
     "@truffle/debugger": "5.0.35",
     "@truffle/provider": "0.2.1",
     "abi-decoder": "2.0.1",
-    "acorn": "6.1.1",
+    "acorn": "6.4.1",
     "acorn-walk": "6.1.1",
     "astring": "1.7.5",
     "azure-arm-resource": "7.3.0",
