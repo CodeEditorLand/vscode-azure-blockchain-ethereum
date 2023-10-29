@@ -592,7 +592,7 @@
     "open": "6.4.0",
     "request": "2.88.0",
     "request-promise": "4.2.4",
-    "semver": "6.0.0",
+    "semver": "6.3.1",
     "solidity-parser-antlr": "0.4.11",
     "uuid": "3.3.2",
     "vscode-azureextensionui": "0.29.12",
