@@ -1,33 +1,13 @@
 {
-	"name": "ui-test",
-	"version": "0.0.1",
-	"private": false,
-	"description": "End-to-end tests for azure blockchain extension",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"author": {
+		"email": "Hello@Playform.Cloud",
+		"name": "Playform",
+		"url": "https://playform.cloud"
+	},
 	"bugs": {
 		"url": "https://github.com/CodeEditorLand/Foundation/issues"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
-	},
-	"type": "module",
-	"main": "index.js",
-	"scripts": {
-		"clean": "npx rimraf -- ./out/*",
-		"compile": "npm run clean && tsc -p ./",
-		"download": "download --out test-resources --filename azure-blockchain.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/AzBlockchain/vsextensions/azure-blockchain/1.2.0/vspackage",
-		"prepare-ui-test": "npm run compile && npm run download && extest get-vscode && extest get-chromedriver && extest install-vsix -f test-resources/azure-blockchain.vsix",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"ui-test": "npm run prepare-ui-test && extest run-tests out/*.test.js",
-		"watch": "tsc -watch -p ./"
-	},
+	"description": "End-to-end tests for azure blockchain extension",
 	"devDependencies": {
 		"@types/chai": "^4.2.11",
 		"@types/fs-extra": "^7.0.0",
@@ -38,10 +18,30 @@
 		"mocha": "^7.1.1",
 		"tslint-microsoft-contrib": "^6.2.0",
 		"typescript": "^3.3.1",
-		"typescript-esbuild": "0.4.5",
+		"typescript-esbuild": "",
 		"vscode-extension-tester": "^2.6.0"
 	},
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"license": "SEE LICENSE IN LICENSE",
+	"main": "index.js",
+	"name": "ui-test",
+	"private": false,
 	"publishConfig": {
 		"access": "public"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"scripts": {
+		"clean": "npx rimraf -- ./out/*",
+		"compile": "npm run clean && tsc -p ./",
+		"download": "download --out test-resources --filename azure-blockchain.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/AzBlockchain/vsextensions/azure-blockchain/1.2.0/vspackage",
+		"prepare-ui-test": "npm run compile && npm run download && extest get-vscode && extest get-chromedriver && extest install-vsix -f test-resources/azure-blockchain.vsix",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"ui-test": "npm run prepare-ui-test && extest run-tests out/*.test.js",
+		"watch": "tsc -watch -p ./"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }

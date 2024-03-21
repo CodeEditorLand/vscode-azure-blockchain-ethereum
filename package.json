@@ -1,37 +1,40 @@
 {
-	"name": "azure-blockchain",
-	"displayName": "Blockchain Development Kit for Ethereum",
-	"version": "0.0.1",
-	"private": false,
-	"description": "Develop, deploy, debug and manage your Ethereum based blockchain solutions",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
+	"activationEvents": [
+		"onView:AzureBlockchain",
+		"onCommand:azureBlockchainService.showWelcomePage",
+		"onCommand:azureBlockchainService.refresh",
+		"onCommand:contract.copyByteCode",
+		"onCommand:contract.copyDeployedByteCode",
+		"onCommand:contract.copyABI",
+		"onCommand:truffle.createLocalUI",
+		"onCommand:truffle.newSolidityProject",
+		"onCommand:azureBlockchainService.buildContracts",
+		"onCommand:azureBlockchainService.deployContracts",
+		"onCommand:azureBlockchainService.generateReportPublishingWorkflows",
+		"onCommand:azureBlockchainService.generateMicroservicesWorkflows",
+		"onCommand:azureBlockchainService.generateEventPublishingWorkflows",
+		"onCommand:azureBlockchainService.generateDataPublishingWorkflows",
+		"onCommand:azureBlockchainService.connectProject",
+		"onCommand:azureBlockchainService.copyRPCEndpointAddress",
+		"onCommand:azureBlockchainService.createProject",
+		"onCommand:azureBlockchainService.disconnectProject",
+		"onCommand:extension.truffle.debugTransaction",
+		"onCommand:openZeppelin.addCategory",
+		"onCommand:azureBlockchainService.signInToInfuraAccount",
+		"onCommand:azureBlockchainService.signOutOfInfuraAccount",
+		"onCommand:azureBlockchainService.openAtAzurePortal",
+		"onCommand:azureBlockchainService.createNewBDMApplication",
+		"onCommand:azureBlockchainService.deleteBDMApplication",
+		"onDebug"
+	],
+	"aiKey": "INSERTAIKEY",
 	"author": {
-		"name": "Playform",
 		"email": "Hello@Playform.Cloud",
+		"name": "Playform",
 		"url": "https://playform.cloud"
 	},
-	"type": "module",
-	"main": "./out/src/extension.js",
-	"scripts": {
-		"clean": "npx rimraf -- ./out/*",
-		"compile": "npm run clean && tsc -p ./",
-		"package": "npx vsce package",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"publish": "npx vsce publish",
-		"tslint": "tslint -t verbose src/**/*.ts test/**/*.ts",
-		"tslint:fix": "npm run tslint -- --fix",
-		"version": "tsc -v",
-		"vscode:prepublish": "npm i && npm run webpack:prod",
-		"watch": "tsc -watch -p ./",
-		"webpack:prod": "webpack --mode production"
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
 	},
 	"contributes": {
 		"breakpoints": [
@@ -496,45 +499,6 @@
 			]
 		}
 	},
-	"activationEvents": [
-		"onView:AzureBlockchain",
-		"onCommand:azureBlockchainService.showWelcomePage",
-		"onCommand:azureBlockchainService.refresh",
-		"onCommand:contract.copyByteCode",
-		"onCommand:contract.copyDeployedByteCode",
-		"onCommand:contract.copyABI",
-		"onCommand:truffle.createLocalUI",
-		"onCommand:truffle.newSolidityProject",
-		"onCommand:azureBlockchainService.buildContracts",
-		"onCommand:azureBlockchainService.deployContracts",
-		"onCommand:azureBlockchainService.generateReportPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateMicroservicesWorkflows",
-		"onCommand:azureBlockchainService.generateEventPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateDataPublishingWorkflows",
-		"onCommand:azureBlockchainService.connectProject",
-		"onCommand:azureBlockchainService.copyRPCEndpointAddress",
-		"onCommand:azureBlockchainService.createProject",
-		"onCommand:azureBlockchainService.disconnectProject",
-		"onCommand:extension.truffle.debugTransaction",
-		"onCommand:openZeppelin.addCategory",
-		"onCommand:azureBlockchainService.signInToInfuraAccount",
-		"onCommand:azureBlockchainService.signOutOfInfuraAccount",
-		"onCommand:azureBlockchainService.openAtAzurePortal",
-		"onCommand:azureBlockchainService.createNewBDMApplication",
-		"onCommand:azureBlockchainService.deleteBDMApplication",
-		"onDebug"
-	],
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged && npm run compile"
-		}
-	},
-	"lint-staged": {
-		"*.ts": [
-			"npx tslint -t verbose",
-			"git add"
-		]
-	},
 	"dependencies": {
 		"@truffle/debug-utils": "1.0.19",
 		"@truffle/debugger": "5.0.35",
@@ -559,6 +523,7 @@
 		"vscode-azureextensionui": "^0.29.12",
 		"vscode-extension-telemetry": "^0.1.1"
 	},
+	"description": "Develop, deploy, debug and manage your Ethereum based blockchain solutions",
 	"devDependencies": {
 		"@types/download": "^6.2.4",
 		"@types/estree": "^0.0.39",
@@ -590,21 +555,56 @@
 		"ts-loader": "7.0.2",
 		"tslint-microsoft-contrib": "^6.2.0",
 		"typescript": "3.8.3",
-		"typescript-esbuild": "0.4.5",
+		"typescript-esbuild": "",
 		"vscode-debugadapter": "^1.33.0",
 		"vscode-debugprotocol": "^1.33.0",
 		"vscode-test": "^1.2.0",
 		"webpack": "4.43.0",
 		"webpack-cli": "3.3.11"
 	},
+	"displayName": "Blockchain Development Kit for Ethereum",
 	"extensionDependencies": [
 		"JuanBlanco.solidity",
 		"ms-vscode.azure-account"
 	],
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged && npm run compile"
+		}
+	},
+	"icon": "images/blockchain-service-logo.png",
+	"license": "SEE LICENSE IN LICENSE",
+	"lint-staged": {
+		"*.ts": [
+			"npx tslint -t verbose",
+			"git add"
+		]
+	},
+	"main": "./out/src/extension.js",
+	"name": "azure-blockchain",
+	"preview": false,
+	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"icon": "images/blockchain-service-logo.png",
-	"preview": false,
-	"aiKey": "INSERTAIKEY"
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"scripts": {
+		"clean": "npx rimraf -- ./out/*",
+		"compile": "npm run clean && tsc -p ./",
+		"package": "npx vsce package",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"publish": "npx vsce publish",
+		"tslint": "tslint -t verbose src/**/*.ts test/**/*.ts",
+		"tslint:fix": "npm run tslint -- --fix",
+		"version": "tsc -v",
+		"vscode:prepublish": "npm i && npm run webpack:prod",
+		"watch": "tsc -watch -p ./",
+		"webpack:prod": "webpack --mode production"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
