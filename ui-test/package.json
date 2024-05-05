@@ -1,0 +1,46 @@
+{
+	"name": "ui-test",
+	"version": "0.0.1",
+	"private": false,
+	"description": "End-to-end tests for azure blockchain extension",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureBlockchainEthereum#readme",
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureBlockchainEthereum/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandAzureBlockchainEthereum.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
+	},
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"clean": "npx rimraf -- ./out/*",
+		"compile": "npm run clean && tsc -p ./",
+		"download": "download --out test-resources --filename azure-blockchain.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/AzBlockchain/vsextensions/azure-blockchain/1.2.0/vspackage",
+		"prepare-ui-test": "npm run compile && npm run download && extest get-vscode && extest get-chromedriver && extest install-vsix -f test-resources/azure-blockchain.vsix",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"ui-test": "npm run prepare-ui-test && extest run-tests out/*.test.js"
+	},
+	"devDependencies": {
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"@types/chai": "4.3.14",
+		"@types/fs-extra": "11.0.4",
+		"chai": "5.1.0",
+		"download-cli": "1.1.1",
+		"fs-extra": "11.2.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
