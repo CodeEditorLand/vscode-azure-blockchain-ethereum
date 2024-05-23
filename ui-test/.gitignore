@@ -2,4 +2,3 @@ out
 .vscode-test/
 *.vsix
 test-resources/
-package-lock.json
