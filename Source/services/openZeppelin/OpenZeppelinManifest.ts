@@ -1,63 +1,68 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import * as url from 'url';
-import {
-  IOZAsset,
-  IOZContractCategory,
-  IOZMetadata,
-} from './models';
+import * as url from "url";
+import type { IOZAsset, IOZContractCategory, IOZMetadata } from "./models";
 
-const categoryWithoutDocumentation = 'mocks';
+const categoryWithoutDocumentation = "mocks";
 
 export class OpenZeppelinManifest {
-  private metadata: IOZMetadata;
+	private metadata: IOZMetadata;
 
-  constructor(metadata: IOZMetadata) {
-    this.metadata = metadata;
-  }
+	constructor(metadata: IOZMetadata) {
+		this.metadata = metadata;
+	}
 
-  public getVersion(): string {
-    return this.metadata.openZeppelinVersion;
-  }
+	public getVersion(): string {
+		return this.metadata.openZeppelinVersion;
+	}
 
-  public getCategories(): IOZContractCategory[] {
-    return this.metadata.categories;
-  }
+	public getCategories(): IOZContractCategory[] {
+		return this.metadata.categories;
+	}
 
-  public getAssets(): IOZAsset[] {
-    return this.metadata.assets;
-  }
+	public getAssets(): IOZAsset[] {
+		return this.metadata.assets;
+	}
 
-  public collectAssetsWithDependencies(assetIds: string[] = []): IOZAsset[] {
-    const dependencies: IOZAsset[] = [];
-    assetIds.forEach((id) => {
-      const rootAsset = this.metadata.assets.find((asset) => asset.id === id);
-      if (rootAsset) {
-        dependencies.push(rootAsset, ...this.collectAssetsWithDependencies(rootAsset.dependencies));
-      }
-    });
+	public collectAssetsWithDependencies(assetIds: string[] = []): IOZAsset[] {
+		const dependencies: IOZAsset[] = [];
+		assetIds.forEach((id) => {
+			const rootAsset = this.metadata.assets.find(
+				(asset) => asset.id === id,
+			);
+			if (rootAsset) {
+				dependencies.push(
+					rootAsset,
+					...this.collectAssetsWithDependencies(
+						rootAsset.dependencies,
+					),
+				);
+			}
+		});
 
-    return dependencies.filter((value, index, self) => self.indexOf(value) === index);
-  }
+		return dependencies.filter(
+			(value, index, self) => self.indexOf(value) === index,
+		);
+	}
 
-  public getCategoryApiDocumentationUrl(category: IOZContractCategory) {
-    if (category.id === categoryWithoutDocumentation) {
-      return undefined;
-    }
+	public getCategoryApiDocumentationUrl(category: IOZContractCategory) {
+		if (category.id === categoryWithoutDocumentation) {
+			return undefined;
+		}
 
-    const baseUrl = this.appendSlashIfNotExists(this.metadata.apiDocumentationBaseUri);
-    return url.resolve(baseUrl, category.id);
-  }
+		const baseUrl = this.appendSlashIfNotExists(
+			this.metadata.apiDocumentationBaseUri,
+		);
+		return url.resolve(baseUrl, category.id);
+	}
 
-  public getBaseUrlToContractsSource(): string {
-    const baseUrl = this.appendSlashIfNotExists(this.metadata.baseUri);
-    return url.resolve(baseUrl, this.metadata.targetPoint);
-  }
+	public getBaseUrlToContractsSource(): string {
+		const baseUrl = this.appendSlashIfNotExists(this.metadata.baseUri);
+		return url.resolve(baseUrl, this.metadata.targetPoint);
+	}
 
-  private appendSlashIfNotExists(urlPath: string) {
-    return urlPath[urlPath.length - 1] === '/'
-      ? urlPath
-      : urlPath + '/';
-  }
+	private appendSlashIfNotExists(urlPath: string) {
+		return urlPath[urlPath.length - 1] === "/" ? urlPath : urlPath + "/";
+	}
 }

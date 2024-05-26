@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export interface IInfuraEndpointDto {
-  [key: string]: {
-    https: string;
-    wss: string;
-  };
+	[key: string]: {
+		https: string;
+		wss: string;
+	};
 }

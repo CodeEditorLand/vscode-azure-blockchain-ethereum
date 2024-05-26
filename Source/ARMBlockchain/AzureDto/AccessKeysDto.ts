@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 export interface IAzureMemberAccessKeysDto {
-  keys: [{
-    keyName: string;
-    value: string
-  }];
+	keys: [
+		{
+			keyName: string;
+			value: string;
+		},
+	];
 }

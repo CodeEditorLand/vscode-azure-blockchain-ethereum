@@ -1,21 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { Constants } from '../../Constants';
-import { IRule } from '../validator';
+import { Constants } from "../../Constants";
+import type { IRule } from "../validator";
 
 export class IsConfirmationValue implements IRule {
-  private readonly yesNoOptions: string[];
+	private readonly yesNoOptions: string[];
 
-  constructor() {
-    this.yesNoOptions = [
-      Constants.confirmationDialogResult.yes,
-      Constants.confirmationDialogResult.no,
-    ];
-  }
+	constructor() {
+		this.yesNoOptions = [
+			Constants.confirmationDialogResult.yes,
+			Constants.confirmationDialogResult.no,
+		];
+	}
 
-  public validate(value: string): string | null {
-    const isConfirmationValue = this.yesNoOptions.map((option) => option.toLowerCase()).includes(value.toLowerCase());
-    return isConfirmationValue ? null : Constants.validationMessages.invalidConfirmationResult;
-  }
+	public validate(value: string): string | null {
+		const isConfirmationValue = this.yesNoOptions
+			.map((option) => option.toLowerCase())
+			.includes(value.toLowerCase());
+		return isConfirmationValue
+			? null
+			: Constants.validationMessages.invalidConfirmationResult;
+	}
 }

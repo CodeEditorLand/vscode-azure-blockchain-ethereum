@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 export interface ICreateBlockchainDataManagerDto {
-  location: string;
-  properties: {
-    sku: string;
-    state: string;
-  };
+	location: string;
+	properties: {
+		sku: string;
+		state: string;
+	};
 }

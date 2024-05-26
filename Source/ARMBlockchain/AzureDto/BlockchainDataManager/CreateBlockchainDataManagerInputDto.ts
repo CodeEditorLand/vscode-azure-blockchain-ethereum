@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 export interface ICreateBlockchainDataManagerInputDto {
-  properties: {
-    dataSource: {
-      enableBackfilling: string;
-      resourceId: string;
-    };
-    inputType: string;
-  };
+	properties: {
+		dataSource: {
+			enableBackfilling: string;
+			resourceId: string;
+		};
+		inputType: string;
+	};
 }

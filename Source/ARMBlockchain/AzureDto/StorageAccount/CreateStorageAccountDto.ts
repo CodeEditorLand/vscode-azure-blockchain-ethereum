@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 export interface ICreateStorageAccountDto {
-  kind: string;
-  location: string;
-  sku: {
-    name: string;
-  };
+	kind: string;
+	location: string;
+	sku: {
+		name: string;
+	};
 }

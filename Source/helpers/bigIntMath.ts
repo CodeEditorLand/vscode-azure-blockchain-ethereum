@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 export const bigIntMath = {
-  // eval required because babel translate ** to Math.pow
-  // tslint:disable-next-line:no-eval
-  pow: (value: BigInt, pow: number) => BigInt(eval(`BigInt(${value}) ** BigInt(${pow})`)),
+	// eval required because babel translate ** to Math.pow
+	// tslint:disable-next-line:no-eval
+	pow: (value: bigint, pow: number) =>
+		BigInt(eval(`BigInt(${value}) ** BigInt(${pow})`)),
 };

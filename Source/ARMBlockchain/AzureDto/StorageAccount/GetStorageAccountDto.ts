@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 export interface IGetStorageAccountDto {
-  signedServices: string;
-  signedResourceTypes: string;
-  signedPermission: string;
-  signedProtocol: string;
-  signedStart: string;
-  signedExpiry: string;
-  keyToSign: string;
+	signedServices: string;
+	signedResourceTypes: string;
+	signedPermission: string;
+	signedProtocol: string;
+	signedStart: string;
+	signedExpiry: string;
+	keyToSign: string;
 }

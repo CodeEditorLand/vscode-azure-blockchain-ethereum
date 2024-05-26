@@ -1,67 +1,68 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { URL } from 'url';
-import { Constants } from '../../Constants';
-import { showInputBox, TruffleConfiguration } from '../../helpers';
-import { ItemType } from '../ItemType';
-import { MnemonicNetworkNode } from './MnemonicNetworkNode';
+import type { URL } from "url";
+import { Constants } from "../../Constants";
+import { type TruffleConfiguration, showInputBox } from "../../helpers";
+import { ItemType } from "../ItemType";
+import { MnemonicNetworkNode } from "./MnemonicNetworkNode";
 
 export class InfuraNetworkNode extends MnemonicNetworkNode {
-  constructor(label: string, url: URL | string, networkId: number | string) {
-    super(
-      ItemType.INFURA_NETWORK_NODE,
-      label,
-      Constants.treeItemData.network.infura,
-      url,
-      networkId,
-    );
-  }
+	constructor(label: string, url: URL | string, networkId: number | string) {
+		super(
+			ItemType.INFURA_NETWORK_NODE,
+			label,
+			Constants.treeItemData.network.infura,
+			url,
+			networkId,
+		);
+	}
 
-  public async getTruffleNetwork(): Promise<TruffleConfiguration.INetwork> {
-    return await super.getTruffleNetwork();
-  }
+	public async getTruffleNetwork(): Promise<TruffleConfiguration.INetwork> {
+		return await super.getTruffleNetwork();
+	}
 
-  protected async getGasPrice(): Promise<number | undefined> {
-    const value = await showInputBox({
-      ignoreFocusOut: true,
-      prompt: Constants.paletteLabels.valueOrDefault(
-        Constants.propertyLabels.gasPrice,
-        Constants.defaultContractSettings.gasPrice,
-      ),
-      validateInput: this.validation,
-    });
+	protected async getGasPrice(): Promise<number | undefined> {
+		const value = await showInputBox({
+			ignoreFocusOut: true,
+			prompt: Constants.paletteLabels.valueOrDefault(
+				Constants.propertyLabels.gasPrice,
+				Constants.defaultContractSettings.gasPrice,
+			),
+			validateInput: this.validation,
+		});
 
-    if (!value) {
-      return Constants.defaultContractSettings.gasPrice;
-    }
+		if (!value) {
+			return Constants.defaultContractSettings.gasPrice;
+		}
 
-    return parseInt(value, 10);
-  }
+		return Number.parseInt(value, 10);
+	}
 
-  protected async getGasLimit(): Promise<number | undefined> {
-    const value = await showInputBox({
-      ignoreFocusOut: true,
-      prompt: Constants.paletteLabels.valueOrDefault(
-        Constants.propertyLabels.gasLimit,
-        Constants.defaultContractSettings.gasLimit),
-      validateInput: this.validation,
-    });
+	protected async getGasLimit(): Promise<number | undefined> {
+		const value = await showInputBox({
+			ignoreFocusOut: true,
+			prompt: Constants.paletteLabels.valueOrDefault(
+				Constants.propertyLabels.gasLimit,
+				Constants.defaultContractSettings.gasLimit,
+			),
+			validateInput: this.validation,
+		});
 
-    if (!value) {
-      return Constants.defaultContractSettings.gasLimit;
-    }
+		if (!value) {
+			return Constants.defaultContractSettings.gasLimit;
+		}
 
-    return parseInt(value, 10);
-  }
+		return Number.parseInt(value, 10);
+	}
 
-  protected defaultProtocol(): string {
-    return Constants.networkProtocols.https;
-  }
+	protected defaultProtocol(): string {
+		return Constants.networkProtocols.https;
+	}
 
-  private validation(value: string): string | undefined {
-    return value && !value.match(new RegExp(/^\d+$/g))
-      ? Constants.validationMessages.valueShouldBeNumberOrEmpty
-      : undefined;
-  }
+	private validation(value: string): string | undefined {
+		return value && !value.match(new RegExp(/^\d+$/g))
+			? Constants.validationMessages.valueShouldBeNumberOrEmpty
+			: undefined;
+	}
 }
