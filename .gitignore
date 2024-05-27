@@ -6,6 +6,7 @@ out/
 coverage/
 
 ### Node template
+package-lock.json
 
 ### Logs
 logs
@@ -15,9 +16,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # Dependency directories
+node_modules/
 jspm_packages/
 
 # dotenv environment variables file
+.env
 
 ### VisualStudioCode template
 .vscode/*
