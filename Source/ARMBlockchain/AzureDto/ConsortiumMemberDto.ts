@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 export interface IAzureConsortiumMemberDto {
-	name: string;
-	displayName: string;
-	subscriptionId: string;
-	role: string;
-	status: string;
-	joinDate: string;
-	dateModified: string;
+  name: string;
+  displayName: string;
+  subscriptionId: string;
+  role: string;
+  status: string;
+  joinDate: string;
+  dateModified: string;
 }

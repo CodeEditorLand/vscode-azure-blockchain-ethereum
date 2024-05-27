@@ -2,5 +2,5 @@
 // Licensed under the MIT license.
 
 export interface ICreateEventGridDto {
-	location: string;
+  location: string;
 }

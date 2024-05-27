@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export interface ICreateTransactionNodeDto {
-	location: string;
-	properties: {
-		password: string;
-	};
+  location: string;
+  properties: {
+    password: string;
+  };
 }

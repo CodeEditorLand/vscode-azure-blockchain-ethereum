@@ -3,6 +3,6 @@
 
 // tslint:disable-next-line:interface-name
 export interface Network {
-	id: string;
-	name?: string;
+  id: string;
+  name?: string;
 }

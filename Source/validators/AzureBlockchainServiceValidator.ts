@@ -1,138 +1,112 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import type { ResourceGroups } from "azure-arm-resource/lib/resource/operations";
-import type { ConsortiumResource, MemberResource } from "../ARMBlockchain";
-import { Constants } from "../Constants";
-import { Debounce } from "./debounceValidation";
-import { Validator } from "./validator";
+import { ResourceGroups } from 'azure-arm-resource/lib/resource/operations';
+import { ConsortiumResource, MemberResource } from '../ARMBlockchain';
+import { Constants } from '../Constants';
+import { Debounce } from './debounceValidation';
+import { Validator } from './validator';
 
 const debounce = new Debounce();
 
 export namespace AzureBlockchainServiceValidator {
-	const { specialChars, forbiddenChars } = Constants.validationRegexps;
-	const { unresolvedSymbols } = Constants.validationMessages;
-	const { azureBlockchainResourceName, resourceGroup } =
-		Constants.lengthParam;
+  const { specialChars, forbiddenChars } = Constants.validationRegexps;
+  const { unresolvedSymbols } = Constants.validationMessages;
+  const { azureBlockchainResourceName, resourceGroup } = Constants.lengthParam;
 
-	export async function validateAccessPassword(
-		password: string,
-	): Promise<string | null> {
-		return new Validator(password)
-			.isNotEmpty()
-			.hasLowerCase()
-			.hasUpperCase()
-			.hasDigit()
-			.hasSpecialChar(specialChars.password)
-			.hasNoForbiddenChar(
-				forbiddenChars.password,
-				unresolvedSymbols(
-					Constants.validationMessages.forbiddenChars.password,
-				),
-			)
-			.inLengthRange(
-				Constants.lengthParam.password.min,
-				Constants.lengthParam.password.max,
-			)
-			.getErrors();
-	}
+  export async function validateAccessPassword(password: string): Promise<string | null> {
+    return new Validator(password)
+      .isNotEmpty()
+      .hasLowerCase()
+      .hasUpperCase()
+      .hasDigit()
+      .hasSpecialChar(specialChars.password)
+      .hasNoForbiddenChar(
+        forbiddenChars.password,
+        unresolvedSymbols(Constants.validationMessages.forbiddenChars.password))
+      .inLengthRange(Constants.lengthParam.password.min, Constants.lengthParam.password.max)
+      .getErrors();
+  }
 
-	export async function validateResourceGroupName(
-		name: string,
-		resourceGroups: ResourceGroups,
-	): Promise<string | null> {
-		const errors = new Validator(name)
-			.isNotEmpty()
-			.hasSpecialChar(specialChars.resourceGroupName)
-			.hasNoForbiddenChar(
-				forbiddenChars.dotAtTheEnd,
-				unresolvedSymbols(
-					Constants.validationMessages.forbiddenChars.dotAtTheEnd,
-				),
-			)
-			.hasNoForbiddenChar(
-				forbiddenChars.resourceGroupName,
-				unresolvedSymbols(
-					Constants.validationMessages.forbiddenChars
-						.resourceGroupName,
-				),
-			)
-			.inLengthRange(resourceGroup.min, resourceGroup.max)
-			.getErrors();
+  export async function validateResourceGroupName(
+    name: string,
+    resourceGroups: ResourceGroups,
+  ): Promise<string | null> {
 
-		if (errors) {
-			return Constants.validationMessages.invalidResourceGroupName;
-		}
+    const errors = new Validator(name)
+      .isNotEmpty()
+      .hasSpecialChar(specialChars.resourceGroupName)
+      .hasNoForbiddenChar(
+        forbiddenChars.dotAtTheEnd,
+        unresolvedSymbols(Constants.validationMessages.forbiddenChars.dotAtTheEnd))
+      .hasNoForbiddenChar(
+        forbiddenChars.resourceGroupName,
+        unresolvedSymbols(Constants.validationMessages.forbiddenChars.resourceGroupName))
+      .inLengthRange(resourceGroup.min, resourceGroup.max)
+      .getErrors();
 
-		const timeOverFunction = buildTimeOverFunction(
-			name,
-			resourceGroups.checkExistence.bind(resourceGroups),
-			Constants.validationMessages.resourceGroupAlreadyExists,
-		);
+    if (errors) {
+      return Constants.validationMessages.invalidResourceGroupName;
+    }
 
-		return await debounce.debounced(timeOverFunction);
-	}
+    const timeOverFunction = buildTimeOverFunction(
+      name,
+      resourceGroups.checkExistence.bind(resourceGroups),
+      Constants.validationMessages.resourceGroupAlreadyExists,
+    );
 
-	export async function validateAzureBlockchainResourceName(
-		name: string,
-		resource: ConsortiumResource | MemberResource,
-	): Promise<string | null> {
-		const errors = new Validator(name)
-			.isNotEmpty()
-			.hasSpecialChar(specialChars.azureBlockchainResourceName)
-			.inLengthRange(
-				azureBlockchainResourceName.min,
-				azureBlockchainResourceName.max,
-			)
-			.getErrors();
+    return await debounce.debounced(timeOverFunction);
+  }
 
-		if (errors) {
-			return Constants.validationMessages.invalidAzureName;
-		}
+  export async function validateAzureBlockchainResourceName(name: string, resource: ConsortiumResource | MemberResource)
+  : Promise<string | null> {
+    const errors = new Validator(name)
+      .isNotEmpty()
+      .hasSpecialChar(specialChars.azureBlockchainResourceName)
+      .inLengthRange(azureBlockchainResourceName.min, azureBlockchainResourceName.max)
+      .getErrors();
 
-		const timeOverFunction = buildTimeOverFunction(
-			name,
-			resource.checkExistence.bind(resource),
-		);
+    if (errors) {
+      return Constants.validationMessages.invalidAzureName;
+    }
 
-		return await debounce.debounced(timeOverFunction);
-	}
+    const timeOverFunction = buildTimeOverFunction(name, resource.checkExistence.bind(resource));
 
-	export function validateBDMApplicationName(
-		name: string,
-		existingNames: string[],
-	) {
-		const errors = new Validator(name)
-			.isNotEmpty()
-			.hasSpecialChar(specialChars.azureBlockchainResourceName)
-			.inLengthRange(
-				azureBlockchainResourceName.min,
-				azureBlockchainResourceName.max,
-			)
-			.getErrors();
+    return await debounce.debounced(timeOverFunction);
+  }
 
-		if (errors) {
-			return Constants.validationMessages.invalidBDMApplicationName;
-		}
+  export function validateBDMApplicationName(name: string, existingNames: string[]) {
+    const errors = new Validator(name)
+      .isNotEmpty()
+      .hasSpecialChar(specialChars.azureBlockchainResourceName)
+      .inLengthRange(azureBlockchainResourceName.min, azureBlockchainResourceName.max)
+      .getErrors();
 
-		if (existingNames.includes(name)) {
-			return Constants.validationMessages.bdmApplicationNameExist;
-		}
+    if (errors) {
+      return Constants.validationMessages.invalidBDMApplicationName;
+    }
 
-		return null;
-	}
+    if (existingNames.includes(name)) {
+      return Constants.validationMessages.bdmApplicationNameExist;
+    }
 
-	function buildTimeOverFunction(
-		name: string,
-		checkExistence: (name: string) => Promise<any>,
-		errorFunction?: (error: string) => string,
-	): () => Promise<string | null> {
-		return async () => {
-			const validator = new Validator(name);
+    return null;
+  }
 
-			await validator.isAvailable(checkExistence, errorFunction);
+  function buildTimeOverFunction(
+    name: string,
+    checkExistence: (name: string) => Promise<any>,
+    errorFunction?: (error: string) => string,
+  ): () => Promise<string | null> {
+    return async () => {
+      const validator = new Validator(name);
 
-			return validator.getErrors();
-		};
-	}
+      await validator.isAvailable(
+        checkExistence,
+        errorFunction,
+      );
+
+      return validator.getErrors();
+    };
+  }
 }

@@ -2,6 +2,6 @@
 // Licensed under the MIT license.
 
 export interface ICreateProjectRequestDto {
-	name: string;
-	private_only?: boolean;
+  name: string;
+  private_only?: boolean;
 }

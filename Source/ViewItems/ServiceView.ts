@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import type { Service } from "../Models/TreeItems";
-import { ExtensionView } from "./ExtensionView";
+import { Service } from '../Models/TreeItems';
+import { ExtensionView } from './ExtensionView';
 
 export class ServiceView extends ExtensionView<Service> {
-	constructor(serviceItem: Service) {
-		super(serviceItem);
-	}
+  constructor(serviceItem: Service) {
+    super(serviceItem);
+  }
 }

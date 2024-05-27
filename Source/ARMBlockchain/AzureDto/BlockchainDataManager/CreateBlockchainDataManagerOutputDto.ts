@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 export interface ICreateBlockchainDataManagerOutputDto {
-	properties: {
-		dataSource: {
-			resourceId: string;
-		};
-		outputType: string;
-	};
+  properties: {
+    dataSource: {
+      resourceId: string;
+    },
+    outputType: string;
+  };
 }

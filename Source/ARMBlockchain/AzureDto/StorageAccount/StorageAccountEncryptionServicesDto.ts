@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export interface IStorageAccountEncryptionServicesDto {
-	keyType: string;
-	enabled: string;
-	lastEnabledTime: string;
+  keyType: string;
+  enabled: string;
+  lastEnabledTime: string;
 }

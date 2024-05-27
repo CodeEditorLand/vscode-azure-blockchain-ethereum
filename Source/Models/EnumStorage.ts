@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 export class EnumStorage {
-	// contains enums for contract's fields
-	public fields: { [key: string]: IEnumItem[] } = {};
+  // contains enums for contract's fields
+  public fields: { [key: string]: IEnumItem[] } = {};
 
-	// contains enums for method's arguments from contract
-	public methods: { [key: string]: IMethod } = {};
+  // contains enums for method's arguments from contract
+  public methods: { [key: string]: IMethod } = {};
 }
 
 interface IMethod {
-	[key: string]: IEnumItem[];
+  [key: string]: IEnumItem[];
 }
 
 interface IEnumItem {
-	value: number;
-	name: string;
+  value: number;
+  name: string;
 }

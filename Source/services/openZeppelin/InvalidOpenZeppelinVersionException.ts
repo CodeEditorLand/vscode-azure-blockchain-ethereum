@@ -2,22 +2,18 @@
 // Licensed under the MIT license.
 
 export enum CurrentOpenZeppelinVersionLocation {
-	projectJson = 0,
-	userSettings = 1,
+  projectJson,
+  userSettings,
 }
 
 export class InvalidOpenZeppelinVersionException extends Error {
-	constructor(
-		public invalidVersion: string,
-		public location: CurrentOpenZeppelinVersionLocation,
-		message?: string,
-	) {
-		super(message);
+  constructor(public invalidVersion: string, public location: CurrentOpenZeppelinVersionLocation, message?: string) {
+    super(message);
 
-		if (Error.captureStackTrace) {
-			Error.captureStackTrace(this, InvalidOpenZeppelinVersionException);
-		}
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, InvalidOpenZeppelinVersionException);
+    }
 
-		this.name = "InvalidOpenZeppelinException";
-	}
+    this.name = 'InvalidOpenZeppelinException';
+  }
 }

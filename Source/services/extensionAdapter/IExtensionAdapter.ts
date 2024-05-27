@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export interface IExtensionAdapter {
-	validateExtension: () => Promise<void>;
-	build: () => Promise<void>;
-	deploy: () => Promise<void>;
+  validateExtension: () => Promise<void>;
+  build: () => Promise<void>;
+  deploy: () => Promise<void>;
 }
