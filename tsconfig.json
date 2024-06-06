@@ -8,8 +8,7 @@
       "dom"
     ],
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "strict": true,
     /* enable all strict type-checking options */
     /* Additional Checks */
@@ -22,24 +21,10 @@
     "strictNullChecks": true,
     "noUnusedParameters": true,
     "allowJs": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@machinomy",
-      "./src/debugger/types"
-    ]
   },
-  "include": [
-    "src/**/*.js",
-    "src/**/*.ts",
-    "src/**/*.json",
-    "test/**/*.js",
-    "test/**/*.ts",
-    "test/**/*.json"
-  ],
+  "include": ["src/**/*.js", "src/**/*.ts"],
   "exclude": [
     "node_modules",
-    ".vscode-test",
-    "drizzleUI",
-    "ui-test"
+    ".vscode-test"
   ]
 }

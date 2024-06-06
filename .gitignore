@@ -3,12 +3,11 @@
 
 ### Common
 out/
-coverage/
 
 ### Node template
 package-lock.json
 
-### Logs
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -31,6 +30,3 @@ jspm_packages/
 
 .vscode-test/
 *.vsix
-
-### User template
-resources/drizzle/

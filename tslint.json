@@ -35,13 +35,9 @@
       "single",
       "avoid-escape",
       "avoid-template"
-    ]
-  },
-  "linterOptions": {
+    ],
     "exclude": [
-      "node_modules/**",
-      "src/**/*.d.ts",
-      "src/helpers/checkTruffleConfigTemplate.js"
+      "node_modules/**"
     ]
   },
   "defaultSeverity": "warning"

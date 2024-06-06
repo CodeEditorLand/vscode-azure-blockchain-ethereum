@@ -1,565 +1,451 @@
 {
-	"name": "azure-blockchain",
-	"displayName": "Blockchain Development Kit for Ethereum",
-	"description": "Develop, deploy, debug and manage your Ethereum based blockchain solutions",
-	"main": "./out/src/extension.js",
-	"scripts": {
-		"clean": "npx rimraf -- ./out/*",
-		"compile": "npm run clean && tsc -p ./",
-		"publish": "npx vsce publish",
-		"tslint:fix": "npm run tslint -- --fix",
-		"version": "tsc -v",
-		"webpack:prod": "webpack --mode production"
-	},
-	"contributes": {
-		"breakpoints": [
-			{
-				"language": "solidity"
-			},
-			{
-				"language": "sol"
-			}
-		],
-		"commands": [
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.generateMicroservicesWorkflows",
-				"title": "Generate Microservices for Smart Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.generateDataPublishingWorkflows",
-				"title": "Generate Data Publishing Workflows for Smart Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.generateReportPublishingWorkflows",
-				"title": "Generate Report Publishing Workflows for Smart Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.generateEventPublishingWorkflows",
-				"title": "Generate Event Publishing Workflows for Smart Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.showWelcomePage",
-				"title": "Show Welcome Page"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.refresh",
-				"icon": {
-					"dark": "resources/dark/refresh.svg",
-					"light": "resources/light/refresh.svg"
-				},
-				"title": "Refresh"
-			},
-			{
-				"category": "Blockchain",
-				"command": "contract.copyByteCode",
-				"title": "Copy Constructor Bytecode"
-			},
-			{
-				"category": "Blockchain",
-				"command": "contract.copyDeployedByteCode",
-				"title": "Copy Transaction Bytecode"
-			},
-			{
-				"category": "Blockchain",
-				"command": "contract.copyABI",
-				"title": "Copy Contract ABI"
-			},
-			{
-				"category": "Blockchain",
-				"command": "truffle.newSolidityProject",
-				"title": "New Solidity Project"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.buildContracts",
-				"title": "Build Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.deployContracts",
-				"title": "Deploy Contracts"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.connectProject",
-				"title": "Connect to network"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.copyRPCEndpointAddress",
-				"title": "Copy RPC Endpoint Address"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.createProject",
-				"title": "Create a new network"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.disconnectProject",
-				"title": "Disconnect"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.startGanacheServer",
-				"title": "Start Ganache Server"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.stopGanacheServer",
-				"title": "Stop Ganache Server"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.signInToInfuraAccount",
-				"title": "Sign in to Infura account"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.signOutOfInfuraAccount",
-				"title": "Sign out of Infura account"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.getPrivateKey",
-				"title": "Retrieve private key"
-			},
-			{
-				"category": "Blockchain",
-				"command": "extension.truffle.debugTransaction",
-				"title": "Debug Transaction"
-			},
-			{
-				"category": "Blockchain",
-				"command": "openZeppelin.addCategory",
-				"title": "Add contracts from OpenZeppelin"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.openAtAzurePortal",
-				"title": "Open at Azure Portal"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.createNewBDMApplication",
-				"title": "Create Blockchain Application"
-			},
-			{
-				"category": "Blockchain",
-				"command": "azureBlockchainService.deleteBDMApplication",
-				"title": "Delete Blockchain Application"
-			}
-		],
-		"configuration": {
-			"properties": {
-				"azureBlockchainService.coreSDK": {
-					"default": "Truffle",
-					"enum": [
-						"Truffle",
-						"OpenZeppelin"
-					],
-					"scope": "Core SDK for extensions backend",
-					"type": "string"
-				},
-				"azureBlockchainService.ignoreLongRunningTaskNotification": {
-					"default": false,
-					"description": "Disable notification on long running tasks.",
-					"type": "boolean"
-				},
-				"azureBlockchainService.openZeppelin.version": {
-					"default": "2.5.0",
-					"scope": "The latest Open Zeppelin version",
-					"type": "string"
-				},
-				"azureBlockchainService.storageAccount.name": {
-					"scope": "Storage Account name",
-					"type": "string"
-				}
-			},
-			"title": "Blockchain Development Kit for Ethereum"
-		},
-		"debuggers": [
-			{
-				"configurationAttributes": {
-					"launch": {
-						"properties": {
-							"files": {
-								"default": [],
-								"description": "Array of file paths of solidity files to debug",
-								"type": "string[]"
-							},
-							"providerUrl": {
-								"default": "http://127.0.0.1:8545",
-								"description": "URL of provider",
-								"type": "string"
-							},
-							"stopOnEntry": {
-								"default": true,
-								"description": "Automatically stop after launch.",
-								"type": "boolean"
-							},
-							"trace": {
-								"default": true,
-								"description": "Enable logging of the Debug Adapter Protocol.",
-								"type": "boolean"
-							},
-							"txHash": {
-								"default": "0x",
-								"description": "Transaction hash to debug",
-								"type": "string"
-							},
-							"workingDirectory": {
-								"default": "${workspaceFolder}",
-								"description": "Directory of truffle box",
-								"type": "string"
-							}
-						},
-						"required": []
-					}
-				},
-				"configurationSnippets": [
-					{
-						"body": {
-							"files": [],
-							"name": "Debug Transaction with Truffle",
-							"providerUrl": "http://127.0.0.1:8545",
-							"request": "launch",
-							"stopOnEntry": false,
-							"txHash": "0x",
-							"type": "truffle",
-							"workingDirectory": "^\"\\${workspaceFolder}/"
-						},
-						"description": "Runs the Truffle debugger (truffle) and attaches to a TestRPC instance",
-						"label": "Truffle Debugger: Launch"
-					}
-				],
-				"initialConfigurations": [
-					{
-						"files": [],
-						"name": "Debug Transaction with Truffle",
-						"providerUrl": "http://127.0.0.1:8545",
-						"request": "launch",
-						"stopOnEntry": false,
-						"txHash": "0x",
-						"type": "truffle",
-						"workingDirectory": "${workspaceFolder}"
-					}
-				],
-				"label": "Truffle Debugger",
-				"program": "./out/src/debugger.js",
-				"runtime": "node",
-				"type": "truffle",
-				"variables": {}
-			}
-		],
-		"menus": {
-			"commandPalette": [
-				{
-					"command": "azureBlockchainService.refresh",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.copyRPCEndpointAddress",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.disconnectProject",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.generateMicroservicesWorkflows",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateDataPublishingWorkflows",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateEventPublishingWorkflows",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateReportPublishingWorkflows",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "contract.copyByteCode",
-					"when": "false"
-				},
-				{
-					"command": "contract.copyDeployedByteCode",
-					"when": "false"
-				},
-				{
-					"command": "contract.copyABI",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.buildContracts",
-					"when": "azureBlockchainService:isWorkspaceOpen"
-				},
-				{
-					"command": "azureBlockchainService.deployContracts",
-					"when": "azureBlockchainService:isWorkspaceOpen"
-				},
-				{
-					"command": "openZeppelin.addCategory",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.openAtAzurePortal",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.deleteBDMApplication",
-					"when": "false"
-				},
-				{
-					"command": "azureBlockchainService.createNewBDMApplication",
-					"when": "false"
-				}
-			],
-			"explorer/context": [
-				{
-					"command": "azureBlockchainService.buildContracts",
-					"group": "8_buildContractGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.deployContracts",
-					"group": "8_buildContractGroup",
-					"when": "resourceLangId == json"
-				},
-				{
-					"command": "azureBlockchainService.deployContracts",
-					"group": "8_buildContractGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "contract.copyByteCode",
-					"group": "9_copyFromContractGroup",
-					"when": "resourceLangId == json"
-				},
-				{
-					"command": "contract.copyDeployedByteCode",
-					"group": "9_copyFromContractGroup",
-					"when": "resourceLangId == json"
-				},
-				{
-					"command": "contract.copyABI",
-					"group": "9_copyFromContractGroup",
-					"when": "resourceLangId == json"
-				},
-				{
-					"command": "azureBlockchainService.generateMicroservicesWorkflows",
-					"group": "9_generationGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateDataPublishingWorkflows",
-					"group": "9_generationGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateEventPublishingWorkflows",
-					"group": "9_generationGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "azureBlockchainService.generateReportPublishingWorkflows",
-					"group": "9_generationGroup",
-					"when": "resourceLangId == solidity"
-				},
-				{
-					"command": "openZeppelin.addCategory",
-					"group": "8_buildContractGroup",
-					"when": "resourceLangId == solidity"
-				}
-			],
-			"view/item/context": [
-				{
-					"command": "azureBlockchainService.disconnectProject",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == project"
-				},
-				{
-					"command": "azureBlockchainService.startGanacheServer",
-					"group": "azureBlockchain-1@0",
-					"when": "view == AzureBlockchain && viewItem == localproject"
-				},
-				{
-					"command": "azureBlockchainService.stopGanacheServer",
-					"group": "azureBlockchain-1@1",
-					"when": "view == AzureBlockchain && viewItem == localproject"
-				},
-				{
-					"command": "azureBlockchainService.disconnectProject",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == localproject"
-				},
-				{
-					"command": "azureBlockchainService.disconnectProject",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == bdmproject"
-				},
-				{
-					"command": "azureBlockchainService.copyRPCEndpointAddress",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == network"
-				},
-				{
-					"command": "azureBlockchainService.copyRPCEndpointAddress",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == localnetwork"
-				},
-				{
-					"command": "azureBlockchainService.openAtAzurePortal",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == input"
-				},
-				{
-					"command": "azureBlockchainService.openAtAzurePortal",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == output"
-				},
-				{
-					"command": "azureBlockchainService.createNewBDMApplication",
-					"group": "azureBlockchain-1@1",
-					"when": "view == AzureBlockchain && viewItem == bdmproject"
-				},
-				{
-					"command": "azureBlockchainService.deleteBDMApplication",
-					"group": "azureBlockchain-0@0",
-					"when": "view == AzureBlockchain && viewItem == bdmApplication"
-				}
-			],
-			"view/title": [
-				{
-					"command": "azureBlockchainService.showWelcomePage",
-					"when": "view == AzureBlockchain"
-				},
-				{
-					"command": "azureBlockchainService.createProject",
-					"when": "view == AzureBlockchain"
-				},
-				{
-					"command": "azureBlockchainService.connectProject",
-					"when": "view == AzureBlockchain"
-				},
-				{
-					"command": "azureBlockchainService.refresh",
-					"group": "navigation",
-					"when": "view == AzureBlockchain"
-				}
-			]
-		},
-		"views": {
-			"debug": [
-				{
-					"id": "InstructionView",
-					"name": "Instructions"
-				}
-			],
-			"explorer": [
-				{
-					"id": "AzureBlockchain",
-					"name": "Blockchain Networks"
-				}
-			]
-		}
-	},
-	"activationEvents": [
-		"onView:AzureBlockchain",
-		"onCommand:azureBlockchainService.showWelcomePage",
-		"onCommand:azureBlockchainService.refresh",
-		"onCommand:contract.copyByteCode",
-		"onCommand:contract.copyDeployedByteCode",
-		"onCommand:contract.copyABI",
-		"onCommand:truffle.createLocalUI",
-		"onCommand:truffle.newSolidityProject",
-		"onCommand:azureBlockchainService.buildContracts",
-		"onCommand:azureBlockchainService.deployContracts",
-		"onCommand:azureBlockchainService.generateReportPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateMicroservicesWorkflows",
-		"onCommand:azureBlockchainService.generateEventPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateDataPublishingWorkflows",
-		"onCommand:azureBlockchainService.connectProject",
-		"onCommand:azureBlockchainService.copyRPCEndpointAddress",
-		"onCommand:azureBlockchainService.createProject",
-		"onCommand:azureBlockchainService.disconnectProject",
-		"onCommand:extension.truffle.debugTransaction",
-		"onCommand:openZeppelin.addCategory",
-		"onCommand:azureBlockchainService.signInToInfuraAccount",
-		"onCommand:azureBlockchainService.signOutOfInfuraAccount",
-		"onCommand:azureBlockchainService.openAtAzurePortal",
-		"onCommand:azureBlockchainService.createNewBDMApplication",
-		"onCommand:azureBlockchainService.deleteBDMApplication",
-		"onDebug"
-	],
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged && npm run compile"
-		}
-	},
-	"lint-staged": {
-		"*.ts": [
-			"npx tslint -t verbose",
-			"git add"
-		]
-	},
-	"dependencies": {
-		"@truffle/debug-utils": "1.0.19",
-		"@truffle/debugger": "5.0.35",
-		"@truffle/provider": "0.2.1",
-		"abi-decoder": "^2.4.0",
-		"acorn": "^8.11.3",
-		"acorn-walk": "^8.3.2",
-		"astring": "^1.8.6",
-		"bip39": "^3.1.0",
-		"download": "^8.0.0",
-		"fs-extra": "^11.2.0",
-		"hdkey": "^2.1.0",
-		"ms-rest": "^2.5.6",
-		"open": "^10.1.0",
-		"request": "^2.88.0",
-		"request-promise": "^4.2.4",
-		"semver": "^7.6.2",
-		"solidity-parser-antlr": "^0.4.11",
-		"uuid": "^9.0.1"
-	},
-	"devDependencies": {
-		"@types/download": "^8.0.5",
-		"@types/estree": "^1.0.5",
-		"@types/fs-extra": "^11.0.4",
-		"@types/glob": "^8.1.0",
-		"@types/hdkey": "^2.0.3",
-		"@types/node": "^20.14.0",
-		"@types/request": "^2.48.12",
-		"@types/request-promise": "^4.1.51",
-		"@types/rewire": "^2.5.30",
-		"@types/semver": "^7.5.8",
-		"@types/sinon": "^17.0.3",
-		"@types/source-map": "^0.5.2",
-		"@types/uuid": "^9.0.8",
-		"decache": "^4.6.2",
-		"glob": "^10.4.1",
-		"lint-staged": "^15.2.5",
-		"rewire": "^7.0.0",
-		"sinon": "^18.0.0",
-		"truffle": "^5.11.5",
-		"ts-loader": "9.5.1"
-	},
-	"extensionDependencies": [
-		"JuanBlanco.solidity",
-		"ms-vscode.azure-account"
-	],
-	"icon": "images/blockchain-service-logo.png",
-	"preview": false,
-	"aiKey": "INSERTAIKEY"
+  "name": "azure-blockchain",
+  "displayName": "Azure Blockchain Development Kit for Ethereum",
+  "description": "Develop, deploy debug and manage your Azure Blockchain Service solution",
+  "publisher": "AzBlockchain",
+  "preview": true,
+  "icon": "images/blockchain-service-logo.png",
+  "version": "0.1.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/vscode-azure-blockchain-ethereum"
+  },
+  "bugs": {
+    "url": "https://github.com/Microsoft/vscode-azure-blockchain-ethereum/issues"
+  },
+  "homepage": "https://github.com/Microsoft/vscode-azure-blockchain-ethereum/blob/master/README.md",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.32.0"
+  },
+  "keywords": [
+    "azure",
+    "blockchain",
+    "ethereum",
+    "snippet"
+  ],
+  "categories": [
+    "Azure",
+    "Extension Packs",
+    "Programming Languages"
+  ],
+  "aikey": "INSERTAIKEY",
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onView:AzureBlockchain",
+    "onCommand:azureBlockchainService.showWelcomePage",
+    "onCommand:azureBlockchainService.refresh",
+    "onCommand:contract.copyByteCode",
+    "onCommand:contract.copyABI",
+    "onCommand:truffle.createLocalUI",
+    "onCommand:truffle.newSolidityProject",
+    "onCommand:truffle.buildContracts",
+    "onCommand:truffle.deployContracts",
+    "onCommand:azureBlockchainService.pushLedgerEvents",
+    "onCommand:azureBlockchainService.pushCurrentLedgerEvents",
+    "onCommand:azureBlockchainService.generateReportPublishingWorkflows",
+    "onCommand:azureBlockchainService.generateMicroservicesWorkflows",
+    "onCommand:azureBlockchainService.generateEventPublishingWorkflows",
+    "onCommand:azureBlockchainService.generateDataPublishingWorkflows",
+    "onCommand:remix.viewGasEstimates",
+    "onCommand:azureBlockchainService.connectConsortium",
+    "onCommand:drizzle.generateSmartContractUI",
+    "onCommand:azureBlockchainService.copyRPCEndpointAddress",
+    "onCommand:azureBlockchainService.copyAccessKey",
+    "onCommand:azureBlockchainService.createConsortium",
+    "onCommand:azureBlockchainService.disconnectConsortium"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "azureBlockchainService.required.installNpm",
+        "title": "Install npm",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.required.installTruffle",
+        "title": "Install Truffle",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.required.installGanache",
+        "title": "Install Ganache CLI",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.required.getAllVersions",
+        "title": "Check required apps",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.generateMicroservicesWorkflows",
+        "title": "Generate Microservices for Smart Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.generateDataPublishingWorkflows",
+        "title": "Generate Data Publishing Workflows for Smart Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.generateReportPublishingWorkflows",
+        "title": "Generate Report Publishing Workflows for Smart Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.generateEventPublishingWorkflows",
+        "title": "Generate Event Publishing Workflows for Smart Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.showWelcomePage",
+        "title": "Show Welcome Page",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.refresh",
+        "title": "Refresh",
+        "category": "Azure Blockchain",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "contract.copyByteCode",
+        "title": "Copy Contract Bytecode",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "contract.copyABI",
+        "title": "Copy Contract ABI",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "truffle.newSolidityProject",
+        "title": "New Solidity Project",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "truffle.buildContracts",
+        "title": "Build Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "truffle.deployContracts",
+        "title": "Deploy Contracts",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.pushLedgerEvents",
+        "title": "Push Ledger Events",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.pushCurrentLedgerEvents",
+        "title": "Push Current Ledger Events",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "remix.viewGasEstimates",
+        "title": "View Gas Estimates with Remix",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.connectConsortium",
+        "title": "Connect to Consortium",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "drizzle.generateSmartContractUI",
+        "title": "Generate Smart Contract UI",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.copyRPCEndpointAddress",
+        "title": "Copy RPC Endpoint Address",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.copyAccessKey",
+        "title": "Copy Access Key",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.createConsortium",
+        "title": "Create Azure Blockchain Service",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.disconnectConsortium",
+        "title": "Disconnect Consortium",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.startGanacheServer",
+        "title": "Start Ganache Server",
+        "category": "Azure Blockchain"
+      },
+      {
+        "command": "azureBlockchainService.stopGanacheServer",
+        "title": "Stop Ganache Server",
+        "category": "Azure Blockchain"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "when": "false",
+          "command": "drizzle.generateSmartContractUI"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.required.installNpm"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.required.installTruffle"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.required.installGanache"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.required.getAllVersions"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.pushLedgerEvents"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.pushCurrentLedgerEvents"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.pushCurrentLedgerEvents"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.refresh"
+        },
+        {
+          "when": "false",
+          "command": "remix.viewGasEstimates"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.copyRPCEndpointAddress"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.copyAccessKey"
+        },
+        {
+          "when": "false",
+          "command": "azureBlockchainService.disconnectConsortium"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateMicroservicesWorkflows"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateDataPublishingWorkflows"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateEventPublishingWorkflows"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateReportPublishingWorkflows"
+        },
+        {
+          "when": "false",
+          "command": "contract.copyByteCode"
+        },
+        {
+          "when": "false",
+          "command": "contract.copyABI"
+        },
+        {
+          "when": "azureBlockchainService:isWorkspaceOpen",
+          "command": "truffle.buildContracts"
+        },
+        {
+          "when": "azureBlockchainService:isWorkspaceOpen",
+          "command": "truffle.deployContracts"
+        },
+        {
+          "when": "azureBlockchainService:isWorkspaceOpen && false",
+          "command": "drizzle.generateSmartContractUI"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "azureBlockchainService.showWelcomePage",
+          "when": "view == AzureBlockchain"
+        },
+        {
+          "command": "azureBlockchainService.createConsortium",
+          "when": "view == AzureBlockchain"
+        },
+        {
+          "command": "azureBlockchainService.connectConsortium",
+          "when": "view == AzureBlockchain"
+        },
+        {
+          "command": "azureBlockchainService.refresh",
+          "when": "view == AzureBlockchain",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "azureBlockchainService.copyRPCEndpointAddress",
+          "when": "view == AzureBlockchain && viewItem == consortium",
+          "group": "azureBlockchain-0@0"
+        },
+        {
+          "command": "azureBlockchainService.copyAccessKey",
+          "when": "view == AzureBlockchain && viewItem == consortium",
+          "group": "azureBlockchain-0@1"
+        },
+        {
+          "command": "azureBlockchainService.startGanacheServer",
+          "when": "view == AzureBlockchain && viewItem == localconsortium && azureBlockchainService:isGanacheRunning == false",
+          "group": "azureBlockchain-1@0"
+        },
+        {
+          "command": "azureBlockchainService.stopGanacheServer",
+          "when": "view == AzureBlockchain && viewItem == localconsortium && azureBlockchainService:isGanacheRunning == true",
+          "group": "azureBlockchain-1@0"
+        },
+        {
+          "command": "azureBlockchainService.disconnectConsortium",
+          "when": "view == AzureBlockchain && viewItem == consortium",
+          "group": "azureBlockchain-1@1"
+        },
+        {
+          "command": "azureBlockchainService.copyRPCEndpointAddress",
+          "when": "view == AzureBlockchain && viewItem == localconsortium",
+          "group": "azureBlockchain-0@0"
+        },
+        {
+          "command": "azureBlockchainService.disconnectConsortium",
+          "when": "view == AzureBlockchain && viewItem == localconsortium",
+          "group": "azureBlockchain-1@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceLangId == solidity",
+          "command": "truffle.buildContracts",
+          "group": "8_buildContractGroup"
+        },
+        {
+          "when": "resourceLangId == json && false",
+          "command": "drizzle.generateSmartContractUI",
+          "group": "8_buildContractGroup"
+        },
+        {
+          "when": "resourceLangId == json",
+          "command": "truffle.deployContracts",
+          "group": "8_buildContractGroup"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "truffle.deployContracts",
+          "group": "8_buildContractGroup"
+        },
+        {
+          "when": "resourceLangId == json",
+          "command": "contract.copyByteCode",
+          "group": "9_copyFromContractGroup"
+        },
+        {
+          "when": "resourceLangId == json",
+          "command": "contract.copyABI",
+          "group": "9_copyFromContractGroup"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateMicroservicesWorkflows",
+          "group": "9_generationGroup"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateDataPublishingWorkflows",
+          "group": "9_generationGroup"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateEventPublishingWorkflows",
+          "group": "9_generationGroup"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "azureBlockchainService.generateReportPublishingWorkflows",
+          "group": "9_generationGroup"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "AzureBlockchain",
+          "name": "Azure Blockchain"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "package": "npx vsce package",
+    "publish": "npx vsce publish",
+    "vscode:prepublish": "npm run webpack-prod",
+    "compile": "tsc -p ./",
+    "webpack-prod": "webpack --mode production",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "tslint": "tslint -t verbose src/**/*.ts test/**/*.ts --exclude src/**/*.d.ts",
+    "version": "tsc -v",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/astring": "^1.3.0",
+    "@types/estree": "^0.0.39",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.21",
+    "@types/semver": "^6.0.0",
+    "@types/uuid": "^3.4.4",
+    "copy-webpack-plugin": "^5.0.3",
+    "ts-loader": "^5.4.3",
+    "tslint": "^5.12.1",
+    "tslint-microsoft-contrib": "^6.1.1",
+    "typescript": "^3.3.1",
+    "vscode": "^1.1.33",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "dependencies": {
+    "acorn": "^6.1.1",
+    "acorn-walk": "^6.1.1",
+    "astring": "^1.4.0",
+    "azure-arm-resource": "^7.3.0",
+    "bip39": "^3.0.1",
+    "fs-extra": "^7.0.1",
+    "ms-rest": "^2.5.0",
+    "ms-rest-azure": "^2.6.0",
+    "semver": "^6.0.0",
+    "uuid": "^3.3.2",
+    "vscode-azureextensionui": "^0.20.5",
+    "vscode-extension-telemetry": "^0.1.1"
+  },
+  "extensionDependencies": [
+    "JuanBlanco.solidity",
+    "ms-vscode.azure-account"
+  ]
 }

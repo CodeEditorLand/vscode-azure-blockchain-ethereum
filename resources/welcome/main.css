@@ -74,12 +74,13 @@ header p {
   display: flex;
   flex-direction: row;
   align-content: stretch;
-  min-width: 660px;
+  min-width: 620px;
 }
 
 #main-content {
   max-width: 740px;
-  margin-right: 40px;
+  /* float: left; */
+  padding-right: 40px;
   min-width: 400px;
 }
 
@@ -231,10 +232,6 @@ header p {
   margin: 0;
 }
 
-.quick-starts-blocks a {
-  cursor: pointer;
-}
-
 #tutorial h3 {
   font-family: "Segoe UI Light", sans-serif;
   font-size: 20px;
@@ -246,12 +243,9 @@ header p {
   width: 40px;
 }
 
-.showOnStartup {
-  margin: 40px 0;
-}
-
 footer {
-  margin: 40px 0;
+  padding-top: 60px;
+  padding-bottom: 40px;
   text-align: center
 }
 
@@ -266,6 +260,7 @@ footer {
   align-items: stretch;
   align-content: center;
   min-width: 400px;
+  max-width: 600px;
 }
 
 .required-app {
@@ -274,18 +269,13 @@ footer {
   text-align: center;
   align-items: center;
   align-content: space-between;
-  flex: 1;
+  flex: 0 1 185px;
   margin-top: 25px;
-}
-
-.required-app:not(:last-child) {
-  margin-right: 25px;
 }
 
 .required-app img {
   flex: 1;
-  max-width: 60px;
-  max-height: 60px;
+  width: 60px;
 }
 
 .required-app div {
@@ -312,7 +302,6 @@ footer {
   background-color: #0062A3;
   align-self: stretch;
   margin-top: 10px;
-  cursor: pointer;
 }
 
 .required-app.disabled a {
@@ -352,19 +341,17 @@ footer {
 /*#region partners*/
 .partners {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: stretch;
   align-content: center;
   min-width: 400px;
+  max-width: 600px;
 }
 
 .partners > a {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 30%;
-  margin-top: 10px;
+  flex: 0 1 185px;
 }
 
 .specific-partner {
@@ -374,10 +361,6 @@ footer {
 
 .specific-partner > div:first-child {
   flex: 1;
-}
-
-.specific-partner > div:last-child {
-  height: 30px;
 }
 
 .specific-partner > div {

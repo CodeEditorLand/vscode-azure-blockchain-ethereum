@@ -1,39 +1,31 @@
-$(function() {
+$(function () {
   main();
 });
 
 function main() {
   const vscode = acquireVsCodeApi();
+  $("a").click((event) => {
+    vscode.postMessage({
+      href: event.target.href
+    });
 
-  $('a').click(function() {
-    if (this.href) {
-      vscode.postMessage({ command: 'openLink', value: this.href });
-    } else {
-      vscode.postMessage({ command: 'executeCommand', value: this.id });
-    }
-
-    if ($(this).hasClass('action')) {
-      $(this.closest('.required-app')).toggleClass('disabled');
+    if ($(event.target.closest('.action'))) {
+      $(event.target.closest('.required-app')).toggleClass('disabled');
     }
   });
 
-  $('.interactive').click(function(event) {
-    if (
-      !$(event.target).is('a') &&
-      !$(event.target).is('.detail') &&
-      $(event.target).parents('.detail').length === 0
-    ) {
-      $(event.currentTarget).find('.detail').toggle(1000);
-      $(event.currentTarget).find('.arrow').toggleClass('arrow-up');
-
+  $(".interactive").click((event) => {
+    if (!$(event.target).is("a") && !$(event.target).is(".detail") &&
+      $(event.target).parents(".detail").length === 0) {
+      $(event.currentTarget).find(".detail").toggle(1000);
+      $(event.currentTarget).find(".arrow").toggleClass("arrow-up");
       vscode.postMessage({
-        command: 'toggleInteractive',
-        value: `toggle:${$(event.currentTarget).attr('id')}`,
+        href: `toggle:${$(event.currentTarget).attr("id")}`
       });
     }
   });
 
-  $(window).scroll(function() {
+  $(window).scroll(() => {
     let offset = 250;
     let duration = 600;
     if ($(this).scrollTop() >= offset) {
@@ -44,18 +36,14 @@ function main() {
   });
 
   $(document).ready(() => {
-    vscode.postMessage({ command: 'documentReady'});
+    vscode.postMessage({ command: 'documentready'});
   });
 
-  $('#showOnStartup').change(function() {
-    vscode.postMessage({ command: 'toggleShowPage', value: this.checked});
-  });
-
-  window.addEventListener('message', function(event) {
+  window.addEventListener('message', (event) => {
     const message = event.data; // The JSON data our extension sent
 
-    if (message.command === 'versions') {
-      const versions = message.value;
+    if (message.versions) {
+      const versions = message.versions;
       if (Array.isArray(versions)) {
         versions.forEach((version) => {
           const element = $(`#${version.app}`);
@@ -64,9 +52,6 @@ function main() {
           spinner.toggleClass('spinner', false);
         });
       }
-    }
-    if (message.command === 'showOnStartup') {
-      $('#showOnStartup').attr('checked', !!message.value);
     }
   });
 }
