@@ -1,332 +1,274 @@
-import { ResourceManagementClient, ResourceModels } from 'azure-arm-resource';
-import { mkdirp, readdir, readJson, writeFile } from 'fs-extra';
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
+import * as fs from 'fs-extra';
 import * as path from 'path';
-import { commands, extensions, QuickPickItem, Uri, window } from 'vscode';
-import { AzureAccount } from '../azure-account.api';
+import { Uri, window } from 'vscode';
 import { Constants } from '../Constants';
-import { getWorkspaceRoot } from '../helpers';
+import { getWorkspaceRoot, showIgnorableNotification } from '../helpers';
 import { showInputBox, showQuickPick } from '../helpers/userInteraction';
-import { ResourceGroupItem, SubscriptionItem } from '../Models';
+import { ResourceGroupItem, SubscriptionItem } from '../Models/QuickPickItems';
 import { Output } from '../Output';
+import { AzureResourceExplorer } from '../resourceExplorers';
+import { ContractService } from '../services';
+import { Telemetry } from '../TelemetryClient';
 import { buildContract } from './AbiDeserialiser';
 import './Nethereum.Generators.DuoCode';
 
+interface ILogicAppData {
+  contractAddress: string;
+  messagingType?: number;
+  outputDir: string;
+  resourceGroup: string;
+  serviceType: number;
+  subscriptionId: string;
+  topicName?: string;
+  workflowType: string;
+  label: string;
+}
+
+interface IAzureAppsItem {
+  label: string;
+  serviceType: number;
+  outputDir: string;
+}
+
 export class LogicAppGenerator {
-  private readonly _accountApi: AzureAccount;
-
-  constructor() {
-    this._accountApi = extensions.getExtension<AzureAccount>('ms-vscode.azure-account')!.exports;
+  public async generateMicroservicesWorkflows(filePath?: Uri): Promise<void> {
+    Telemetry.sendEvent('LogicAppGenerator.microservicesWorkflows');
+    await this.generateWorkflows(Constants.microservicesWorkflows.Service, filePath);
   }
 
-  public async generateMicroservicesWorkflows(filePath: Uri | undefined): Promise<void> {
-    return this.generateWorkflows('Service', filePath);
+  public async generateDataPublishingWorkflows(filePath?: Uri): Promise<void> {
+    Telemetry.sendEvent('LogicAppGenerator.dataPublishingWorkflows');
+    await this.generateWorkflows(Constants.microservicesWorkflows.Data, filePath);
   }
 
-  public async generateDataPublishingWorkflows(filePath: Uri | undefined): Promise<void> {
-    return this.generateWorkflows('Data', filePath);
-  }
-  public async generateEventPublishingWorkflows(filePath: Uri | undefined): Promise<void> {
-    return this.generateWorkflows('Messaging', filePath);
+  public async generateEventPublishingWorkflows(filePath?: Uri): Promise<void> {
+    Telemetry.sendEvent('LogicAppGenerator.eventPublishingWorkflows');
+    await this.generateWorkflows(Constants.microservicesWorkflows.Messaging, filePath);
   }
 
-  public async generateReportPublishingWorkflows(filePath: Uri | undefined): Promise<void> {
-    return this.generateWorkflows('Reporting', filePath);
+  public async generateReportPublishingWorkflows(filePath?: Uri): Promise<void> {
+    Telemetry.sendEvent('LogicAppGenerator.reportPublishingWorkflows');
+    await this.generateWorkflows(Constants.microservicesWorkflows.Reporting, filePath);
   }
 
-  private async generateWorkflows(workflowType: string, filePath: Uri | undefined): Promise<void> {
-    const workspaceDir: Uri = Uri.parse(getWorkspaceRoot());
-    const dirPath: string = workspaceDir.fsPath + '/build/contracts/';
+  private async generateWorkflows(workflowType: string, filePath?: Uri): Promise<void> {
+    const filePaths = await this.getContractsPath(filePath);
+    const logicAppData = await this.getLogicAppData(workflowType);
+    await showIgnorableNotification(
+      Constants.statusBarMessages.generatingLogicApp(logicAppData.label),
+      async () => {
+        for (const file of filePaths) {
+          const contract = await fs.readJson(file, { encoding: 'utf8' });
+          const generatedFiles: any[] = this.getGenerator(contract, logicAppData).GenerateAll();
+          for (const generatedFile of generatedFiles) {
+            await this.writeFile(generatedFile);
+          }
+        }
+
+        window.showInformationMessage(Constants.informationMessage.generatedLogicApp(logicAppData.label));
+        Telemetry.sendEvent('LogicAppGenerator.generateWorkflows.commandFinished');
+      },
+    );
+  }
+
+  private async getContractsPath(filePath?: Uri): Promise<string[]> {
+    const buildDir = await ContractService.getBuildFolderPath();
+
+    const files: string[] = [];
+
+    if (!fs.pathExistsSync(buildDir)) {
+      Telemetry.sendException(new Error(Constants.errorMessageStrings.BuildContractsDirDoesNotExist(
+        Telemetry.obfuscate(buildDir),
+      )));
+      throw new Error(Constants.errorMessageStrings.BuildContractsDirDoesNotExist(buildDir));
+    }
 
     if (filePath) {
-      const fileName = path.basename(filePath.fsPath);
-      const contractName = fileName.Remove(fileName.length - 4);
-      const compiledContractPath = dirPath + contractName + '.json';
-      let picks: QuickPickItem[];
-
-      if (workflowType === 'Service') {
-          picks = [
-          { label: 'Logic App' },
-          { label: 'Flow App' },
-          { label: 'Azure Function' },
-        ];
-      } else {
-        picks = [
-          { label: 'Logic App' },
-          { label: 'Flow App' },
-        ];
-      }
-
-      const serviceTypeSelection: string = (await showQuickPick(picks, { })).label;
-      const serviceType: int = this.getServiceTypeFromString(serviceTypeSelection);
-      const contractAddress: string = await showInputBox({ value: 'contract address' });
-      const [subscriptionItem, resourceGroupItem] = await this.selectSubscriptionAndResourceGroup();
-      readJson(compiledContractPath, {encoding: 'utf8'},
-        async (err2: Error, contents: any) => await this.handleContractJsonFile(
-          err2,
-          contents,
-          dirPath,
-          contractAddress,
-          subscriptionItem,
-          resourceGroupItem,
-          workflowType,
-          serviceType,
-        ));
+      // TODO: what should we do if solidity file without constructor?
+      const contractName = path.basename(filePath.fsPath, Constants.contractExtension.sol);
+      files.push(`${contractName}${Constants.contractExtension.json}`);
     } else {
-      readdir(dirPath, (err: Error, files: string[]) =>
-        this.iterateFilesInDirectory(err, files, dirPath, workflowType));
+      files.push(...await fs.readdir(buildDir));
     }
+
+    const filePaths = files
+      .map((file) => path.join(buildDir, file))
+      .filter((file) => fs.lstatSync(file).isFile());
+
+    if (files.length === 0) {
+      Telemetry.sendException(new Error(
+        Constants.errorMessageStrings.BuildContractsDirIsEmpty(Telemetry.obfuscate(buildDir)) + ' ' +
+        Constants.errorMessageStrings.BuildContractsBeforeGenerating,
+      ));
+      throw new Error(
+        Constants.errorMessageStrings.BuildContractsDirIsEmpty(buildDir) + ' ' +
+        Constants.errorMessageStrings.BuildContractsBeforeGenerating,
+      );
+    }
+
+    return filePaths;
   }
 
-  private async iterateFilesInDirectory(err: Error, files: string[], dirPath: string, workflowType: string) {
-    if (err) {
-      Output.outputLine(Constants.outputChannel.logicAppGenerator, err.toString());
-      return;
-    }
-
-    let picks: QuickPickItem[];
-    if (workflowType === 'Service') {
-        picks = [
-        { label: 'Logic App' },
-        { label: 'Flow App' },
-        { label: 'Azure Function' },
-      ];
-    } else {
-      picks = [
-        { label: 'Logic App' },
-        { label: 'Flow App' },
-      ];
-    }
-
-    const serviceTypeSelection: string = (await showQuickPick(picks, { })).label;
-    const serviceType: int = this.getServiceTypeFromString(serviceTypeSelection);
-    const contractAddress: string = await showInputBox({ value: 'contract address' });
+  private async getLogicAppData(workflowType: string): Promise<ILogicAppData> {
+    const azureAppItem: IAzureAppsItem = await this.getAzureAppItem(workflowType);
+    const contractAddress = await showInputBox({ ignoreFocusOut: true, value: 'contract address' });
     const [subscriptionItem, resourceGroupItem] = await this.selectSubscriptionAndResourceGroup();
-    files.forEach((file) => {
-      readJson(dirPath + file, {encoding: 'utf8'},
-        async (err2: Error, contents: any) => await this.handleContractJsonFile(
-          err2,
-          contents,
-          dirPath,
-          contractAddress,
-          subscriptionItem,
-          resourceGroupItem,
-          workflowType,
-          serviceType,
-        ));
-    });
-
-    window.showInformationMessage('Generated the logic app!');
-  }
-
-  private getServiceTypeFromString(serviceTypeSelection: string): int {
-    if (serviceTypeSelection === 'Logic App') {
-      return 1;
-    } else if (serviceTypeSelection === 'Flow App') {
-      return 0;
-    } else if (serviceTypeSelection === 'Azure Function') {
-      return 2;
-    } else {
-      throw new Error('Service type string not valid');
-    }
-  }
-
-  private async handleContractJsonFile(
-    err: Error,
-    contents: any,
-    dirPath: string,
-    contractAddress: string,
-    subscriptionItem: SubscriptionItem,
-    resourceGroupItem: ResourceGroupItem,
-    workflowType: string,
-    serviceType: int) {
-    if (err) {
-      Output.outputLine(Constants.outputChannel.logicAppGenerator, err.toString());
-      return;
-    }
-    await this.createLogicAppFromAbi(contents,
-      dirPath,
+    const logicAppData: ILogicAppData = {
       contractAddress,
-      subscriptionItem,
-      resourceGroupItem.description,
+      label: azureAppItem.label,
+      outputDir: path.join(getWorkspaceRoot()!, azureAppItem.outputDir),
+      resourceGroup: resourceGroupItem.description,
+      serviceType: azureAppItem.serviceType,
+      subscriptionId: subscriptionItem.subscriptionId,
       workflowType,
-      serviceType);
+    };
+
+    if (workflowType === Constants.microservicesWorkflows.Messaging) {
+      Telemetry.sendEvent('LogicAppGenerator.getLogicAppData.workflowTypeIsMessaging');
+      logicAppData.topicName = await showInputBox({ ignoreFocusOut: true, value: 'topic name' });
+      logicAppData.messagingType = await this.getMessagingType();
+    }
+
+    return logicAppData;
   }
 
-  private async createLogicAppFromAbi(
-    contract: any,
-    dirPath: string,
-    contractAddress: string,
-    subscription: SubscriptionItem,
-    location: string,
-    workflowType: string,
-    serviceType: int) {
+  private getGenerator(contract: any, logicAppData: ILogicAppData) {
+    const { Service, Data, Messaging, Reporting } = Constants.microservicesWorkflows;
 
-    let generator;
-    if (workflowType === 'Service') {
-      generator = new Nethereum.Generators.ServiceWorkflow.ServiceWorkflowProjectGenerator(
-        buildContract(JSON.stringify(contract.abi)),
-        contract.contractName,
-        contract.bytecode,
-        contract.contractName,
-        contract.contractName + '.Service',
-        dirPath,
-        '/',
-        serviceType,
-        0,
-        JSON.stringify(contract.abi),
-        contractAddress,
-        subscription.subscriptionId || String.Empty,
-        location,
-        '',
-      );
-    } else if (workflowType === 'Data') {
-      generator = new Nethereum.Generators.DataWorkflow.DataWorkflowProjectGenerator(
-        buildContract(JSON.stringify(contract.abi)),
-        contract.contractName,
-        contract.bytecode,
-        contract.contractName,
-        contract.contractName + '.Data',
-        dirPath,
-        '/',
-        serviceType,
-        0,
-        contractAddress,
-        subscription.subscriptionId || String.Empty,
-        location,
-        JSON.stringify(contract.abi),
-      );
-    } else if (workflowType === 'Messaging') {
-      const topicName: string = await showInputBox({ value: 'topic name' });
-      const picks: QuickPickItem[] = [
-        { label: 'Service Bus' },
-        { label: 'Event Grid' },
-      ];
-      const messagingType: string = (await showQuickPick(picks, {})).label;
-
-      generator = new Nethereum.Generators.MessagingWorkflow.MessagingWorkflowProjectGenerator(
-        buildContract(JSON.stringify(contract.abi)),
-        contract.contractName,
-        contract.bytecode,
-        contract.contractName,
-        contract.contractName + '.Messaging',
-        dirPath,
-        '/',
-        serviceType,
-        0,
-        contractAddress,
-        subscription.subscriptionId || String.Empty,
-        location,
-        JSON.stringify(contract.abi),
-        topicName,
-        this.getMessagingType(messagingType),
-      );
-    } else if (workflowType === 'Reporting') {
-      generator = new Nethereum.Generators.ReportingWorkflow.ReportingWorkflowProjectGenerator(
-        buildContract(JSON.stringify(contract.abi)),
-        contract.contractName,
-        contract.bytecode,
-        contract.contractName,
-        contract.contractName + '.Reporting',
-        dirPath,
-        '/',
-        serviceType,
-        0,
-        contractAddress,
-        subscription.subscriptionId || String.Empty,
-        location,
-        JSON.stringify(contract.abi),
-      );
+    switch (logicAppData.workflowType) {
+      case Service:
+        Telemetry.sendEvent('LogicAppGenerator.getGenerator.Service');
+        return this.getServiceWorkflowProjectGenerator(contract, logicAppData);
+      case Data:
+        Telemetry.sendEvent('LogicAppGenerator.getGenerator.Data');
+        return this.getDataWorkflowProjectGenerator(contract, logicAppData);
+      case Messaging:
+        Telemetry.sendEvent('LogicAppGenerator.getGenerator.Messaging');
+        return this.getMessagingWorkflowProjectGenerator(contract, logicAppData);
+      case Reporting:
+        Telemetry.sendEvent('LogicAppGenerator.getGenerator.Reporting');
+        return this.getReportingWorkflowProjectGenerator(contract, logicAppData);
+      default:
+        const error = new Error(Constants.errorMessageStrings.WorkflowTypeDoesNotMatch);
+        Telemetry.sendException(error);
+        throw error;
     }
-    if (generator) {
-      const files: any[] = generator.GenerateAll();
-      files.forEach(this.writeFile);
-    } else {
-      throw new Error('workflowType does not match any available workflows');
-    }
-  }
-
-  private getMessagingType(messagingType: string): any {
-    if (messagingType === 'Service Bus') {
-      return 1;
-    } else if (messagingType === 'Event Grid') {
-      return 0;
-    } else {
-      throw new Error('messaging type not defined');
-    }
-  }
-
-  private writeFile(file: Nethereum.Generators.Core.GeneratedFile): void {
-    const filePath = file.get_OutputFolder() + '/' + file.get_FileName();
-    mkdirp(path.dirname(filePath), (err: any) => {
-      if (err) { throw err; }
-      writeFile(filePath, file.get_GeneratedCode(), (err2: any) => {
-        if (err2) {
-          throw err2;
-        }
-        Output.outputLine(Constants.outputChannel.logicAppGenerator, 'Saved file to ' + filePath);
-      });
-    });
   }
 
   private async selectSubscriptionAndResourceGroup(): Promise<[SubscriptionItem, ResourceGroupItem]> {
-    await this.waitForLogin();
+    const azureResourceExplorer = new AzureResourceExplorer();
+    await azureResourceExplorer.waitForLogin();
 
-    const subscriptionItem = await this.getOrSelectSubscriptionItem();
-    const resourceGroupItem = await this.getOrCreateResourceGroup(subscriptionItem);
+    const subscriptionItem = await azureResourceExplorer.getOrSelectSubscriptionItem();
+    const resourceGroupItem = await azureResourceExplorer.getOrCreateResourceGroupItem(subscriptionItem);
 
     return [subscriptionItem, resourceGroupItem];
   }
 
-  private async getOrSelectSubscriptionItem(): Promise<SubscriptionItem> {
-    return await showQuickPick(
-      await this.loadSubscriptionItems(),
-      { placeHolder: Constants.placeholders.selectSubscription, ignoreFocusOut: true },
-    );
-  }
+  private async getAzureAppItem(workflowType: string): Promise<IAzureAppsItem> {
+    const items = [Constants.azureApps.LogicApp, Constants.azureApps.FlowApp ];
 
-  private async loadSubscriptionItems(): Promise<SubscriptionItem[]> {
-    await this._accountApi.waitForFilters();
-
-    const subscriptionItems = this._accountApi.filters
-      .map((filter: any) => new SubscriptionItem(filter.subscription.displayName,
-        filter.subscription.subscriptionId, filter.session));
-
-    if (subscriptionItems.length === 0) {
-      throw new Error('No subscription found, click an Azure account at the \
-                bottom left corner and choose Select All.');
+    if (workflowType === Constants.microservicesWorkflows.Service) {
+      items.push(Constants.azureApps.AzureFunction);
     }
 
-    return subscriptionItems;
+    return await showQuickPick(items, { ignoreFocusOut: true });
   }
 
-  private async getOrCreateResourceGroup(subscriptionItem: SubscriptionItem): Promise<ResourceGroupItem> {
-    return await showQuickPick(
-      this.getResourceGroupItems(subscriptionItem),
-      { placeHolder: Constants.placeholders.selectResourceGroup, ignoreFocusOut: true },
+  private async getMessagingType(): Promise<number> {
+    const items = [
+      { label: 'Event Grid', messagingType: 0 },
+      { label: 'Service Bus', messagingType: 1 },
+    ];
+
+    const item = await showQuickPick(items, { ignoreFocusOut: true });
+    return item.messagingType;
+  }
+
+  private getServiceWorkflowProjectGenerator(contract: any, logicAppData: ILogicAppData) {
+    return new Nethereum.Generators.ServiceWorkflow.ServiceWorkflowProjectGenerator(
+      buildContract(JSON.stringify(contract.abi)),
+      contract.contractName,
+      contract.bytecode,
+      contract.contractName,
+      `${contract.contractName}.${logicAppData.workflowType}`,
+      logicAppData.outputDir,
+      path.sep,
+      logicAppData.serviceType,
+      0,
+      JSON.stringify(contract.abi),
+      logicAppData.contractAddress,
+      logicAppData.subscriptionId,
+      logicAppData.resourceGroup,
+      '',
     );
   }
 
-  private async getResourceGroupItems(subscriptionItem: SubscriptionItem): Promise<ResourceGroupItem[]> {
-    // @ts-ignore
-    const resourceManagementClient = new ResourceManagementClient(
-      subscriptionItem.session.credentials,
-      subscriptionItem.subscriptionId,
-      subscriptionItem.session.environment.resourceManagerEndpointUrl,
+  private getDataWorkflowProjectGenerator(contract: any, logicAppData: ILogicAppData) {
+    return new Nethereum.Generators.DataWorkflow.DataWorkflowProjectGenerator(
+      buildContract(JSON.stringify(contract.abi)),
+      contract.contractName,
+      contract.bytecode,
+      contract.contractName,
+      `${contract.contractName}.${logicAppData.workflowType}`,
+      logicAppData.outputDir,
+      path.sep,
+      logicAppData.serviceType,
+      0,
+      logicAppData.contractAddress,
+      logicAppData.subscriptionId,
+      logicAppData.resourceGroup,
+      JSON.stringify(contract.abi),
     );
-    const resourceGroups = await resourceManagementClient.resourceGroups.list();
-    return resourceGroups.map((resourceGroup: ResourceModels.ResourceGroup) =>
-      new ResourceGroupItem(resourceGroup.name, resourceGroup.location));
   }
-  private async waitForLogin(): Promise<boolean> {
-    let result = await this._accountApi.waitForLogin();
-    if (!result) {
-      await commands.executeCommand('azure-account.askForLogin');
-      result = await this._accountApi.waitForLogin();
-      if (!result) {
-        throw new Error(Constants.errorMessageStrings.WaitForLogin);
-      }
-    }
 
-    return true;
+  private getMessagingWorkflowProjectGenerator(contract: any, logicAppData: ILogicAppData) {
+    return new Nethereum.Generators.MessagingWorkflow.MessagingWorkflowProjectGenerator(
+      buildContract(JSON.stringify(contract.abi)),
+      contract.contractName,
+      contract.bytecode,
+      contract.contractName,
+      `${contract.contractName}.${logicAppData.workflowType}`,
+      logicAppData.outputDir,
+      path.sep,
+      logicAppData.serviceType,
+      0,
+      logicAppData.contractAddress,
+      logicAppData.subscriptionId,
+      logicAppData.resourceGroup,
+      JSON.stringify(contract.abi),
+      logicAppData.topicName!,
+      logicAppData.messagingType!,
+    );
+  }
+
+  private getReportingWorkflowProjectGenerator(contract: any, logicAppData: ILogicAppData) {
+    return new Nethereum.Generators.ReportingWorkflow.ReportingWorkflowProjectGenerator(
+      buildContract(JSON.stringify(contract.abi)),
+      contract.contractName,
+      contract.bytecode,
+      contract.contractName,
+      `${contract.contractName}.${logicAppData.workflowType}`,
+      logicAppData.outputDir,
+      path.sep,
+      logicAppData.serviceType,
+      0,
+      logicAppData.contractAddress,
+      logicAppData.subscriptionId,
+      logicAppData.resourceGroup,
+      JSON.stringify(contract.abi),
+    );
+  }
+
+  private async writeFile(file: Nethereum.Generators.Core.GeneratedFile): Promise<void> {
+    const filePath = path.join(file.get_OutputFolder(), file.get_FileName());
+
+    await fs.mkdirp(path.dirname(filePath));
+    await fs.writeFile(filePath, file.get_GeneratedCode());
+
+    Output.outputLine(Constants.outputChannel.logicAppGenerator, 'Saved file to ' + filePath);
   }
 }

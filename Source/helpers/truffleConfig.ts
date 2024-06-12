@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import * as acorn from 'acorn';
 // @ts-ignore
 import * as walk from 'acorn-walk';
@@ -6,29 +9,21 @@ import * as bip39 from 'bip39';
 import * as crypto from 'crypto';
 import * as ESTree from 'estree';
 import * as fs from 'fs-extra';
-import { RelativePattern, Uri, workspace } from 'vscode';
-import { getWorkspaceRoot } from './workspace';
+import * as path from 'path';
+import { Constants } from '../Constants';
+import { getWorkspaceRoot } from '../helpers';
+import { MnemonicRepository } from '../services';
+import { Telemetry } from '../TelemetryClient';
+import { tryExecuteCommandInFork } from './command';
 
 export namespace TruffleConfiguration {
   const notAllowedSymbols = new RegExp(
     /`|~|!|@|#|\$|%|\^|&|\*|\(|\)|\+|-|=|\[|{|]|}|\||\\|'|<|,|>|\?|\/|""|;|:|"|№|\s/g,
   );
 
-  const ignore = [
-    'build/**/*',
-    'out/**/*',
-    'dist/**/*',
-    'test/**/*',
-  ];
-
-  const ignoreWorkspace = [
-    ...ignore,
-    'node_modules/**/*',
-  ];
-
   interface IFound {
     node: ESTree.Node;
-    state: string | undefined;
+    state: string;
   }
 
   export interface IProvider {
@@ -50,10 +45,6 @@ export namespace TruffleConfiguration {
      * or to hear Events using .on or .once. Default is false.
      */
     websockets?: boolean;
-    /**
-     * Gas limit used for deploys. Default is 4712388.
-     */
-    gas?: number;
     /**
      * Gas price used for deploys. Default is 100000000000 (100 Shannon).
      */
@@ -77,10 +68,6 @@ export namespace TruffleConfiguration {
      * if a transaction is not mined, keep waiting for this number of blocks (default is 50)
      */
     timeoutBlocks?: number;
-    /**
-     * This identifier needs just for out extension.
-     */
-    consortium_id?: number;
   }
 
   export interface INetwork {
@@ -88,122 +75,212 @@ export namespace TruffleConfiguration {
     options: INetworkOption;
   }
 
-  export async function getTruffleConfigUri(): Promise<Uri[]> {
-    const workspaceRoot = getWorkspaceRoot();
-    const configFiles = await workspace.findFiles(
-      new RelativePattern(workspaceRoot, '{**/truffle-config.js}'),
-      new RelativePattern(workspaceRoot, `{${ignoreWorkspace.join(',')}}`),
-    );
+  export interface ISolCompiler {
+    /**
+     * A version or constraint - Ex. "^0.5.0" . Can also be set to "native" to use a native solc
+     */
+    version: string;
+    /**
+     * Use a version obtained through docker
+     */
+    docker?: boolean;
+    settings?: {
+      optimizer?: {
+        enabled: boolean,
+        /**
+         * Optimize for how many times you intend to run the code
+         */
+        runs: number,
+      },
+      /**
+       * Default: "byzantium"
+       */
+      evmVersion?: string,
+    };
+  }
 
-    if (configFiles.length < 1) {
-      throw new Error('Configuration does not found');
+  export interface IExternalCompiler {
+    command: string;
+    workingDirectory: string;
+    targets: object[];
+  }
+
+  export interface IConfiguration {
+    contracts_directory: string;
+    contracts_build_directory: string;
+    migrations_directory: string;
+    networks?: INetwork[];
+    compilers?: {
+      solc?: ISolCompiler;
+      external?: IExternalCompiler;
+    };
+  }
+
+  export function getTruffleConfigUri(): string {
+    const configFilePath = path.join(getWorkspaceRoot()!, 'truffle-config.js');
+
+    if (!fs.pathExistsSync(configFilePath)) {
+      const error = new Error(Constants.errorMessageStrings.TruffleConfigIsNotExist);
+      Telemetry.sendException(error);
+      throw error;
     }
 
-    return configFiles;
+    return configFilePath;
   }
 
   export function generateMnemonic(): string {
     return bip39.entropyToMnemonic(crypto.randomBytes(16).toString('hex'));
   }
 
+  /**
+   * looking for truffle config named in old style
+   * and rename it to truffle-config.js
+   */
+  export function checkTruffleConfigNaming(workspaceRoot: string): void {
+    // old-style of truffle config naming
+    if (fs.pathExistsSync(path.join(workspaceRoot, 'truffle.js'))) {
+      fs.renameSync(
+        path.join(workspaceRoot, 'truffle.js'),
+        path.join(workspaceRoot, 'truffle-config.js'),
+      );
+    }
+  }
+
   export class TruffleConfig {
-    private ast?: ESTree.BaseNode;
+    private readonly ast: ESTree.Node;
 
-    constructor(private readonly filePath: string) {  }
+    constructor(private readonly filePath: string) {
+      const file = fs.readFileSync(this.filePath, 'utf8');
+      this.ast = acorn.parse(file, {
+        allowHashBang: true,
+        allowReserved: true,
+        sourceType: 'module',
+      }) as ESTree.Node;
+    }
 
-    public async getAST(): Promise<ESTree.BaseNode> {
-      if (!this.ast) {
-        const file = await fs.readFile(this.filePath, 'utf8');
-        this.ast = acorn.parse(file, {
-          allowHashBang: true,
-          allowReserved: true,
-          sourceType: 'module',
-        });
-      }
-
+    public getAST(): ESTree.Node {
       return this.ast;
     }
 
-    public async writeAST(): Promise<void> {
-      return fs.writeFile(this.filePath, generate(this.ast as ESTree.Node, {comments: true}));
+    public writeAST(): void {
+      return fs.writeFileSync(this.filePath, generate(this.ast, { comments: true }));
     }
 
-    public async getNetworks(): Promise<INetwork[]> {
-      const ast = await this.getAST();
-      const networks: INetwork[] = [];
-      const moduleExports: IFound = walk.findNodeAt(ast as ESTree.Node, null, null, isModuleExportsExpression);
+    public getNetworks(): INetwork[] {
+      const moduleExports = getModuleExportsObjectExpression(this.ast);
 
-      if (moduleExports.node) {
-        const node = moduleExports.node as ESTree.ExpressionStatement;
-        const rightExpression = (node.expression as ESTree.AssignmentExpression).right;
+      if (moduleExports) {
+        Telemetry.sendEvent('TruffleConfig.getNetworks.moduleExports');
+        const networksNode = findProperty(moduleExports, 'networks');
+        if (networksNode && networksNode.value.type === 'ObjectExpression') {
+          Telemetry.sendEvent('TruffleConfig.getNetworks.objectExpression');
+          return astToNetworks(networksNode.value);
+        }
+      }
 
-        if (rightExpression.type === 'ObjectExpression') {
-          const networksNode = findProperty(rightExpression, 'networks');
-          if (networksNode && networksNode.value.type === 'ObjectExpression') {
-            networksNode.value.properties.forEach((property: ESTree.Property) => {
-              if (property.key.type === 'Identifier') {
-                networks.push({
-                  name: property.key.name,
-                  options: astToNetworkOptions(property.value as ESTree.ObjectExpression),
-                });
-              }
-              if (property.key.type === 'Literal') {
-                networks.push({
-                  name: '' + property.key.value,
-                  options: astToNetworkOptions(property.value as ESTree.ObjectExpression),
-                });
-              }
-            });
+      return [];
+    }
+
+    public setNetworks(network: INetwork): void {
+      const moduleExports = getModuleExportsObjectExpression(this.ast);
+
+      if (moduleExports) {
+        Telemetry.sendEvent('TruffleConfig.setNetworks.moduleExportsTrue');
+        let networksNode = findProperty(moduleExports, 'networks');
+        if (!networksNode) {
+          Telemetry.sendEvent('TruffleConfig.setNetworks.noNetworksNode');
+          networksNode = generateProperty('networks', generateObjectExpression());
+          moduleExports.properties.push(networksNode);
+        }
+
+        if (networksNode.value.type === 'ObjectExpression') {
+          Telemetry.sendEvent('TruffleConfig.setNetworks.objectExpression');
+          const isExist = findProperty(networksNode.value, network.name);
+          if (isExist) {
+            Telemetry.sendException(
+              new Error(Constants.errorMessageStrings.NetworkAlreadyExist(Telemetry.obfuscate(network.name))),
+            );
+            throw new Error(Constants.errorMessageStrings.NetworkAlreadyExist(network.name));
+          } else {
+            Telemetry.sendEvent('TruffleConfig.setNetworks.addNetworkNode');
+            const networkNode = generateProperty(network.name, generateObjectExpression());
+            networkNode.value = networkOptionsToAst(network);
+            networksNode.value.properties.push(networkNode);
           }
         }
       }
 
-      return networks;
+      this.writeAST();
     }
 
-    public async setNetworks(network: INetwork): Promise<void> {
-      const ast = await this.getAST();
-      const moduleExports: IFound = walk.findNodeAt(ast as ESTree.Node, null, null, isModuleExportsExpression);
+    public importPackage(variableName: string, packageName: string): void {
+      const packageRequired: IFound = walk.findNodeAt(this.ast, null, null, isVarDeclaration(variableName));
+      if (!packageRequired) {
+        const declaration = generateVariableDeclaration(variableName, 'require', packageName);
+        (this.ast as ESTree.Program).body.unshift(declaration);
+        this.writeAST();
+      }
+    }
 
-      if (moduleExports.node) {
-        const node = moduleExports.node as ESTree.ExpressionStatement;
-        const rightExpression = (node.expression as ESTree.AssignmentExpression).right;
+    public async getConfiguration(): Promise<IConfiguration> {
+      const truffleConfig = await getTruffleMetadata();
 
-        if (rightExpression.type === 'ObjectExpression') {
-          let networksNode = findProperty(rightExpression, 'networks');
-          if (!networksNode) {
-            networksNode = generateProperty('networks', generateObjectExpression());
-            rightExpression.properties.push(networksNode);
-          }
-
-          if (networksNode.value.type === 'ObjectExpression') {
-            const isExist = findProperty(networksNode.value, network.name);
-            if (isExist) {
-              throw Error(`Network with name ${network.name} already existed in truffle-config.js`);
-            } else {
-              const networkNode = generateProperty(network.name, generateObjectExpression());
-              networkNode.value = networkOptionsToAst(network);
-              networksNode.value.properties.push(networkNode);
-            }
-          }
-        }
+      if (truffleConfig) {
+        return jsonToConfiguration(truffleConfig);
       }
 
-      this.ast = ast;
-      return this.writeAST();
+      return Constants.truffleConfigDefaultDirectory;
     }
 
-    public async importFs(): Promise<void> {
-      const ast = await this.getAST();
-      const fsRequired: IFound = walk.findNodeAt(ast as ESTree.Node, null, null, isVarDeclaration('fs'));
-      if (!fsRequired) {
-        const declaration = generateVariableDeclaration('fs', 'require', 'fs');
-        (ast as ESTree.Program).body.unshift(declaration);
+    public isHdWalletProviderDeclared(): boolean {
+      try {
+        const moduleExports = walk.findNodeAt(this.ast, null, null, isHdWalletProviderDeclaration);
+        return !!moduleExports;
+      } catch (error) {
+        Telemetry.sendException(error);
       }
-
-      this.ast = ast;
-      await this.writeAST();
+      return false;
     }
+  }
+
+  function isHdWalletProviderDeclaration(nodeType: string, node: ESTree.Node): boolean {
+    if (nodeType === 'NewExpression') {
+      node = node as ESTree.NewExpression;
+      node = node.callee as ESTree.Identifier;
+      return node.name === Constants.truffleConfigRequireNames.hdwalletProvider;
+    }
+
+    if (nodeType === 'VariablePattern') {
+      node = node as ESTree.Identifier;
+      return node.name === Constants.truffleConfigRequireNames.hdwalletProvider;
+    }
+
+    return false;
+  }
+
+  function getModuleExportsObjectExpression(ast: ESTree.Node): ESTree.ObjectExpression | void {
+    const moduleExports: IFound = walk.findNodeAt(ast, null, null, isModuleExportsExpression);
+
+    if (moduleExports && moduleExports.node.type === 'ExpressionStatement') {
+      const rightExpression = (moduleExports.node.expression as ESTree.AssignmentExpression).right;
+
+      if (rightExpression.type === 'ObjectExpression') {
+        return rightExpression;
+      }
+    }
+  }
+
+  async function getTruffleMetadata(): Promise<IConfiguration> {
+    const truffleConfigTemplatePath = path.join(__dirname, 'checkTruffleConfigTemplate.js');
+
+    const result = await tryExecuteCommandInFork(getWorkspaceRoot()!, truffleConfigTemplatePath);
+    const truffleConfigObject = result.messages!.find((message) => message.command === 'truffleConfig');
+
+    if (!truffleConfigObject || !truffleConfigObject.message) {
+      throw new Error(Constants.errorMessageStrings.TruffleConfigHasIncorrectFormat);
+    }
+
+    return JSON.parse(truffleConfigObject.message);
   }
 
   function isModuleExportsExpression(nodeType: string, node: ESTree.Node): boolean {
@@ -233,19 +310,20 @@ export namespace TruffleConfiguration {
   function isHDWalletProvider(nodeType: string, node: ESTree.Node): boolean {
     if (nodeType === 'NewExpression') {
       node = node as ESTree.NewExpression;
-      if (node.callee.type === 'Identifier' && node.callee.name === 'HDWalletProvider') {
+      if (node.callee.type === 'Identifier'
+        && node.callee.name === Constants.truffleConfigRequireNames.hdwalletProvider) {
         return true;
       }
     }
     return false;
   }
 
-  function isVarDeclaration(varName: string): (nodeType: string, node: ESTree.Node)  => boolean {
+  function isVarDeclaration(varName: string): (nodeType: string, node: ESTree.Node) => boolean {
     return (nodeType: string, node: ESTree.Node) => {
       if (nodeType === 'VariableDeclaration') {
         node = node as ESTree.VariableDeclaration;
         if (node.declarations[0].type === 'VariableDeclarator'
-        && (node.declarations[0].id as ESTree.Identifier).name === varName) {
+          && (node.declarations[0].id as ESTree.Identifier).name === varName) {
           return true;
         }
       }
@@ -271,7 +349,7 @@ export namespace TruffleConfiguration {
 
     const id = findProperty(node, 'network_id');
     if (id && id.value.type === 'Literal' &&
-       (typeof id.value.value === 'string' || typeof id.value.value === 'number')) {
+      (typeof id.value.value === 'string' || typeof id.value.value === 'number')) {
       options.network_id = id.value.value;
     }
 
@@ -288,11 +366,6 @@ export namespace TruffleConfiguration {
     const websockets = findProperty(node, 'websockets');
     if (websockets && websockets.value.type === 'Literal' && typeof websockets.value.value === 'boolean') {
       options.websockets = websockets.value.value;
-    }
-
-    const gas = findProperty(node, 'gas');
-    if (gas && gas.value.type === 'Literal' && typeof gas.value.value === 'number') {
-      options.gas = gas.value.value;
     }
 
     const gasPrice = findProperty(node, 'gasPrice');
@@ -318,18 +391,13 @@ export namespace TruffleConfiguration {
     const provider = findProperty(node, 'provider');
     if (provider && provider.value.type === 'FunctionExpression') {
       const hdWalletProvider: IFound = walk.findNodeAt(provider, null, null, isHDWalletProvider);
-      if (hdWalletProvider.node && hdWalletProvider.node.type === 'NewExpression') {
+      if (hdWalletProvider && hdWalletProvider.node.type === 'NewExpression') {
         options.provider = astToHDWalletProvider(hdWalletProvider.node);
       }
     }
 
     if (provider && provider.value.type === 'NewExpression') {
       options.provider = astToHDWalletProvider(provider.value);
-    }
-
-    const consortiumId = findProperty(node, 'consortium_id');
-    if (consortiumId && consortiumId.value.type === 'Literal' && typeof consortiumId.value.value === 'number') {
-      options.consortium_id = consortiumId.value.value;
     }
 
     return options;
@@ -358,10 +426,6 @@ export namespace TruffleConfiguration {
       obj.properties.push(generateProperty('websockets', generateLiteral(options.websockets)));
     }
 
-    if (options.gas !== undefined) {
-      obj.properties.push(generateProperty('gas', generateLiteral(options.gas)));
-    }
-
     if (options.gasPrice !== undefined) {
       obj.properties.push(generateProperty('gasPrice', generateLiteral(options.gasPrice)));
     }
@@ -382,11 +446,11 @@ export namespace TruffleConfiguration {
       obj.properties.push(generateProperty('provider', hdWalletProviderToAst(options.provider)));
     }
 
-    if (options.consortium_id !== undefined) {
-      obj.properties.push(generateProperty('consortium_id', generateLiteral(options.consortium_id)));
-    }
-
     return obj;
+  }
+
+  function isMnemonicNode(node: ESTree.Literal | ESTree.NewExpression): boolean {
+    return node && node.type === 'Literal' && typeof node.value === 'string';
   }
 
   function astToHDWalletProvider(node: ESTree.NewExpression): IProvider {
@@ -394,9 +458,13 @@ export namespace TruffleConfiguration {
       raw: generate(node),
     };
 
-    const mnemonicNode = node.arguments[0];
-    if (mnemonicNode && mnemonicNode.type === 'Literal') {
-      provider.mnemonic = '' + mnemonicNode.value;
+    const mnemonicNode = node.arguments[0] as ESTree.NewExpression & ESTree.Literal;
+    const mnemonicFilePathNode = mnemonicNode && mnemonicNode.arguments && mnemonicNode.arguments[0] as ESTree.Literal;
+
+    if (isMnemonicNode(mnemonicNode)) {
+      provider.mnemonic = mnemonicNode.value as string;
+    } else if (isMnemonicNode(mnemonicFilePathNode)) {
+      provider.mnemonic = MnemonicRepository.getMnemonic(mnemonicFilePathNode.value as string);
     }
 
     const urlNode = node.arguments[1];
@@ -418,11 +486,66 @@ export namespace TruffleConfiguration {
         generateLiteral(provider.url || ''),
       ],
       callee: {
-        name: 'HDWalletProvider',
+        name: Constants.truffleConfigRequireNames.hdwalletProvider,
         type: 'Identifier',
       },
       type: 'NewExpression',
     };
+  }
+
+  function jsonToConfiguration(truffleConfig: { [key: string]: any }): IConfiguration {
+    const { contracts_directory, contracts_build_directory, migrations_directory }
+      = Constants.truffleConfigDefaultDirectory;
+
+    if (!truffleConfig.hasOwnProperty('contracts_directory')) {
+      truffleConfig.contracts_directory = contracts_directory;
+    }
+
+    if (!truffleConfig.hasOwnProperty('contracts_build_directory')) {
+      truffleConfig.contracts_build_directory = contracts_build_directory;
+    }
+
+    if (!truffleConfig.hasOwnProperty('migrations_directory')) {
+      truffleConfig.migrations_directory = migrations_directory;
+    }
+
+    const arrayNetwork: INetwork[] = [];
+
+    if (truffleConfig.networks) {
+      // Networks are not used yet in the code
+      Object.entries(truffleConfig.networks).forEach(([key, value]) => {
+        arrayNetwork.push({
+          name: key,
+          options: value as INetworkOption,
+        });
+      });
+    }
+
+    truffleConfig.networks = arrayNetwork;
+
+    return truffleConfig as IConfiguration;
+  }
+
+  function astToNetworks(node: ESTree.ObjectExpression): INetwork[] {
+    const networks: INetwork[] = [];
+
+    node.properties.forEach((property: ESTree.Property) => {
+      if (property.key.type === 'Identifier') {
+        networks.push({
+          name: property.key.name,
+          options: astToNetworkOptions(property.value as ESTree.ObjectExpression),
+        });
+      }
+
+      if (property.key.type === 'Literal') {
+        networks.push({
+          name: '' + property.key.value,
+          options: astToNetworkOptions(property.value as ESTree.ObjectExpression),
+        });
+      }
+    });
+
+    return networks;
   }
 
   function generateProperty(name: string, value: ESTree.Expression): ESTree.Property {

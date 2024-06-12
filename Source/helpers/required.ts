@@ -1,12 +1,16 @@
-import * as semver from 'semver';
-import { commands, window } from 'vscode';
-import { Constants } from '../Constants';
-import { Output } from '../Output';
-import { executeCommand, tryExecuteCommand } from './command';
-import { CommandContext, setCommandContext } from './commandContext';
-import Timeout = NodeJS.Timeout;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
 
-let timeoutID: NodeJS.Timeout;
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import * as semver from 'semver';
+import { commands, ProgressLocation, window } from 'vscode';
+import { Constants, RequiredApps } from '../Constants';
+import { getWorkspaceRoot } from '../helpers';
+import { Output } from '../Output';
+import { Telemetry } from '../TelemetryClient';
+import { executeCommand, tryExecuteCommand } from './command';
+import { TruffleConfiguration } from './truffleConfig';
 
 export namespace required {
   export interface IRequiredVersion {
@@ -16,9 +20,15 @@ export namespace required {
     requiredVersion: string | { min: string, max: string };
   }
 
-  const currentState: {[key: string]: IRequiredVersion} = {};
-  const requiredApps = [ 'node', 'npm', 'git' ];
-  // const auxiliaryApps = [ 'python', 'truffle', 'ganache' ];
+  export enum Scope {
+    locally = 1,
+    global = 0,
+  }
+
+  const currentState: { [key: string]: IRequiredVersion } = {};
+
+  const requiredApps = [RequiredApps.node, RequiredApps.npm, RequiredApps.git];
+  const auxiliaryApps = [RequiredApps.python, RequiredApps.truffle, RequiredApps.ganache];
 
   export function isValid(version: string, minVersion: string, maxVersion?: string): boolean {
     return !!semver.valid(version) &&
@@ -27,137 +37,260 @@ export namespace required {
   }
 
   /**
-   * Function check all apps:
-   * Node.js, npm, git, truffle, ganache, python
+   * Function check all apps: Node.js, npm, git, truffle, ganache-cli, python
+   * Show Requirements Page with checking showOnStartup flag
    */
   export async function checkAllApps(): Promise<boolean> {
-    const versions = await getAllVersions();
-    const invalid = versions.some((version) => !version.isValid);
+    const valid = await checkAppsSilent(...requiredApps, ...auxiliaryApps);
 
-    if (invalid) {
-      showRequiredAppsMessage();
-      return false;
+    if (!valid) {
+      const message = Constants.informationMessage.invalidRequiredVersion;
+      const details = Constants.informationMessage.seeDetailsRequirementsPage;
+      window
+        .showErrorMessage(`${message}. ${details}`, Constants.informationMessage.detailsButton)
+        .then((answer) => {
+          if (answer) {
+            commands.executeCommand('azureBlockchainService.showRequirementsPage');
+          }
+        });
+      commands.executeCommand('azureBlockchainService.showRequirementsPage', true);
     }
 
-    return true;
+    return valid;
   }
 
   /**
-   * Function check only required apps:
-   * Node.js, npm, git
+   * Function check only required apps: Node.js, npm, git
+   * Show Requirements Page
    */
-  export async function checkRequiredApps(message?: string): Promise<boolean> {
-    const versions = await getAllVersions();
-    const invalid = versions
-      .filter((version) => requiredApps.includes(version.app))
-      .some((version) => !version.isValid);
+  export async function checkRequiredApps(): Promise<boolean> {
+    return checkApps(...requiredApps);
+  }
 
-    if (invalid) {
-      showRequiredAppsMessage(message || Constants.errorMessageStrings.RequiredAppsAreNotInstalled);
-      return false;
+  export async function checkApps(...apps: RequiredApps[]): Promise<boolean> {
+    const valid = await checkAppsSilent(...apps);
+
+    if (!valid) {
+      Telemetry.sendEvent(Constants.telemetryEvents.failedToCheckRequiredApps);
+      const message = Constants.errorMessageStrings.RequiredAppsAreNotInstalled;
+      const details = Constants.informationMessage.seeDetailsRequirementsPage;
+      window.showErrorMessage(`${message}. ${details}`);
+      commands.executeCommand('azureBlockchainService.showRequirementsPage');
     }
 
-    return true;
+    return valid;
+  }
+
+  export async function checkAppsSilent(...apps: RequiredApps[]): Promise<boolean> {
+    const versions = await getExactlyVersions(...apps);
+    const invalid = versions
+      .filter((version) => apps.includes(version.app as RequiredApps))
+      .some((version) => !version.isValid);
+
+    return !invalid;
+  }
+
+  export async function checkHdWalletProviderVersion(): Promise<boolean> {
+    const installedVersion = await getHdWalletProviderVersion();
+    if (!installedVersion) {
+      return false;
+    } else {
+      const requiredVersion = Constants.requiredVersions[RequiredApps.hdwalletProvider];
+
+      if (typeof requiredVersion === 'string') {
+        return isValid(installedVersion, requiredVersion);
+      } else {
+        return isValid(
+          installedVersion,
+          (requiredVersion as { max: string, min: string }).min,
+          (requiredVersion as { max: string, min: string }).max,
+        );
+      }
+    }
+  }
+
+  export async function getHdWalletProviderVersion(): Promise<string> {
+    try {
+      const data = fs.readFileSync(path.join(getWorkspaceRoot()!, 'package-lock.json'), null)
+        || fs.readFileSync(path.join(getWorkspaceRoot()!, 'package.json'), null);
+      const packagesData = JSON.parse(data.toString());
+
+      return packagesData.dependencies[RequiredApps.hdwalletProvider] ?
+        packagesData.dependencies[RequiredApps.hdwalletProvider].version
+        || packagesData.dependencies[RequiredApps.hdwalletProvider]
+        : '';
+    } catch (error) {
+      Telemetry.sendException(error);
+      return '';
+    }
   }
 
   export async function getAllVersions(): Promise<IRequiredVersion[]> {
-    Output.outputLine('', 'Get version for required apps');
+    return getExactlyVersions(...requiredApps, ...auxiliaryApps);
+  }
 
-    currentState.node = currentState.node ||
-      await createRequiredVersion('node', getNodeVersion, CommandContext.NodeIsAvailable);
-    currentState.npm = currentState.npm ||
-      await createRequiredVersion('npm', getNpmVersion, CommandContext.NpmIsAvailable);
-    currentState.git = currentState.git ||
-      await createRequiredVersion('git', getGitVersion, CommandContext.GitIsAvailable);
-    currentState.python = currentState.python ||
-      await createRequiredVersion('python', getPythonVersion, CommandContext.PythonIsAvailable);
-    currentState.truffle = currentState.truffle ||
-      await createRequiredVersion('truffle', getTruffleVersion, CommandContext.TruffleIsAvailable);
-    currentState.ganache = currentState.ganache ||
-      await createRequiredVersion('ganache', getGanacheVersion, CommandContext.GanacheIsAvailable);
+  export async function getExactlyVersions(...apps: RequiredApps[]): Promise<IRequiredVersion[]> {
+    Output.outputLine('', `Get version for required apps: ${apps.join(',')}`);
+
+    if (apps.includes(RequiredApps.node)) {
+      currentState.node = currentState.node ||
+        await createRequiredVersion(RequiredApps.node, getNodeVersion);
+    }
+    if (apps.includes(RequiredApps.npm)) {
+      currentState.npm = currentState.npm ||
+        await createRequiredVersion(RequiredApps.npm, getNpmVersion);
+    }
+    if (apps.includes(RequiredApps.git)) {
+      currentState.git = currentState.git ||
+        await createRequiredVersion(RequiredApps.git, getGitVersion);
+    }
+    if (apps.includes(RequiredApps.truffle)) {
+      currentState.truffle = currentState.truffle ||
+        await createRequiredVersion(RequiredApps.truffle, getTruffleVersion);
+    }
+    if (apps.includes(RequiredApps.ganache)) {
+      currentState.ganache = currentState.ganache ||
+        await createRequiredVersion(RequiredApps.ganache, getGanacheVersion);
+    }
 
     return Object.values(currentState);
   }
 
-  export function showRequiredAppsMessage(message?: string): void {
-    commands.executeCommand('azureBlockchainService.showRequirementsPage');
-
-    clearTimeout(timeoutID as Timeout);
-    timeoutID = setTimeout(async () => {
-      try {
-        message = message || Constants.informationMessage.invalidRequiredVersion;
-
-        window.showErrorMessage(`${message} ${Constants.informationMessage.seeDetailsRequirementsPage}`);
-      } catch (e) {
-        // ignore
-      }
-    }, 500);
-  }
-
   export async function getNodeVersion(): Promise<string> {
-    return getVersion('node', '--version', /v(\d+.\d+.\d+)/);
+    return getVersion(RequiredApps.node, '--version', /v(\d+.\d+.\d+)/);
   }
 
   export async function getNpmVersion(): Promise<string> {
-    return getVersion('npm', '--version', /(\d+.\d+.\d+)/);
+    return getVersion(RequiredApps.npm, '--version', /(\d+.\d+.\d+)/);
   }
 
   export async function getGitVersion(): Promise<string> {
-    return getVersion(Constants.gitCommand, '--version', / (\d+.\d+.\d+)/);
+    return getVersion(RequiredApps.git, '--version', / (\d+.\d+.\d+)/);
   }
 
   export async function getPythonVersion(): Promise<string> {
-    return getVersion('python', '--version', / (\d+.\d+.\d+)/);
+    return getVersion(RequiredApps.python, '--version', / (\d+.\d+.\d+)/);
   }
 
   export async function getTruffleVersion(): Promise<string> {
-    return getVersion('truffle', 'version', /(?<=Truffle v)(\d+.\d+.\d+)/);
+    const requiredVersion = Constants.requiredVersions[RequiredApps.truffle];
+    const minRequiredVersion = typeof requiredVersion === 'string' ? requiredVersion : requiredVersion.min;
+    const majorVersion = minRequiredVersion.split('.')[0];
+
+    const localVersion = (await tryExecuteCommand(getWorkspaceRoot(true), `npm list --depth 0 truffle@${majorVersion}`))
+      .cmdOutput
+      .match(/truffle@(\d+.\d+.\d+)/);
+
+    return (localVersion && localVersion[1])
+      || getVersion(RequiredApps.truffle, 'version', /(?<=Truffle v)(\d+.\d+.\d+)/);
   }
 
   export async function getGanacheVersion(): Promise<string> {
-    return getVersion('ganache-cli', '--version', /v(\d+.\d+.\d+)/);
+    const requiredVersion = Constants.requiredVersions[RequiredApps.ganache];
+    const minRequiredVersion = typeof requiredVersion === 'string' ? requiredVersion : requiredVersion.min;
+    const majorVersion = minRequiredVersion.split('.')[0];
+
+    const localVersion = (await tryExecuteCommand(
+      getWorkspaceRoot(true),
+      `npm list --depth 0 ganache-cli@${majorVersion}`,
+    ))
+      .cmdOutput
+      .match(/ganache-cli@(\d+.\d+.\d+)/);
+
+    return (localVersion && localVersion[1]) || getVersion(RequiredApps.ganache, '--version', /v(\d+.\d+.\d+)/);
   }
 
   export async function installNpm(): Promise<void> {
     try {
-      await installUsingNpm('npm', Constants.requiredVersions.npm);
+      await installUsingNpm(RequiredApps.npm, Constants.requiredVersions[RequiredApps.npm]);
     } catch (error) {
-      // ignore
+      Telemetry.sendException(error);
+      Output.outputLine(Constants.outputChannel.requirements, error.message);
     }
 
-    currentState.npm = await createRequiredVersion('npm', getNpmVersion, CommandContext.NpmIsAvailable);
+    currentState.npm = await createRequiredVersion(RequiredApps.npm, getNpmVersion);
   }
 
-  export async function installTruffle(): Promise<void> {
+  export async function installTruffle(scope?: Scope): Promise<void> {
     try {
-      await installUsingNpm('truffle', Constants.requiredVersions.truffle);
+      await installUsingNpm(RequiredApps.truffle, Constants.requiredVersions[RequiredApps.truffle], scope);
     } catch (error) {
-      // ignore
+      Telemetry.sendException(error);
+      Output.outputLine(Constants.outputChannel.requirements, error.message);
     }
-    currentState.truffle = await createRequiredVersion('truffle', getTruffleVersion, CommandContext.TruffleIsAvailable);
+
+    currentState.truffle = await createRequiredVersion(
+      RequiredApps.truffle,
+      getTruffleVersion,
+    );
   }
 
-  export async function installGanache(): Promise<void> {
+  export async function installGanache(scope?: Scope): Promise<void> {
     try {
-      await installUsingNpm('ganache-cli', Constants.requiredVersions.ganache);
+      await installUsingNpm(RequiredApps.ganache, Constants.requiredVersions[RequiredApps.ganache], scope);
     } catch (error) {
-      // ignore
+      Telemetry.sendException(error);
+      Output.outputLine(Constants.outputChannel.requirements, error.message);
     }
-    currentState.ganache = await createRequiredVersion('ganache', getGanacheVersion, CommandContext.GanacheIsAvailable);
+
+    currentState.ganache = await createRequiredVersion(
+      RequiredApps.ganache,
+      getGanacheVersion,
+    );
+  }
+
+  export async function installTruffleHdWalletProvider(): Promise<void> {
+    try {
+      await installUsingNpm(
+        RequiredApps.hdwalletProvider,
+        Constants.requiredVersions[RequiredApps.hdwalletProvider],
+        Scope.locally,
+      );
+      const truffleConfigPath = await TruffleConfiguration.getTruffleConfigUri();
+      const config = new TruffleConfiguration.TruffleConfig(truffleConfigPath);
+      await config.importPackage(Constants.truffleConfigRequireNames.hdwalletProvider, RequiredApps.hdwalletProvider);
+    } catch (error) {
+      Telemetry.sendException(error);
+    }
+  }
+
+  export async function isHdWalletProviderRequired(): Promise<boolean> {
+    try {
+      const truffleConfigPath = TruffleConfiguration.getTruffleConfigUri();
+      const config = new TruffleConfiguration.TruffleConfig(truffleConfigPath);
+      return config.isHdWalletProviderDeclared();
+    } catch (error) {
+      Telemetry.sendException(error);
+      Output.outputLine(Constants.outputChannel.requirements, error.message);
+    }
+
+    return false;
+  }
+
+  export async function isDefaultProject(): Promise<boolean> {
+    try {
+      // File might not exist in some truffle-box
+      const data = await fs.readFile(path.join(getWorkspaceRoot()!, 'package.json'), 'utf-8');
+      const packagesData = JSON.parse(data);
+
+      return packagesData.name === 'blockchain-ethereum-template';
+    } catch (error) {
+      Telemetry.sendException(error);
+      Output.outputLine(Constants.outputChannel.requirements, error.message);
+    }
+
+    return false;
   }
 
   async function createRequiredVersion(
     appName: string,
     versionFunc: () => Promise<string>,
-    commandContext: CommandContext,
   ): Promise<IRequiredVersion> {
     const version = await versionFunc();
     const requiredVersion = Constants.requiredVersions[appName];
     const minRequiredVersion = typeof requiredVersion === 'string' ? requiredVersion : requiredVersion.min;
     const maxRequiredVersion = typeof requiredVersion === 'string' ? '' : requiredVersion.max;
     const isValidApp = isValid(version, minRequiredVersion, maxRequiredVersion);
-
-    setCommandContext(commandContext, isValidApp);
 
     return {
       app: appName,
@@ -170,11 +303,26 @@ export namespace required {
   async function installUsingNpm(
     packageName: string,
     packageVersion: string | { min: string, max: string },
+    scope?: Scope,
   ): Promise<void> {
-    Output.show();
-    const version = typeof packageVersion === 'string' ? packageVersion : packageVersion.min;
-    const majorVersion = version.split('.')[0];
-    await executeCommand(undefined, 'npm', 'i', '-g', ` ${packageName}@^${majorVersion}`);
+    const versionString = typeof packageVersion === 'string' ?
+      `^${packageVersion}` :
+      `>=${packageVersion.min} <${packageVersion.max}`;
+
+    const workspaceRoot = getWorkspaceRoot(true);
+
+    if (workspaceRoot === undefined && scope === Scope.locally) {
+      const error = new Error(Constants.errorMessageStrings.WorkspaceShouldBeOpened);
+      Telemetry.sendException(error);
+      throw error;
+    }
+
+    await window.withProgress({
+      location: ProgressLocation.Window,
+      title: `Installing ${packageName}`,
+    }, async () => {
+      await executeCommand(workspaceRoot, 'npm', 'i', scope ? '' : '-g', ` ${packageName}@"${versionString}"`);
+    });
   }
 
   async function getVersion(program: string, command: string, matcher: RegExp): Promise<string> {
@@ -182,13 +330,13 @@ export namespace required {
       const result = await tryExecuteCommand(undefined, program, command);
       if (result.code === 0) {
         const output = result.cmdOutput || result.cmdOutputIncludingStderr;
-        const truffleVersion = output.match(matcher);
-        const version = semver.clean(truffleVersion ? truffleVersion[1] : '');
+        const installedVersion = output.match(matcher);
+        const version = semver.clean(installedVersion ? installedVersion[1] : '');
 
         return version || '';
       }
     } catch (error) {
-      // ignore error
+      Telemetry.sendException(error);
     }
 
     return '';
