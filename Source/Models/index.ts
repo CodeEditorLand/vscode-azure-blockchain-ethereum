@@ -1,56 +1,66 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
-export * from './CancellationEvent';
-export * from './EnumStorage';
-export * from './ItemFactory';
-export * from './ItemType';
-export * from './IDeployDestination';
+import { AzureConsortium } from './AzureConsortium';
+import { CancellationEvent } from './CancellationEvent';
+import { Command } from './Command';
+import { Consortium } from './Consortium';
+import { ExtensionItem } from './ExtensionItem';
+import { IExtensionItem } from './IExtensionItem';
+import { Info } from './Info';
 import {
-  AzureBlockchainNetworkNodeItemCreator,
-  AzureBlockchainProjectItemCreator,
-  AzureBlockchainServiceItemCreator,
-  BlockchainDataManagerInputAndOutputItemCreator,
-  BlockchainDataManagerNetworkNodeItemCreator,
-  BlockchainDataManagerProjectItemCreator,
-  BlockchainDataManagerServiceItemCreator,
+  AzureConsortiumItemCreator,
   CommandItemCreator,
-  InfuraNetworkNodeItemCreator,
-  InfuraProjectItemCreator,
-  InfuraServiceItemCreator,
-  LocalNetworkNodeItemCreator,
-  LocalProjectItemCreator,
-  LocalServiceItemCreator,
+  InfoItemCreator,
+  LocalNetworkConsortiumItemCreator,
+  MainNetworkConsortiumItemCreator,
   MemberItemCreator,
-  NullableItemCreator,
+  NetworkItemCreator,
+  TestNetworkConsortiumItemCreator,
+  TransactionNodeItemCreator,
 } from './ItemCreators';
 import { ItemFactory } from './ItemFactory';
 import { ItemType } from './ItemType';
+import { LocalNetworkConsortium } from './LocalNetworkConsortium';
+import { LocationItem } from './LocationItem';
+import { MainNetworkConsortium } from './MainNetworkConsortium';
+import { Member } from './Member';
+import { Network } from './Network';
+import { NetworkConsortium } from './NetworkConsortium';
+import { ResourceGroupItem } from './ResourceGroupItem';
+import { SubscriptionItem } from './SubscriptionItem';
+import { TestNetworkConsortium } from './TestNetworkConsortium';
+import { TransactionNode } from './TransactionNode';
 
+ItemFactory.register(ItemType.UNKNOWN, new InfoItemCreator());
+ItemFactory.register(ItemType.INFO, new InfoItemCreator());
 ItemFactory.register(ItemType.COMMAND, new CommandItemCreator());
-ItemFactory.register(ItemType.NULLABLE, new NullableItemCreator());
-
-ItemFactory.register(ItemType.AZURE_BLOCKCHAIN_SERVICE, new AzureBlockchainServiceItemCreator());
-ItemFactory.register(ItemType.LOCAL_SERVICE, new LocalServiceItemCreator());
-ItemFactory.register(ItemType.INFURA_SERVICE, new InfuraServiceItemCreator());
-ItemFactory.register(ItemType.BLOCKCHAIN_DATA_MANAGER_SERVICE, new BlockchainDataManagerServiceItemCreator());
-
-ItemFactory.register(ItemType.AZURE_BLOCKCHAIN_PROJECT, new AzureBlockchainProjectItemCreator());
-ItemFactory.register(ItemType.LOCAL_PROJECT, new LocalProjectItemCreator());
-ItemFactory.register(ItemType.INFURA_PROJECT, new InfuraProjectItemCreator());
-ItemFactory.register(ItemType.BLOCKCHAIN_DATA_MANAGER_PROJECT, new BlockchainDataManagerProjectItemCreator());
-
-ItemFactory.register(ItemType.AZURE_BLOCKCHAIN_NETWORK_NODE, new AzureBlockchainNetworkNodeItemCreator());
-ItemFactory.register(ItemType.LOCAL_NETWORK_NODE, new LocalNetworkNodeItemCreator());
-ItemFactory.register(ItemType.INFURA_NETWORK_NODE, new InfuraNetworkNodeItemCreator());
-ItemFactory.register(ItemType.BLOCKCHAIN_DATA_MANAGER_APPLICATION, new BlockchainDataManagerNetworkNodeItemCreator());
-ItemFactory.register(ItemType.BLOCKCHAIN_DATA_MANAGER_INPUT, new BlockchainDataManagerNetworkNodeItemCreator());
-ItemFactory.register(ItemType.BLOCKCHAIN_DATA_MANAGER_OUTPUT, new BlockchainDataManagerNetworkNodeItemCreator());
-
+ItemFactory.register(ItemType.AZURE_BLOCKCHAIN, new NetworkItemCreator());
+ItemFactory.register(ItemType.LOCAL_NETWORK, new NetworkItemCreator());
+ItemFactory.register(ItemType.ETHEREUM_TEST_NETWORK, new NetworkItemCreator());
+ItemFactory.register(ItemType.ETHEREUM_MAIN_NETWORK, new NetworkItemCreator());
 ItemFactory.register(ItemType.MEMBER, new MemberItemCreator());
-ItemFactory.register(
-  ItemType.BLOCKCHAIN_DATA_MANAGER_INPUT_GROUP,
-  new BlockchainDataManagerInputAndOutputItemCreator());
-ItemFactory.register(
-  ItemType.BLOCKCHAIN_DATA_MANAGER_OUTPUT_GROUP,
-  new BlockchainDataManagerInputAndOutputItemCreator());
+ItemFactory.register(ItemType.TRANSACTION_NODE, new TransactionNodeItemCreator());
+ItemFactory.register(ItemType.AZURE_CONSORTIUM, new AzureConsortiumItemCreator());
+ItemFactory.register(ItemType.LOCAL_CONSORTIUM, new LocalNetworkConsortiumItemCreator());
+ItemFactory.register(ItemType.ETHEREUM_TEST_CONSORTIUM, new TestNetworkConsortiumItemCreator());
+ItemFactory.register(ItemType.ETHEREUM_MAIN_CONSORTIUM, new MainNetworkConsortiumItemCreator());
+
+export {
+  AzureConsortium,
+  CancellationEvent,
+  Command,
+  Consortium,
+  ExtensionItem,
+  IExtensionItem,
+  Info,
+  ItemFactory,
+  ItemType,
+  LocalNetworkConsortium,
+  LocationItem,
+  MainNetworkConsortium,
+  Member,
+  Network,
+  ResourceGroupItem,
+  SubscriptionItem,
+  TestNetworkConsortium,
+  TransactionNode,
+  NetworkConsortium,
+};

@@ -1,78 +1,75 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { commands, QuickPickItem, window } from 'vscode';
-import { Constants, RequiredApps } from '../Constants';
-import { required, showQuickPick } from '../helpers';
-import { ItemType } from '../Models';
-import { LocalProject } from '../Models/TreeItems';
-import { GanacheService, TreeManager } from '../services';
-import { Telemetry } from '../TelemetryClient';
-import { ProjectView } from '../ViewItems';
+import { ChildProcess, spawn } from 'child_process';
+import { OutputChannel, window } from 'vscode';
+import { Constants } from '../Constants';
+import { CommandContext, required, setCommandContext, shell } from '../helpers';
+
+let server: ChildProcess | undefined;
 
 export namespace GanacheCommands {
+  const ganacheOutputChannel: OutputChannel = window.createOutputChannel(Constants.outputChannel.ganacheCommands);
+
   // Command to bind to UI commands
-  export async function startGanacheCmd(projectView?: ProjectView): Promise<void> {
-    Telemetry.sendEvent('GanacheCommands.startGanacheCmd.commandStarted');
-
-    if (!await required.checkApps(RequiredApps.node)) {
-      Telemetry.sendEvent('GanacheCommands.startGanacheCmd.nodeIsNotInstalled');
-      commands.executeCommand('azureBlockchainService.showRequirementsPage');
-      return;
-    }
-
-    const port = await getGanachePort(projectView);
-    const ganacheProcess = await GanacheService.startGanacheServer(port);
-
-    if (!ganacheProcess.process) {
-      Telemetry.sendEvent('GanacheCommands.startGanacheCmd.serverAlreadyRunning');
+  export async function startGanacheCmd(): Promise<void> {
+    if (server) {
       window.showInformationMessage(Constants.ganacheCommandStrings.serverAlreadyRunning);
       return;
     }
 
-    Telemetry.sendEvent('GanacheCommands.startGanacheCmd.commandFinished');
-    window.showInformationMessage(Constants.ganacheCommandStrings.serverSuccessfullyStarted);
+    await startGanacheServer();
+
+    if (server) {
+      (server as ChildProcess).on('error',
+        () => window.showErrorMessage(Constants.ganacheCommandStrings.serverAlreadyRunning));
+    }
+
+    window.showInformationMessage(Constants.ganacheCommandStrings.serverSuccessfullyRunning);
   }
 
   // Command to bind to UI commands
-  export async function stopGanacheCmd(projectView?: ProjectView): Promise<void> {
-    Telemetry.sendEvent('GanacheCommands.stopGanacheCmd.commandStarted');
-    const port = await getGanachePort(projectView);
-    const portStatus = await GanacheService.getPortStatus(port);
-
-    if (portStatus === GanacheService.PortStatus.GANACHE) {
-      await GanacheService.stopGanacheServer(port);
-      Telemetry.sendEvent('GanacheCommands.stopGanacheCmd.isGanacheServer');
-      window.showInformationMessage(Constants.ganacheCommandStrings.serverSuccessfullyStopped);
-    } else if (portStatus === GanacheService.PortStatus.FREE) {
-      Telemetry.sendEvent('GanacheCommands.stopGanacheCmd.portIsFree');
-      window.showInformationMessage(Constants.ganacheCommandStrings.serverSuccessfullyStopped);
-    } else {
-      Telemetry.sendEvent('GanacheCommands.stopGanacheCmd.noGanacheServer');
-      window.showWarningMessage(Constants.ganacheCommandStrings.serverCanNotStop);
+  export async function stopGanacheCmd(): Promise<void> {
+    if (!server) {
+      window.showInformationMessage(Constants.ganacheCommandStrings.serverCanNotStop);
+      return;
     }
 
-    Telemetry.sendEvent('GanacheCommands.stopGanacheCmd.commandFinished');
+    return stopGanacheServer();
   }
 
-  export async function getGanachePort(projectView?: ProjectView): Promise<number | string> {
-    if (projectView && projectView.extensionItem instanceof LocalProject) {
-      return projectView.extensionItem.port;
+  export async function startGanacheServer(): Promise<void> {
+    if (!server && await required.checkRequiredApps()) {
+      server = spawn('npx', ['ganache-cli'], { shell: true });
+      server.stdout.on('data', (data: string | Buffer) => {
+        ganacheOutputChannel.appendLine(data.toString());
+      });
+
+      server.stderr.on('data', (data: string | Buffer) => {
+        ganacheOutputChannel.appendLine(data.toString());
+      });
+
+      setCommandContext(
+        CommandContext.IsGanacheRunning,
+        true,
+      );
     }
+  }
 
-    const hosts = TreeManager.getItem(ItemType.LOCAL_SERVICE);
-
-    if (!hosts || !hosts.getChildren()) {
-      const error = new Error(Constants.ganacheCommandStrings.serverNoGanacheAvailable);
-      Telemetry.sendException(error);
-      throw error;
+  export async function stopGanacheServer(): Promise<void> {
+    if (server) {
+      await shell.freePort(Constants.defaultLocalhostPort);
+      server.removeAllListeners();
+      server = undefined;
+      window.showInformationMessage(Constants.ganacheCommandStrings.serverSuccessfullyStopped);
     }
+    setCommandContext(CommandContext.IsGanacheRunning, false);
+  }
 
-    const options = hosts.getChildren();
-    const pick = await showQuickPick(
-      options as QuickPickItem[],
-      { placeHolder: Constants.placeholders.selectGanacheServer, ignoreFocusOut: true },
-    );
-    return (pick as LocalProject).port;
+  export async function dispose(): Promise<void> {
+    if (server) {
+      server = undefined;
+      return shell.freePort(Constants.defaultLocalhostPort);
+    }
   }
 }

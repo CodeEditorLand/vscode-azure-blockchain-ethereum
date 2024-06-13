@@ -567,6 +567,7 @@ $d.tryDecodeTypeFunc = function tryDecodeTypeFunc(typeFunc) {
     return result;
 };
 $d.boxEnum = function boxEnum(enumType, value) {
+
     if (value.constructor == enumType)
         return value;
     if (value.constructor != Number)

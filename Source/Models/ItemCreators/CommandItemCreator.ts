@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { Command } from '../TreeItems';
+import { Command } from '../Command';
 import { ItemCreator } from './ItemCreator';
 
 export class CommandItemCreator extends ItemCreator {

@@ -1,8 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
-import { RequiredApps } from '../Constants';
-import { Telemetry } from '../TelemetryClient';
+import { Constants } from '../Constants';
 import { executeCommand } from './command';
 import { required } from './required';
 
@@ -12,15 +8,14 @@ export async function gitInit(workingDirectory: string): Promise<void> {
   }
 
   if (!await isRepoExists(workingDirectory)) {
-    await executeCommand(workingDirectory, RequiredApps.git, 'init');
+    await executeCommand(workingDirectory, Constants.gitCommand, 'init');
   }
 }
 
 export async function isRepoExists(workingDirectory: string): Promise<boolean> {
   try {
-    await executeCommand(workingDirectory, RequiredApps.git, 'rev-parse', '--git-dir');
+    await executeCommand(workingDirectory, Constants.gitCommand, 'rev-parse', '--git-dir');
   } catch (error) {
-    Telemetry.sendException(error);
     return false;
   }
   return true;

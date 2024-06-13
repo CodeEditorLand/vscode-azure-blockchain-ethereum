@@ -3,42 +3,40 @@
 
 import * as outputCommandHelper from './command';
 import * as commandContext from './commandContext';
-import { extractEnumsInfo, extractEnumsInfoSafe } from './enumExtractor';
 import * as gitHelper from './git';
-import * as openZeppelinHelper from './openZeppelinHelper';
 import { required } from './required';
 import * as shell from './shell';
-import * as telemetryHelper from './telemetry';
 import { TruffleConfiguration } from './truffleConfig';
-import * as userSettings from './userSettings';
-import * as vscodeEnvironment from './vscodeEnvironment';
+import * as userInteractionHelper from './userInteraction';
 import * as workspaceHelpers from './workspace';
 
-const spawnProcess = outputCommandHelper.spawnProcess;
+const saveTextInFile = userInteractionHelper.saveTextInFile;
+const showInputBox = userInteractionHelper.showInputBox;
+const showQuickPick = userInteractionHelper.showQuickPick;
+const showOpenFolderDialog = userInteractionHelper.showOpenFolderDialog;
+const showConfirmPaidOperationDialog = userInteractionHelper.showConfirmPaidOperationDialog;
 const getWorkspaceRoot = workspaceHelpers.getWorkspaceRoot;
 const isWorkspaceOpen = workspaceHelpers.isWorkspaceOpen;
 const TruffleConfig = TruffleConfiguration.TruffleConfig;
+const createTemporaryDir = workspaceHelpers.createTemporaryDir;
 const CommandContext = commandContext.CommandContext;
 const setCommandContext = commandContext.setCommandContext;
 
-export * from './userInteraction';
-
 export {
+  createTemporaryDir,
   CommandContext,
-  extractEnumsInfo,
-  extractEnumsInfoSafe,
   getWorkspaceRoot,
   gitHelper,
   isWorkspaceOpen,
-  openZeppelinHelper,
+  showOpenFolderDialog,
   outputCommandHelper,
   required,
+  saveTextInFile,
   setCommandContext,
   shell,
-  spawnProcess,
-  telemetryHelper,
+  showInputBox,
+  showQuickPick,
+  showConfirmPaidOperationDialog,
   TruffleConfig,
   TruffleConfiguration,
-  userSettings,
-  vscodeEnvironment,
 };

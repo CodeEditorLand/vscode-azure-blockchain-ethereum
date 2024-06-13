@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { ProviderResult } from 'vscode';
-import { IExtensionItem } from '../Models/TreeItems';
+import { IExtensionItem } from '../Models';
 import { IExtensionView } from './IExtensionView';
 import { ViewItemFactory } from './ViewItemFactory';
 
 export abstract class ExtensionView<T extends IExtensionItem> implements IExtensionView {
-  protected constructor(public readonly extensionItem: T, protected parent?: IExtensionView | undefined | null) { }
+  protected constructor(
+    public readonly extensionItem: T,
+    protected parent?: IExtensionView | undefined | null,
+  ) { }
 
   public getTreeItem(): Promise<T> | T {
     return this.extensionItem;

@@ -3,19 +3,17 @@
 
 import * as fs from 'fs-extra';
 import { Uri, window, workspace } from 'vscode';
-import { Constants, RequiredApps } from '../Constants';
+import { Constants } from '../Constants';
 import {
+  createTemporaryDir,
   gitHelper,
   outputCommandHelper,
   required,
-  showIgnorableNotification,
   showInputBox,
   showOpenFolderDialog,
   showQuickPick,
-  TruffleConfiguration,
 } from '../helpers';
-import { CancellationEvent } from '../Models';
-import { Telemetry } from '../TelemetryClient';
+import { Output } from '../Output';
 
 interface IProjectDestination {
   cmd: (projectPath: string) => Promise<void>;
@@ -24,7 +22,6 @@ interface IProjectDestination {
 
 export namespace ProjectCommands {
   export async function newSolidityProject(): Promise<void> {
-    Telemetry.sendEvent('ProjectCommands.newSolidityProject.started');
     if (!await required.checkRequiredApps()) {
       return;
     }
@@ -45,93 +42,53 @@ export namespace ProjectCommands {
       { placeHolder: Constants.placeholders.selectTypeOfSolidityProject, ignoreFocusOut: true },
     );
 
-    const projectPath = await chooseNewProjectDir();
+    const projectPath = await showOpenFolderDialog();
 
-    Telemetry.sendEvent('ProjectCommands.newSolidityProject.initialization');
     await command.cmd(projectPath);
     await gitHelper.gitInit(projectPath);
   }
 }
 
-async function chooseNewProjectDir(): Promise<string> {
-  const projectPath = await showOpenFolderDialog();
-
-  await fs.ensureDir(projectPath);
-  const arrayFiles =  await fs.readdir(projectPath);
-
-  if (arrayFiles.length) {
-    Telemetry.sendEvent('ProjectCommands.chooseNewProjectDir.directoryNotEmpty');
-    const answer = await window
-      .showErrorMessage(
-        Constants.errorMessageStrings.DirectoryIsNotEmpty,
-        Constants.informationMessage.openButton,
-        Constants.informationMessage.cancelButton);
-
-    if (answer === Constants.informationMessage.openButton) {
-      return chooseNewProjectDir();
-    } else {
-      Telemetry.sendEvent('ProjectCommands.chooseNewProjectDir.userCancellation');
-      throw new CancellationEvent();
-    }
-  }
-
-  return projectPath;
-}
-
 async function createNewEmptyProject(projectPath: string): Promise<void> {
-  Telemetry.sendEvent('ProjectCommands.createNewEmptyProject.started');
-
   await createProject(projectPath, Constants.defaultTruffleBox);
-
-  Telemetry.sendEvent('ProjectCommands.createNewEmptyProject.finished');
 }
 
 async function createProjectFromTruffleBox(projectPath: string): Promise<void> {
   const truffleBoxName = await getTruffleBoxName();
-
-  Telemetry.sendEvent(
-    'ProjectCommands.createProjectFromTruffleBox.started',
-    { truffleBoxName },
-  );
-
   await createProject(projectPath, truffleBoxName);
-
-  Telemetry.sendEvent(
-    'ProjectCommands.createProjectFromTruffleBox.finished',
-    { truffleBoxName },
-  );
 }
 
 async function createProject(projectPath: string, truffleBoxName: string): Promise<void> {
-  await showIgnorableNotification(
-    Constants.statusBarMessages.creatingProject,
-    async () => {
-      try {
-        Telemetry.sendEvent('ProjectCommands.createProject.unbox', { truffleBoxName });
-        await outputCommandHelper.executeCommand(projectPath, 'npx', RequiredApps.truffle, 'unbox', truffleBoxName);
+  await fs.ensureDir(projectPath);
 
-        TruffleConfiguration.checkTruffleConfigNaming(projectPath);
-        workspace.updateWorkspaceFolders(
-          0,
-          workspace.workspaceFolders ? workspace.workspaceFolders.length : null,
-          { uri: Uri.file(projectPath) });
+  const arrayFiles =  await fs.readdir(projectPath);
+  const path = (arrayFiles.length) ? createTemporaryDir(projectPath) : projectPath;
 
-      } catch (error) {
-        fs.emptyDirSync(projectPath);
-        Telemetry.sendException(new Error(Constants.errorMessageStrings.NewProjectCreationFailed));
-        throw new Error(`${Constants.errorMessageStrings.NewProjectCreationFailed} ${error.message}`);
-      }
-    },
-  );
+  try {
+    window.showInformationMessage(Constants.informationMessage.newProjectCreationStarted);
+    Output.show();
+    await outputCommandHelper.executeCommand(path, 'npx', 'truffle', 'unbox', truffleBoxName);
+    if (arrayFiles.length) {
+      fs.moveSync(path, projectPath);
+    }
+    workspace.updateWorkspaceFolders(
+      0,
+      workspace.workspaceFolders ? workspace.workspaceFolders.length : null,
+      {uri: Uri.file(projectPath)});
+    window.showInformationMessage(Constants.informationMessage.newProjectCreationFinished);
+  } catch (error) {
+    // TODO: cleanup files after failed truffle unbox
+    throw Error(error);
+  }
 }
 
 async function getTruffleBoxName(): Promise<string> {
   return await showInputBox({
     ignoreFocusOut: true,
-    prompt: Constants.paletteLabels.enterTruffleBoxName,
+    prompt: Constants.paletteWestlakeLabels.enterTruffleBoxName,
     validateInput: (value: string) => {
       if (value.indexOf('://') !== -1 || value.indexOf('git@') !== -1 || value.split('/').length === 2) {
-        return Constants.validationMessages.forbiddenSymbols;
+        return Constants.validationMessages.unallowedSymbols;
       }
 
       return;

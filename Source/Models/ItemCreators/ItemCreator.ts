@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { Telemetry } from '../../TelemetryClient';
-import { IExtensionItem } from '../TreeItems';
+import { IExtensionItem } from '../IExtensionItem';
 
 export abstract class ItemCreator {
   public create(obj: { [key: string]: any }): IExtensionItem {
@@ -10,29 +9,25 @@ export abstract class ItemCreator {
 
     this.checkRequiredFields(obj, requiredFields);
 
-    const args = this.getAdditionalConstructorArguments(obj);
-
-    return this.createFromObject(...args);
+    return this.createFromObject(obj);
   }
 
-  protected abstract createFromObject(...args: any[]): IExtensionItem;
+  protected abstract createFromObject(obj: { [key: string]: any }): IExtensionItem;
 
   protected getRequiredFields(): Array<{ fieldName: string, type: string }> {
     return [
       { fieldName: 'itemType', type: 'number' },
+      { fieldName: 'label', type: 'string' },
     ];
   }
 
-  protected getAdditionalConstructorArguments(_obj: { [key: string]: any }): any[] {
-    return [];
-  }
-
-  private checkRequiredFields(obj: { [key: string]: any }, requiredFields: Array<{ fieldName: string, type: string }>)
-  : void {
+  private checkRequiredFields(
+    obj: { [key: string]: any },
+    requiredFields: Array<{ fieldName: string, type: string }>,
+  ): void {
     requiredFields.forEach((item) => {
       const field = obj[item.fieldName];
       if (field === undefined || field === null) {
-        Telemetry.sendException(new Error(`Missed required field ${item.fieldName}.`));
         throw new Error(`Missed required field ${item.fieldName}. JSON: ${JSON.stringify(obj)}`);
       }
 
@@ -40,7 +35,6 @@ export abstract class ItemCreator {
         return;
       }
 
-      Telemetry.sendException(new Error(`Required field ${item.fieldName} should be type ${item.type}`));
       throw new Error(`Required field ${item.fieldName} should be type ${item.type}. JSON: ${JSON.stringify(obj)}`);
     });
   }
