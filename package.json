@@ -380,23 +380,23 @@
 		"onCommand:azureBlockchainService.disconnectConsortium"
 	],
 	"dependencies": {
-		"acorn": "^8.12.0",
-		"acorn-walk": "^8.3.3",
-		"astring": "^1.8.6",
-		"bip39": "^3.1.0",
-		"fs-extra": "^11.2.0",
-		"ms-rest": "^2.5.6",
-		"semver": "^7.6.2",
-		"uuid": "^10.0.0"
+		"acorn": "8.12.0",
+		"acorn-walk": "8.3.3",
+		"astring": "1.8.6",
+		"bip39": "3.1.0",
+		"fs-extra": "11.2.0",
+		"ms-rest": "2.5.6",
+		"semver": "7.6.2",
+		"uuid": "10.0.0"
 	},
 	"devDependencies": {
-		"@types/astring": "^1.3.0",
-		"@types/estree": "^1.0.5",
-		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^20.14.9",
-		"@types/semver": "^7.5.8",
-		"@types/uuid": "^10.0.0",
-		"ts-loader": "^9.5.1"
+		"@types/astring": "1.3.0",
+		"@types/estree": "1.0.5",
+		"@types/fs-extra": "11.0.4",
+		"@types/node": "20.14.9",
+		"@types/semver": "7.5.8",
+		"@types/uuid": "10.0.0",
+		"ts-loader": "9.5.1"
 	},
 	"extensionDependencies": [
 		"JuanBlanco.solidity",
