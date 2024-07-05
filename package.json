@@ -380,7 +380,7 @@
 		"onCommand:azureBlockchainService.disconnectConsortium"
 	],
 	"dependencies": {
-		"acorn": "8.12.0",
+		"acorn": "8.12.1",
 		"acorn-walk": "8.3.3",
 		"astring": "1.8.6",
 		"bip39": "3.1.0",
