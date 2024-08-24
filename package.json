@@ -1,14 +1,29 @@
 {
-	"name": "azure-blockchain",
-	"displayName": "Azure Blockchain Development Kit for Ethereum",
-	"description": "Develop, deploy debug and manage your Azure Blockchain Service solution",
-	"main": "./out/extension.js",
-	"scripts": {
-		"compile": "tsc -p ./",
-		"publish": "npx vsce publish",
-		"version": "tsc -v",
-		"webpack-prod": "webpack --mode production"
-	},
+	"activationEvents": [
+		"onView:AzureBlockchain",
+		"onCommand:azureBlockchainService.showWelcomePage",
+		"onCommand:azureBlockchainService.refresh",
+		"onCommand:contract.copyByteCode",
+		"onCommand:contract.copyABI",
+		"onCommand:truffle.createLocalUI",
+		"onCommand:truffle.newSolidityProject",
+		"onCommand:truffle.buildContracts",
+		"onCommand:truffle.deployContracts",
+		"onCommand:azureBlockchainService.pushLedgerEvents",
+		"onCommand:azureBlockchainService.pushCurrentLedgerEvents",
+		"onCommand:azureBlockchainService.generateReportPublishingWorkflows",
+		"onCommand:azureBlockchainService.generateMicroservicesWorkflows",
+		"onCommand:azureBlockchainService.generateEventPublishingWorkflows",
+		"onCommand:azureBlockchainService.generateDataPublishingWorkflows",
+		"onCommand:remix.viewGasEstimates",
+		"onCommand:azureBlockchainService.connectConsortium",
+		"onCommand:drizzle.generateSmartContractUI",
+		"onCommand:azureBlockchainService.copyRPCEndpointAddress",
+		"onCommand:azureBlockchainService.copyAccessKey",
+		"onCommand:azureBlockchainService.createConsortium",
+		"onCommand:azureBlockchainService.disconnectConsortium"
+	],
+	"aikey": "INSERTAIKEY",
 	"contributes": {
 		"commands": [
 			{
@@ -355,30 +370,6 @@
 			]
 		}
 	},
-	"activationEvents": [
-		"onView:AzureBlockchain",
-		"onCommand:azureBlockchainService.showWelcomePage",
-		"onCommand:azureBlockchainService.refresh",
-		"onCommand:contract.copyByteCode",
-		"onCommand:contract.copyABI",
-		"onCommand:truffle.createLocalUI",
-		"onCommand:truffle.newSolidityProject",
-		"onCommand:truffle.buildContracts",
-		"onCommand:truffle.deployContracts",
-		"onCommand:azureBlockchainService.pushLedgerEvents",
-		"onCommand:azureBlockchainService.pushCurrentLedgerEvents",
-		"onCommand:azureBlockchainService.generateReportPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateMicroservicesWorkflows",
-		"onCommand:azureBlockchainService.generateEventPublishingWorkflows",
-		"onCommand:azureBlockchainService.generateDataPublishingWorkflows",
-		"onCommand:remix.viewGasEstimates",
-		"onCommand:azureBlockchainService.connectConsortium",
-		"onCommand:drizzle.generateSmartContractUI",
-		"onCommand:azureBlockchainService.copyRPCEndpointAddress",
-		"onCommand:azureBlockchainService.copyAccessKey",
-		"onCommand:azureBlockchainService.createConsortium",
-		"onCommand:azureBlockchainService.disconnectConsortium"
-	],
 	"dependencies": {
 		"acorn": "8.12.1",
 		"acorn-walk": "8.3.3",
@@ -389,6 +380,7 @@
 		"semver": "7.6.3",
 		"uuid": "10.0.0"
 	},
+	"description": "Develop, deploy debug and manage your Azure Blockchain Service solution",
 	"devDependencies": {
 		"@types/astring": "1.7.0",
 		"@types/estree": "1.0.5",
@@ -398,11 +390,19 @@
 		"@types/uuid": "10.0.0",
 		"ts-loader": "9.5.1"
 	},
+	"displayName": "Azure Blockchain Development Kit for Ethereum",
 	"extensionDependencies": [
 		"JuanBlanco.solidity",
 		"ms-vscode.azure-account"
 	],
 	"icon": "images/blockchain-service-logo.png",
+	"main": "./out/extension.js",
+	"name": "azure-blockchain",
 	"preview": true,
-	"aikey": "INSERTAIKEY"
+	"scripts": {
+		"compile": "tsc -p ./",
+		"publish": "npx vsce publish",
+		"version": "tsc -v",
+		"webpack-prod": "webpack --mode production"
+	}
 }
