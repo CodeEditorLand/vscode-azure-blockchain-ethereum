@@ -373,7 +373,7 @@
 	"dependencies": {
 		"acorn": "8.12.1",
 		"acorn-walk": "8.3.3",
-		"astring": "1.8.6",
+		"astring": "1.9.0",
 		"bip39": "3.1.0",
 		"fs-extra": "11.2.0",
 		"ms-rest": "2.5.6",
