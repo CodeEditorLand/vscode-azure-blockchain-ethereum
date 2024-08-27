@@ -1,0 +1,123 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta name="keywords" content="@playform/document"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>azure-blockchain</title><meta name="description" content="Documentation for azure-blockchain"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><link rel="stylesheet" href="assets/custom.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">azure-blockchain</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>azure-blockchain</h2></div><div class="tsd-panel tsd-typography"><a id="md:azure-blockchain-development-kit" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Azure Blockchain Development Kit<a href="#md:azure-blockchain-development-kit" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-logicapps"><img src="https://vsmarketplacebadge.apphb.com/version/AzBlockchain.azure-blockchain.svg" alt="Version"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=AzBlockchain.azure-blockchain"><img src="https://vsmarketplacebadge.apphb.com/installs/AzBlockchain.azure-blockchain.svg" alt="Installs"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=AzBlockchain.azure-blockchain#review-details"><img src="https://vsmarketplacebadge.apphb.com/rating-star/AzBlockchain.azure-blockchain.svg" alt="Rating"></a>
+<a href="https://msazure.visualstudio.com/Blockchain/_build/latest?definitionId=71311"><img src="https://msazure.visualstudio.com/Blockchain/_apis/build/status/Blockchain-VS-Extensions/Blockchain-VS-Extension-Prod" alt="Build status"></a></p>
+<p>Azure Blockchain Development Kit simplifies how you create, connect to, build
+and deploy smart contracts on Ethereum ledgers.</p>
+<p><strong>Our
+<a href="https://github.com/Microsoft/vscode-azure-blockchain-ethereum/wiki">Wiki page</a>
+includes a comprehensive getting started guide with detailed usage instructions
+for this plugin</strong></p>
+<a id="md:prerequisites" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Prerequisites<a href="#md:prerequisites" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ol>
+<li>If you do not have an Azure subscription, create a
+<a href="https://azure.microsoft.com/free/?WT.mc_id=A261C142F">free account</a> before
+you begin.</li>
+</ol>
+<a id="md:system-requirements" class="tsd-anchor"></a><h2 class="tsd-anchor-link">System Requirements<a href="#md:system-requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>Supported Operating Systems
+<ul>
+<li>Windows 10</li>
+<li>Mac OSX</li>
+</ul>
+</li>
+<li>VS Code 1.32.0 (or greater)</li>
+<li>Python 2.7.15</li>
+<li>Node 10.15.x</li>
+<li>Git 2.10.x</li>
+</ul>
+<a id="md:create-an-azure-blockchain-service" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Create an Azure Blockchain Service<a href="#md:create-an-azure-blockchain-service" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The first thing to do is to create an Azure Blockchain Service in your
+subscription. You can do this directly through VS Code once you've installed
+this extension.</p>
+<ol>
+<li>
+<p>Click <code>-&gt; Create Azure Blockchain Service</code> in the AZURE BLOCKCHAIN tab, or
+type <code>Azure Blockchain: Create Azure Blockchain Service</code> in the
+<a href="https://github.com/Microsoft/vscode-azure-blockchain-ethereum/wiki/Command-Palette">Command Palette</a>.</p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/createConsortium.png" alt="Create and Azure Blockchain Service"></p>
+</li>
+<li>
+<p>Choose your subscription, resource group and region to deploy to.</p>
+</li>
+<li>
+<p>Enter the name of your
+<a href="https://docs.microsoft.com/azure/blockchain/service/consortium">Consortium</a></p>
+</li>
+<li>
+<p>Wait until your resource has been created in Azure.
+<code>Note: Deploying the Azure Blockchain Service takes quite some time to complete. Please check the deployment status in the Azure portal.</code></p>
+</li>
+</ol>
+<a id="md:create-a-new-solidity-contract" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Create a new Solidity Contract<a href="#md:create-a-new-solidity-contract" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The Azure Blockchain Developer Kit for Ethereum leverages the
+<a href="https://truffleframework.com/">Truffle Suite</a> of tools to help scaffold, build
+and deploy contracts.</p>
+<p>Developers that are familiar with Truffle Suite may use the Truffle command line
+<code>e.g., Truffle Init</code> directly from the VS Code terminal.</p>
+<p>For developers who are not familiar with Truffle, or prefer to use the Command
+Palette, the Azure Blockchain Toolkit for Ethereum can easily scaffold out a
+project directory using the following steps.</p>
+<ol>
+<li>
+<p>From the
+<a href="https://github.com/Microsoft/vscode-azure-blockchain-ethereum/wiki/Command-Palette">Command Palette</a>,
+type <code>Azure Blockchain: New Solidity Project</code></p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/createNewProject.gif" alt="Command Palette - New Solidity Project"></p>
+</li>
+<li>
+<p>Select an empty directory to scaffold out your project.</p>
+</li>
+<li>
+<p>Choose a name for your contract.</p>
+</li>
+<li>
+<p>Enter.</p>
+</li>
+</ol>
+<p>Once complete, your project directory should look like this:</p>
+<p><a href="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/newProjectDir.png#lightbox"><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/newProjectDirCloseup.png" alt="completed directory"></a></p>
+<a id="md:build-your-solidity-contract" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Build your Solidity Contract<a href="#md:build-your-solidity-contract" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Your newly scaffolded out directory includes a simple contract and all the
+necessary files to build and deploy a simple, working, contract to the Azure
+Blockchain Service. Use the following steps to build your contract</p>
+<a id="md:option-1-command-palette" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Option 1: Command Palette<a href="#md:option-1-command-palette" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ol>
+<li>
+<p>From the
+<a href="https://github.com/Microsoft/vscode-azure-blockchain-ethereum/wiki/Command-Palette">Command Palette</a>,
+type <code>Azure Blockchain: Build Contracts</code></p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/buildContracts.png" alt="Command Palette - Build Contracts"></p>
+</li>
+</ol>
+<a id="md:option-2-right-click-on-your-sol-file" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Option 2: Right click on your .sol file<a href="#md:option-2-right-click-on-your-sol-file" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ol>
+<li>
+<p>Select your contract Solidity (.sol) file, right click and choose
+<code>Build Contracts</code></p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/buildContractRightClick.gif" alt="Right click shortcut - build contracts"></p>
+</li>
+</ol>
+<a id="md:deploy-your-smart-contract-to-azure-blockchain-service" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Deploy your smart contract to Azure Blockchain Service<a href="#md:deploy-your-smart-contract-to-azure-blockchain-service" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Once compiled, you will have your contract, contract metadata (e.g., contract
+ABI, bytecode) available in the smart contract .json file which will be located
+in the<code>./build directory</code></p>
+<p>Once you deployment/creation of the Azure Blockchain Service is complete you
+will also see that consortium in your VS Code Blockchain tab. Once all these
+components are ready, deploying your new contract is simple and fast. Use the
+following steps to deploy your contract</p>
+<a id="md:option-1-command-palette-1" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Option 1: Command Palette<a href="#md:option-1-command-palette-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ol>
+<li>
+<p>From the
+<a href="https://github.com/Microsoft/vscode-azure-blockchain-ethereum/wiki/Command-Palette">Command Palette</a>,
+type <code>Azure Blockchain: Deploy Contracts</code></p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/deployContracts.png" alt="Command Palette - Deploy Contracts"></p>
+</li>
+</ol>
+<a id="md:option-2-right-click-on-your-sol-file-1" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Option 2: Right click on your .sol file<a href="#md:option-2-right-click-on-your-sol-file-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ol>
+<li>
+<p>Select your contract Solidity (.sol) file, right click and choose
+<code>Deploy Contracts</code></p>
+<p><img src="https://raw.githubusercontent.com/Microsoft/vscode-azure-blockchain-ethereum/master/images/deployContractsRightClick.png" alt="Right click smart contract - deploy contract"></p>
+</li>
+</ol>
+<a id="md:code-of-conduct" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Code of Conduct<a href="#md:code-of-conduct" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>This project has adopted the
+<a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+For more information see the
+<a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any
+additional questions or comments.</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:azure-blockchain-development-kit"><span>Azure <wbr/>Blockchain <wbr/>Development <wbr/>Kit</span></a><ul><li><a href="#md:prerequisites"><span>Prerequisites</span></a></li><li><a href="#md:system-requirements"><span>System <wbr/>Requirements</span></a></li><li><a href="#md:create-an-azure-blockchain-service"><span>Create an <wbr/>Azure <wbr/>Blockchain <wbr/>Service</span></a></li><li><a href="#md:create-a-new-solidity-contract"><span>Create a new <wbr/>Solidity <wbr/>Contract</span></a></li><li><a href="#md:build-your-solidity-contract"><span>Build your <wbr/>Solidity <wbr/>Contract</span></a></li><li><ul><li><ul><li><a href="#md:option-1-command-palette"><span>Option 1: <wbr/>Command <wbr/>Palette</span></a></li><li><a href="#md:option-2-right-click-on-your-sol-file"><span>Option 2: <wbr/>Right click on your .sol file</span></a></li></ul></li></ul></li><li><a href="#md:deploy-your-smart-contract-to-azure-blockchain-service"><span>Deploy your smart contract to <wbr/>Azure <wbr/>Blockchain <wbr/>Service</span></a></li><li><ul><li><ul><li><a href="#md:option-1-command-palette-1"><span>Option 1: <wbr/>Command <wbr/>Palette</span></a></li><li><a href="#md:option-2-right-click-on-your-sol-file-1"><span>Option 2: <wbr/>Right click on your .sol file</span></a></li></ul></li></ul></li><li><a href="#md:code-of-conduct"><span>Code of <wbr/>Conduct</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>azure-blockchain</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
