@@ -1,21 +1,18 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import './title.less';
+import PropTypes from "prop-types";
+import React from "react";
+
+import "./title.less";
 
 class Title extends React.Component {
-  render() {
-    const { text } = this.props;
+	render() {
+		const { text } = this.props;
 
-    return (
-      <div className='ui title'>
-        {text}
-      </div>
-    );
-  }
+		return <div className="ui title">{text}</div>;
+	}
 }
 
 export default Title;
 
 Title.propTypes = {
-  text: PropTypes.string
+	text: PropTypes.string,
 };
