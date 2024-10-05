@@ -13080,8 +13080,8 @@
 				var p = input.get_Chars(0);
 				var s = input.get_Chars(input.length - 1);
 				if (
-					(format == "b" && (p != 123 /*'{'*/ || s != 125) /*'}'*/) ||
-					(format == "p" && (p != 40 /*'('*/ || s != 41) /*')'*/) ||
+					(format == "b" && (p != 123 /*'{'*/ || s != 125)) /*'}'*/ ||
+					(format == "p" && (p != 40 /*'('*/ || s != 41)) /*')'*/ ||
 					(format == "d" && input.length != 36)
 				)
 					return false;
@@ -14694,7 +14694,7 @@
 						var validPath =
 							numDots == 0 &&
 							numSigChars >= 1 &&
-							driveLetter != 32 /*' '*/;
+							driveLetter != 32; /*' '*/
 						if (!validPath)
 							throw new System.ArgumentException.ctor$1(
 								System.Environment.GetResourceString(
@@ -14940,7 +14940,7 @@
 				return (
 					(length >= 1 &&
 						(path.get_Chars(0) == 92 /*'\\'*/ ||
-							path.get_Chars(0) == 47) /*'/'*/) ||
+							path.get_Chars(0) == 47)) /*'/'*/ ||
 					(length >= 2 && path.get_Chars(1) == 58) /*':'*/
 				);
 			}
