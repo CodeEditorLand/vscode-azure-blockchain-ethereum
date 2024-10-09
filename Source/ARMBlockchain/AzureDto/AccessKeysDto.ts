@@ -1,6 +1,8 @@
 export interface IAzureMemberAccessKeysDto {
-  keys: [{
-    keyName: string;
-    value: string
-  }];
+	keys: [
+		{
+			keyName: string;
+			value: string;
+		},
+	];
 }
