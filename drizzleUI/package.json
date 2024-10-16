@@ -1,4 +1,10 @@
 {
+	"name": "client",
+	"scripts": {
+		"build": "cross-env NODE_ENV=production webpack --mode production",
+		"develop": "cross-env NODE_ENV=development webpack-dev-server --open",
+		"start": "cross-env NODE_ENV=production serve -s dist"
+	},
 	"dependencies": {
 		"cross-env": "7.0.3",
 		"drizzle": "1.4.0",
@@ -16,11 +22,5 @@
 		"react-router-dom": "6.27.0",
 		"style-loader": "4.0.0",
 		"url-loader": "4.1.1"
-	},
-	"name": "client",
-	"scripts": {
-		"build": "cross-env NODE_ENV=production webpack --mode production",
-		"develop": "cross-env NODE_ENV=development webpack-dev-server --open",
-		"start": "cross-env NODE_ENV=production serve -s dist"
 	}
 }
