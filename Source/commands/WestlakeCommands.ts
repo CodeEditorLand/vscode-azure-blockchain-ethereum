@@ -11,6 +11,7 @@ import { TruffleCommands } from "./TruffleCommands";
 export namespace WestlakeCommands {
 	export async function createWestlakeConsortium(): Promise<AzureConsortium> {
 		const azureResourceExplorer = new ConsortiumResourceExplorer();
+
 		return azureResourceExplorer.createConsortium();
 	}
 
@@ -18,6 +19,7 @@ export namespace WestlakeCommands {
 		childrenFilters?: string[],
 	): Promise<AzureConsortium> {
 		const azureResourceExplorer = new ConsortiumResourceExplorer();
+
 		return azureResourceExplorer.selectConsortium(childrenFilters);
 	}
 

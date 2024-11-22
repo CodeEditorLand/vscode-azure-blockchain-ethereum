@@ -59,7 +59,9 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 		const urlDetailsOfConsortium =
 			`subscriptions/${this.subscriptionId}/resourceGroups/${this.resourceGroup}/` +
 			`providers/Microsoft.Blockchain/blockchainMembers/${memberName}`;
+
 		const url = `${this.baseUri}/${urlDetailsOfConsortium}?api-version=${this.apiVersion}`;
+
 		const httpRequest = this._getHttpRequest(url, "PUT", body);
 
 		// @ts-ignore
@@ -131,16 +133,20 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 			) => {
 				if (err) {
 					window.showErrorMessage(err.message);
+
 					return callback(err);
 				}
 				const statusCode = response.statusCode;
+
 				if (statusCode !== 200) {
 					const error = new Error(responseBody);
+
 					return callback(error);
 				}
 				// Deserialize Response
 				try {
 					const parsedResult = JSON.parse(responseBody);
+
 					return callback(null, parsedResult);
 				} catch (error) {
 					return callback(
@@ -165,6 +171,7 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 		httpRequest.headers = {};
 
 		httpRequest.headers["Content-Type"] = "application/json";
+
 		if (this.options.generateClientRequestId) {
 			httpRequest.headers["x-ms-client-request-id"] = uuid.v4();
 		}

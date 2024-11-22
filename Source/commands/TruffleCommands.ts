@@ -65,12 +65,15 @@ export namespace TruffleCommands {
 
 		const truffleConfigsUris =
 			await TruffleConfiguration.getTruffleConfigUri();
+
 		const defaultDeployDestinations = await getDefaultDeployDestinations(
 			truffleConfigsUris,
 			consortiumTreeManager,
 		);
+
 		const truffleDeployDestinations =
 			await getTruffleDeployDestinations(truffleConfigsUris);
+
 		const consortiumDeployDestinations =
 			await getConsortiumDeployDestinations(
 				truffleConfigsUris,
@@ -146,10 +149,12 @@ async function getTruffleDeployDestinations(
 
 	for (const uri of truffleConfigsUris) {
 		const truffleConfig = new TruffleConfig(uri.fsPath);
+
 		const networksFromConfig = await truffleConfig.getNetworks();
 
 		networksFromConfig.forEach((network: TruffleConfiguration.INetwork) => {
 			const options = network.options;
+
 			const url =
 				`${options.provider ? options.provider.url : ""}` ||
 				`${options.host ? options.host : ""}${options.port ? ":" + options.port : ""}`;
@@ -179,11 +184,13 @@ async function getConsortiumDeployDestinations(
 	consortiumTreeManager: ConsortiumTreeManager,
 ): Promise<IDeployDestination[]> {
 	const deployDestination: IDeployDestination[] = [];
+
 	const networks = consortiumTreeManager.getItems(true);
 
 	networks.forEach((network) => {
 		network.getChildren().forEach((child) => {
 			const consortium = child as Consortium;
+
 			const urls = consortium
 				.getUrls()
 				.map((url) => format(url))
@@ -260,6 +267,7 @@ async function createNewDeploymentNetwork(
 	const consortium = await ConsortiumCommands.connectConsortium(
 		consortiumTreeManager,
 	);
+
 	return createNetwork(consortium, truffleConfigPath);
 }
 
@@ -268,6 +276,7 @@ async function createNetwork(
 	truffleConfigPath: string,
 ): Promise<void> {
 	const network = await consortium.getTruffleNetwork();
+
 	const truffleConfig = new TruffleConfig(truffleConfigPath);
 	await truffleConfig.setNetworks(network);
 
@@ -336,6 +345,7 @@ async function deployToMainNetwork(
 
 async function readCompiledContract(uri: Uri): Promise<any> {
 	const contractUri = await TruffleCommands.acquireCompiledContractUri(uri);
+
 	const data = fs.readFileSync(contractUri.fsPath, null);
 
 	return JSON.parse(data.toString());

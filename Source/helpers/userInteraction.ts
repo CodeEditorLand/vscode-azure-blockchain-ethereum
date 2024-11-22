@@ -68,6 +68,7 @@ export async function showOpenFileDialog(): Promise<string> {
 	const defaultFolder = workspace.workspaceFolders
 		? workspace.workspaceFolders[0].uri.fsPath
 		: "";
+
 	const folder = await await window.showSaveDialog({
 		defaultUri: Uri.parse(defaultFolder),
 		saveLabel: "Select mnemonic storage",
@@ -87,14 +88,17 @@ export async function saveTextInFile(
 ): Promise<string> {
 	const document = await workspace.openTextDocument({ content: text });
 	await window.showTextDocument(document);
+
 	const file = await window.showSaveDialog({
 		defaultUri: Uri.file(defaultFilename),
 		filters: ext,
 	});
+
 	if (!file) {
 		throw new CancellationEvent();
 	}
 
 	fs.writeFileSync(file.fsPath, text);
+
 	return file.fsPath;
 }

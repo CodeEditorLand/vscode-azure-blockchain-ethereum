@@ -7,6 +7,7 @@ import { ItemCreator } from "./ItemCreator";
 export abstract class ConsortiumItemCreator extends ItemCreator {
 	protected createFromObject(obj: { [key: string]: any }): Consortium {
 		const { label, consortiumId, urls } = obj;
+
 		const args = this.getAdditionalConstructorArguments(obj);
 
 		const consortium = this.createConsortium(label, ...args);

@@ -21,6 +21,7 @@ export namespace ItemFactory {
 
 	export function create(obj: { [key: string]: any }): IExtensionItem {
 		const creator = registeredTypes[obj.itemType];
+
 		if (!creator) {
 			throw new Error(`Type ${obj.itemType} doesn't exist in factory`);
 		}

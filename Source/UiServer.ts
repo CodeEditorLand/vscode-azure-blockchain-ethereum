@@ -9,6 +9,7 @@ export class UiServer {
 		const workspacePath = vscode.workspace.workspaceFolders
 			? vscode.workspace.workspaceFolders[0].uri.fsPath
 			: "";
+
 		const htmlPath = path.join(workspacePath, "drizzle", "index.html");
 
 		vscode.env.openExternal(vscode.Uri.parse(`file://${htmlPath}`));

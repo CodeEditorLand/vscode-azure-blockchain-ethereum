@@ -29,6 +29,7 @@ export abstract class ItemCreator {
 	): void {
 		requiredFields.forEach((item) => {
 			const field = obj[item.fieldName];
+
 			if (field === undefined || field === null) {
 				throw new Error(
 					`Missed required field ${item.fieldName}. JSON: ${JSON.stringify(obj)}`,

@@ -19,6 +19,7 @@ export namespace required {
 	}
 
 	const currentState: { [key: string]: IRequiredVersion } = {};
+
 	const requiredApps = ["node", "npm", "git"];
 	// const auxiliaryApps = [ 'python', 'truffle', 'ganache' ];
 
@@ -40,10 +41,12 @@ export namespace required {
 	 */
 	export async function checkAllApps(): Promise<boolean> {
 		const versions = await getAllVersions();
+
 		const invalid = versions.some((version) => !version.isValid);
 
 		if (invalid) {
 			showRequiredAppsMessage();
+
 			return false;
 		}
 
@@ -58,6 +61,7 @@ export namespace required {
 		message?: string,
 	): Promise<boolean> {
 		const versions = await getAllVersions();
+
 		const invalid = versions
 			.filter((version) => requiredApps.includes(version.app))
 			.some((version) => !version.isValid);
@@ -67,6 +71,7 @@ export namespace required {
 				message ||
 					Constants.errorMessageStrings.RequiredAppsAreNotInstalled,
 			);
+
 			return false;
 		}
 
@@ -217,13 +222,17 @@ export namespace required {
 		commandContext: CommandContext,
 	): Promise<IRequiredVersion> {
 		const version = await versionFunc();
+
 		const requiredVersion = Constants.requiredVersions[appName];
+
 		const minRequiredVersion =
 			typeof requiredVersion === "string"
 				? requiredVersion
 				: requiredVersion.min;
+
 		const maxRequiredVersion =
 			typeof requiredVersion === "string" ? "" : requiredVersion.max;
+
 		const isValidApp = isValid(
 			version,
 			minRequiredVersion,
@@ -245,10 +254,12 @@ export namespace required {
 		packageVersion: string | { min: string; max: string },
 	): Promise<void> {
 		Output.show();
+
 		const version =
 			typeof packageVersion === "string"
 				? packageVersion
 				: packageVersion.min;
+
 		const majorVersion = version.split(".")[0];
 		await executeCommand(
 			undefined,
@@ -266,10 +277,13 @@ export namespace required {
 	): Promise<string> {
 		try {
 			const result = await tryExecuteCommand(undefined, program, command);
+
 			if (result.code === 0) {
 				const output =
 					result.cmdOutput || result.cmdOutputIncludingStderr;
+
 				const truffleVersion = output.match(matcher);
+
 				const version = semver.clean(
 					truffleVersion ? truffleVersion[1] : "",
 				);

@@ -24,6 +24,7 @@ export class WelcomePage {
 	public async checkAndShow(): Promise<void> {
 		if (!this.context.globalState.get(Constants.isWelcomePageShown)) {
 			this.context.globalState.update(Constants.isWelcomePageShown, true);
+
 			return this.show();
 		}
 	}

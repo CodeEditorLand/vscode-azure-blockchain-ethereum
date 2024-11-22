@@ -53,6 +53,7 @@ export class AzureConsortium extends ProtectedConsortium {
 
 	public async getRPCAddress(): Promise<string> {
 		const url = this.getUrls()[0];
+
 		if (!url) {
 			return "";
 		}
@@ -66,7 +67,9 @@ export class AzureConsortium extends ProtectedConsortium {
 
 	public async getAccessKey(): Promise<string> {
 		const consortiumResourceExplorer = new ConsortiumResourceExplorer();
+
 		const keys = await consortiumResourceExplorer.getAccessKeys(this);
+
 		return keys ? keys[0] : "";
 	}
 

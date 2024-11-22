@@ -50,12 +50,16 @@ export class LogicAppGenerator {
 		filePath: Uri | undefined,
 	): Promise<void> {
 		const workspaceDir: Uri = Uri.parse(getWorkspaceRoot());
+
 		const dirPath: string = workspaceDir.fsPath + "/build/contracts/";
 
 		if (filePath) {
 			const fileName = path.basename(filePath.fsPath);
+
 			const contractName = fileName.Remove(fileName.length - 4);
+
 			const compiledContractPath = dirPath + contractName + ".json";
+
 			let picks: QuickPickItem[];
 
 			if (workflowType === "Service") {
@@ -71,11 +75,14 @@ export class LogicAppGenerator {
 			const serviceTypeSelection: string = (
 				await showQuickPick(picks, {})
 			).label;
+
 			const serviceType: int =
 				this.getServiceTypeFromString(serviceTypeSelection);
+
 			const contractAddress: string = await showInputBox({
 				value: "contract address",
 			});
+
 			const [subscriptionItem, resourceGroupItem] =
 				await this.selectSubscriptionAndResourceGroup();
 			readJson(
@@ -111,10 +118,12 @@ export class LogicAppGenerator {
 				Constants.outputChannel.logicAppGenerator,
 				err.toString(),
 			);
+
 			return;
 		}
 
 		let picks: QuickPickItem[];
+
 		if (workflowType === "Service") {
 			picks = [
 				{ label: "Logic App" },
@@ -127,11 +136,14 @@ export class LogicAppGenerator {
 
 		const serviceTypeSelection: string = (await showQuickPick(picks, {}))
 			.label;
+
 		const serviceType: int =
 			this.getServiceTypeFromString(serviceTypeSelection);
+
 		const contractAddress: string = await showInputBox({
 			value: "contract address",
 		});
+
 		const [subscriptionItem, resourceGroupItem] =
 			await this.selectSubscriptionAndResourceGroup();
 		files.forEach((file) => {
@@ -182,6 +194,7 @@ export class LogicAppGenerator {
 				Constants.outputChannel.logicAppGenerator,
 				err.toString(),
 			);
+
 			return;
 		}
 		await this.createLogicAppFromAbi(
@@ -205,6 +218,7 @@ export class LogicAppGenerator {
 		serviceType: int,
 	) {
 		let generator;
+
 		if (workflowType === "Service") {
 			generator =
 				new Nethereum.Generators.ServiceWorkflow.ServiceWorkflowProjectGenerator(
@@ -244,10 +258,12 @@ export class LogicAppGenerator {
 			const topicName: string = await showInputBox({
 				value: "topic name",
 			});
+
 			const picks: QuickPickItem[] = [
 				{ label: "Service Bus" },
 				{ label: "Event Grid" },
 			];
+
 			const messagingType: string = (await showQuickPick(picks, {}))
 				.label;
 
@@ -331,6 +347,7 @@ export class LogicAppGenerator {
 		await this.waitForLogin();
 
 		const subscriptionItem = await this.getOrSelectSubscriptionItem();
+
 		const resourceGroupItem =
 			await this.getOrCreateResourceGroup(subscriptionItem);
 
@@ -387,8 +404,10 @@ export class LogicAppGenerator {
 			subscriptionItem.subscriptionId,
 			subscriptionItem.session.environment.resourceManagerEndpointUrl,
 		);
+
 		const resourceGroups =
 			await resourceManagementClient.resourceGroups.list();
+
 		return resourceGroups.map(
 			(resourceGroup: ResourceModels.ResourceGroup) =>
 				new ResourceGroupItem(
@@ -399,9 +418,11 @@ export class LogicAppGenerator {
 	}
 	private async waitForLogin(): Promise<boolean> {
 		let result = await this._accountApi.waitForLogin();
+
 		if (!result) {
 			await commands.executeCommand("azure-account.askForLogin");
 			result = await this._accountApi.waitForLogin();
+
 			if (!result) {
 				throw new Error(Constants.errorMessageStrings.WaitForLogin);
 			}

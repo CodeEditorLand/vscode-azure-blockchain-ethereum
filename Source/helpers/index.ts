@@ -11,16 +11,26 @@ import * as userInteractionHelper from "./userInteraction";
 import * as workspaceHelpers from "./workspace";
 
 const saveTextInFile = userInteractionHelper.saveTextInFile;
+
 const showInputBox = userInteractionHelper.showInputBox;
+
 const showQuickPick = userInteractionHelper.showQuickPick;
+
 const showOpenFolderDialog = userInteractionHelper.showOpenFolderDialog;
+
 const showConfirmPaidOperationDialog =
 	userInteractionHelper.showConfirmPaidOperationDialog;
+
 const getWorkspaceRoot = workspaceHelpers.getWorkspaceRoot;
+
 const isWorkspaceOpen = workspaceHelpers.isWorkspaceOpen;
+
 const TruffleConfig = TruffleConfiguration.TruffleConfig;
+
 const createTemporaryDir = workspaceHelpers.createTemporaryDir;
+
 const CommandContext = commandContext.CommandContext;
+
 const setCommandContext = commandContext.setCommandContext;
 
 export {

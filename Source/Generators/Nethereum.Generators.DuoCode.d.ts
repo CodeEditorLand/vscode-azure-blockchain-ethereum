@@ -11,14 +11,23 @@ declare module Nethereum {
 		// Nethereum.Generators.ContractProjectGenerator
 		export interface ContractProjectGenerator extends System.Object {
 			get_ContractABI(): Model.ContractABI;
+
 			get_ContractName(): string;
+
 			get_ByteCode(): string;
+
 			get_BaseNamespace(): string;
+
 			get_ServiceNamespace(): string;
+
 			get_CQSNamespace(): string;
+
 			get_DTONamespace(): string;
+
 			get_BaseOutputPath(): string;
+
 			get_PathDelimiter(): string;
+
 			get_CodeGenLanguage(): Core.CodeGenLanguage;
 			GenerateAllMessagesFileAndService(): Core.GeneratedFile[];
 			GenerateAllMessages(): Core.GeneratedFile;
@@ -31,7 +40,9 @@ declare module Nethereum {
 			GetllEventDTOGenerators(): System.Collections.Generic.List$1<DTOs.EventDTOGenerator>;
 			GeneratCQSFunctionMessages(): System.Collections.Generic.List$1<Core.GeneratedFile>;
 			GetAllCQSFunctionMessageGenerators(): System.Collections.Generic.List$1<CQS.FunctionCQSMessageGenerator>;
+
 			get_AddRootNamespaceOnVbProjectsToImportStatements(): boolean;
+
 			set_AddRootNamespaceOnVbProjectsToImportStatements(
 				value: boolean,
 			): void;
@@ -75,9 +86,12 @@ declare module Nethereum {
 		// Nethereum.Generators.NetStandardLibraryGenerator
 		export interface NetStandardLibraryGenerator extends System.Object {
 			get_ProjectFileName(): string;
+
 			get_CodeGenLanguage(): Core.CodeGenLanguage;
 			GenerateFileContent(outputPath: string): Core.GeneratedFile;
+
 			get_NethereumWeb3Version(): string;
+
 			set_NethereumWeb3Version(value: string): void;
 		}
 		export interface NetStandardLibraryGeneratorTypeFunc
@@ -305,10 +319,14 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.FileModel
 			export interface FileModel extends System.Object, IFileModel {
 				get_Name(): string;
+
 				get_CodeGenLanguage(): CodeGenLanguage;
+
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
 				GetFileName(): string;
+
 				get_Namespace(): string;
+
 				get_NamespaceDependencies(): System.Collections.Generic.List$1<string>;
 			}
 			export interface FileModelTypeFunc extends TypeFunction {
@@ -322,7 +340,9 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.GeneratedFile
 			export interface GeneratedFile extends System.Object {
 				get_GeneratedCode(): string;
+
 				get_FileName(): string;
+
 				get_OutputFolder(): string;
 			}
 			export interface GeneratedFileTypeFunc extends TypeFunction {
@@ -476,12 +496,17 @@ declare module Nethereum {
 			export interface MessageMap$4<MFrom, MTo, PFrom, PTo>
 				extends System.Object {
 				get_From(): MFrom;
+
 				set_From(value: MFrom): void;
+
 				get_To(): MTo;
+
 				set_To(value: MTo): void;
+
 				get_ParameterMaps(): System.Collections.Generic.List$1<
 					ParameterMap$2<PFrom, PTo>
 				>;
+
 				set_ParameterMaps(
 					value: System.Collections.Generic.List$1<
 						ParameterMap$2<PFrom, PTo>
@@ -571,7 +596,9 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.Parameter
 			export interface Parameter extends System.Object {
 				get_Name(): string;
+
 				get_Type(): string;
+
 				get_Order(): int;
 			}
 			export interface ParameterTypeFunc extends TypeFunction {
@@ -593,8 +620,11 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.ParameterMap<T1, T2>
 			export interface ParameterMap$2<T1, T2> extends System.Object {
 				get_From(): T1;
+
 				set_From(value: T1): void;
+
 				get_To(): T2;
+
 				set_To(value: T2): void;
 			}
 			export interface ParameterMap$2TypeFunc<T1, T2>
@@ -813,6 +843,7 @@ declare module Nethereum {
 			export interface ParameterModel$1<TParameter>
 				extends System.Object {
 				get_Parameter(): TParameter;
+
 				set_Parameter(value: TParameter): void;
 				GetVariableName(): string;
 				GetPropertyName(): string;
@@ -860,10 +891,15 @@ declare module Nethereum {
 					IClassModel,
 					IFileModel {
 				get_Namespace(): string;
+
 				get_Name(): string;
+
 				get_ClassNameSuffix(): string;
+
 				get_NamespaceDependencies(): System.Collections.Generic.List$1<string>;
+
 				get_CodeGenLanguage(): CodeGenLanguage;
+
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
 				GetTypeName$1(name: string): string;
 				GetFileName$1(name: string): string;
@@ -902,6 +938,7 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.WorkflowFileTemplate
 			export interface WorkflowFileTemplate extends CQS.FileTemplate {
 				get_WorkflowModel(): IWorkflowModel;
+
 				get_WorkflowTemplate(): IWorkflowTemplate;
 				GenerateFullWorkflow(): string;
 			}
@@ -980,10 +1017,15 @@ declare module Nethereum {
 					IWorkflowModel,
 					IFileModel {
 				get_Namespace(): string;
+
 				get_Name(): string;
+
 				get_WorkflowNameSuffix(): string;
+
 				get_NamespaceDependencies(): System.Collections.Generic.List$1<string>;
+
 				get_CodeGenLanguage(): CodeGenLanguage;
+
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
 				GetTypeName$1(name: string): string;
 				GetFileName$1(name: string): string;
@@ -1021,8 +1063,11 @@ declare module Nethereum {
 				extends System.Object,
 					Core.IMessage$1<ParameterABI> {
 				get_Name(): string;
+
 				set_Name(value: string): void;
+
 				get_InputParameters(): ParameterABI[];
+
 				set_InputParameters(value: ParameterABI[]): void;
 			}
 			export interface ConstructorABITypeFunc extends TypeFunction {
@@ -1036,10 +1081,15 @@ declare module Nethereum {
 			// Nethereum.Generators.Model.ContractABI
 			export interface ContractABI extends System.Object {
 				get_Functions(): FunctionABI[];
+
 				set_Functions(value: FunctionABI[]): void;
+
 				get_Constructor(): ConstructorABI;
+
 				set_Constructor(value: ConstructorABI): void;
+
 				get_Events(): EventABI[];
+
 				set_Events(value: EventABI[]): void;
 			}
 			export interface ContractABITypeFunc extends TypeFunction {
@@ -1053,7 +1103,9 @@ declare module Nethereum {
 			// Nethereum.Generators.Model.EventABI
 			export interface EventABI extends System.Object {
 				get_Name(): string;
+
 				get_InputParameters(): ParameterABI[];
+
 				set_InputParameters(value: ParameterABI[]): void;
 			}
 			export interface EventABITypeFunc extends TypeFunction {
@@ -1069,12 +1121,19 @@ declare module Nethereum {
 				extends System.Object,
 					Core.IMessage$1<ParameterABI> {
 				get_Serpent(): boolean;
+
 				get_Constant(): boolean;
+
 				get_Name(): string;
+
 				set_Name(value: string): void;
+
 				get_InputParameters(): ParameterABI[];
+
 				set_InputParameters(value: ParameterABI[]): void;
+
 				get_OutputParameters(): ParameterABI[];
+
 				set_OutputParameters(value: ParameterABI[]): void;
 			}
 			export interface FunctionABITypeFunc extends TypeFunction {
@@ -1098,6 +1157,7 @@ declare module Nethereum {
 			// Nethereum.Generators.Model.ParameterABI
 			export interface ParameterABI extends Core.Parameter {
 				get_Indexed(): boolean;
+
 				set_Indexed(value: boolean): void;
 			}
 			export interface ParameterABITypeFunc extends TypeFunction {
@@ -1209,8 +1269,11 @@ declare module Nethereum {
 					Core.IClassModel,
 					Core.IFileModel {
 				get_ContractABI(): Model.ContractABI;
+
 				get_CQSNamespace(): string;
+
 				get_FunctionOutputNamespace(): string;
+
 				get_ContractDeploymentCQSMessageModel(): CQS.ContractDeploymentCQSMessageModel;
 			}
 			export interface ServiceModelTypeFunc extends TypeFunction {
@@ -1394,6 +1457,7 @@ declare module Nethereum {
 			// Nethereum.Generators.CQS.ClassFileTemplate
 			export interface ClassFileTemplate extends FileTemplate {
 				get_ClassModel(): Core.IClassModel;
+
 				get_ClassTemplate(): Core.IClassTemplate;
 				GenerateFullClass(): string;
 			}
@@ -1610,6 +1674,7 @@ declare module Nethereum {
 					Core.IClassModel,
 					Core.IFileModel {
 				get_ConstructorABI(): Model.ConstructorABI;
+
 				get_ByteCode(): string;
 			}
 			export interface ContractDeploymentCQSMessageModelTypeFunc
@@ -1853,17 +1918,29 @@ declare module Nethereum {
 			export interface DataWorkflowProjectGenerator
 				extends System.Object {
 				get_ContractABI(): Model.ContractABI;
+
 				get_ContractName(): string;
+
 				get_ByteCode(): string;
+
 				get_BaseNamespace(): string;
+
 				get_ServiceNamespace(): string;
+
 				get_BaseOutputPath(): string;
+
 				get_PathDelimiter(): string;
+
 				get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 				get_ContractAddress(): string;
+
 				get_ServiceType(): Core.ServiceType;
+
 				get_SubscriptionId(): string;
+
 				get_Location(): string;
+
 				get_ContractAbiString(): string;
 				GenerateAll(): Core.GeneratedFile[];
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
@@ -2522,21 +2599,37 @@ declare module Nethereum {
 			export interface MessagingWorkflowProjectGenerator
 				extends System.Object {
 				get_ContractABI(): Model.ContractABI;
+
 				get_ContractName(): string;
+
 				get_ByteCode(): string;
+
 				get_BaseNamespace(): string;
+
 				get_ServiceNamespace(): string;
+
 				get_BaseOutputPath(): string;
+
 				get_PathDelimiter(): string;
+
 				get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 				get_ServiceType(): Core.ServiceType;
+
 				get_SubscriptionId(): string;
+
 				get_Location(): string;
+
 				get_ContractAbiString(): string;
+
 				get_ContractAddress(): string;
+
 				get_TopicName(): string;
+
 				set_TopicName(value: string): void;
+
 				get_MessagingType(): Core.MessagingType;
+
 				set_MessagingType(value: Core.MessagingType): void;
 				GenerateAll(): Core.GeneratedFile[];
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
@@ -2813,17 +2906,29 @@ declare module Nethereum {
 			export interface ReportingWorkflowProjectGenerator
 				extends System.Object {
 				get_ContractABI(): Model.ContractABI;
+
 				get_ContractName(): string;
+
 				get_ByteCode(): string;
+
 				get_BaseNamespace(): string;
+
 				get_ServiceNamespace(): string;
+
 				get_BaseOutputPath(): string;
+
 				get_PathDelimiter(): string;
+
 				get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 				get_ContractAddress(): string;
+
 				get_ServiceType(): Core.ServiceType;
+
 				get_SubscriptionId(): string;
+
 				get_Location(): string;
+
 				get_ContractAbiString(): string;
 				GenerateAll(): Core.GeneratedFile[];
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
@@ -3180,18 +3285,31 @@ declare module Nethereum {
 			export interface ServiceWorkflowProjectGenerator
 				extends System.Object {
 				get_ContractABI(): Model.ContractABI;
+
 				get_ContractName(): string;
+
 				get_ByteCode(): string;
+
 				get_BaseNamespace(): string;
+
 				get_ServiceNamespace(): string;
+
 				get_BaseOutputPath(): string;
+
 				get_PathDelimiter(): string;
+
 				get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 				get_ABIString(): string;
+
 				get_ContractAddress(): string;
+
 				get_SubscriptionId(): string;
+
 				get_Location(): string;
+
 				get_BlockchainRpcEndpoint(): string;
+
 				get_ServiceType(): Core.ServiceType;
 				GenerateServiceWorkflows(): Core.GeneratedFile[];
 				GenerateAll(): Core.GeneratedFile[];
@@ -3785,7 +3903,9 @@ declare module Nethereum {
 					Core.IClassModel,
 					Core.IFileModel {
 				get_ContractABI(): Model.ContractABI;
+
 				get_CQSNamespace(): string;
+
 				get_FunctionOutputNamespace(): string;
 			}
 			export interface SimpleTestModelTypeFunc extends TypeFunction {

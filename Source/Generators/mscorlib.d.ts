@@ -40,14 +40,21 @@ interface Array<T>
 		System.Collections.ICollection,
 		System.Collections.IEnumerable {
 	GetEnumerator(): System.Collections.IEnumerator;
+
 	get_Count(): int;
+
 	get_SyncRoot(): any;
+
 	get_IsSynchronized(): boolean;
+
 	get_Rank(): int;
 	CopyTo(array: Array<any>, index: int): void;
 	CopyTo$1(array: Array<any>, index: long): void;
+
 	get_IsReadOnly(): boolean;
+
 	get_IsFixedSize(): boolean;
+
 	get_IsTypedArray(): boolean;
 	Clone(): any;
 	GetLength(dimension: int): int;
@@ -598,6 +605,7 @@ declare module System {
 		prototype: AppDomain;
 		new (): AppDomain;
 		ctor: { new (): AppDomain };
+
 		get_CurrentDomain(): AppDomain;
 	}
 	var AppDomain: AppDomainTypeFunc;
@@ -732,9 +740,13 @@ declare module System {
 	// System.AttributeUsageAttribute
 	export interface AttributeUsageAttribute extends Attribute {
 		get_ValidOn(): AttributeTargets;
+
 		get_AllowMultiple(): boolean;
+
 		set_AllowMultiple(value: boolean): void;
+
 		get_Inherited(): boolean;
+
 		set_Inherited(value: boolean): void;
 	}
 	export interface AttributeUsageAttributeTypeFunc extends TypeFunction {
@@ -876,16 +888,27 @@ declare module System {
 			IComparable$1<DateTime>,
 			IEquatable$1<DateTime> {
 		get_JsDate(): Date;
+
 		get_Date(): Date;
+
 		get_Day(): int;
+
 		get_DayOfWeek(): DayOfWeek;
+
 		get_DayOfYear(): int;
+
 		get_Hour(): int;
+
 		get_Kind(): DateTimeKind;
+
 		get_Millisecond(): int;
+
 		get_Minute(): int;
+
 		get_Month(): int;
+
 		get_Second(): int;
+
 		get_Year(): int;
 		CompareTo(other: Date): int;
 		CompareTo$1(obj: any): int;
@@ -961,8 +984,11 @@ declare module System {
 		};
 		new (): Date;
 		ctor: { new (): Date };
+
 		get_Now(): Date;
+
 		get_UtcNow(): Date;
+
 		get_Today(): Date;
 		SpecifyKind(value: Date, kind: DateTimeKind): Date;
 		op_Addition(d: Date, t: TimeSpan): Date;
@@ -1016,6 +1042,7 @@ declare module System {
 	// System.Delegate
 	export interface Delegate extends Function {
 		get_Method(): Function;
+
 		get_Target(): any;
 		GetInvocationList(): Delegate[];
 		DynamicInvoke(args: any[]): any;
@@ -1122,9 +1149,13 @@ declare module System {
 	export interface EnvironmentTypeFunc extends TypeFunction {
 		(): EnvironmentTypeFunc;
 		NewLine: string;
+
 		get_CurrentManagedThreadId(): int;
+
 		get_ProcessorCount(): int;
+
 		get_StackTrace(): string;
+
 		get_TickCount(): int;
 	}
 	var Environment: EnvironmentTypeFunc;
@@ -1153,8 +1184,11 @@ declare module System {
 	// System.Exception
 	export interface Exception extends Object {
 		get_Data(): Collections.IDictionary;
+
 		get_InnerException(): Exception;
+
 		get_Message(): string;
+
 		get_StackTrace(): string;
 		GetBaseException(): Exception;
 	}
@@ -1485,6 +1519,7 @@ declare module System {
 	// System.Lazy<T>
 	export interface Lazy$1<T> extends Object {
 		get_IsValueCreated(): boolean;
+
 		get_Value(): T;
 	}
 	export interface Lazy$1TypeFunc<T> extends TypeFunction {
@@ -1812,9 +1847,13 @@ declare module System {
 		Stop(): void;
 		Reset(): void;
 		Restart(): void;
+
 		get_IsRunning(): boolean;
+
 		get_Elapsed(): TimeSpan;
+
 		get_ElapsedMilliseconds(): long;
+
 		get_ElapsedTicks(): long;
 	}
 	export interface StopwatchTypeFunc extends TypeFunction {
@@ -1866,15 +1905,25 @@ declare module System {
 			IComparable$1<TimeSpan>,
 			IEquatable$1<TimeSpan> {
 		get_Ticks(): long;
+
 		get_Days(): int;
+
 		get_Hours(): int;
+
 		get_Milliseconds(): int;
+
 		get_Minutes(): int;
+
 		get_Seconds(): int;
+
 		get_TotalDays(): double;
+
 		get_TotalHours(): double;
+
 		get_TotalMilliseconds(): double;
+
 		get_TotalMinutes(): double;
+
 		get_TotalSeconds(): double;
 		Add(ts: TimeSpan): TimeSpan;
 		Subtract(ts: TimeSpan): TimeSpan;
@@ -2045,6 +2094,7 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
 	}
 	export interface Tuple$2TypeFunc<T1, T2> extends TypeFunction {
@@ -2065,7 +2115,9 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
 	}
 	export interface Tuple$3TypeFunc<T1, T2, T3> extends TypeFunction {
@@ -2087,8 +2139,11 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
+
 		get_Item4(): T4;
 	}
 	export interface Tuple$4TypeFunc<T1, T2, T3, T4> extends TypeFunction {
@@ -2123,9 +2178,13 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
+
 		get_Item4(): T4;
+
 		get_Item5(): T5;
 	}
 	export interface Tuple$5TypeFunc<T1, T2, T3, T4, T5> extends TypeFunction {
@@ -2163,10 +2222,15 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
+
 		get_Item4(): T4;
+
 		get_Item5(): T5;
+
 		get_Item6(): T6;
 	}
 	export interface Tuple$6TypeFunc<T1, T2, T3, T4, T5, T6>
@@ -2208,11 +2272,17 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
+
 		get_Item4(): T4;
+
 		get_Item5(): T5;
+
 		get_Item6(): T6;
+
 		get_Item7(): T7;
 	}
 	export interface Tuple$7TypeFunc<T1, T2, T3, T4, T5, T6, T7>
@@ -2257,12 +2327,19 @@ declare module System {
 			Collections.IStructuralComparable,
 			IComparable {
 		get_Item1(): T1;
+
 		get_Item2(): T2;
+
 		get_Item3(): T3;
+
 		get_Item4(): T4;
+
 		get_Item5(): T5;
+
 		get_Item6(): T6;
+
 		get_Item7(): T7;
+
 		get_Rest(): TRest;
 	}
 	export interface Tuple$8TypeFunc<T1, T2, T3, T4, T5, T6, T7, TRest>
@@ -2308,8 +2385,11 @@ declare module System {
 		extends Reflection.MemberInfo,
 			Reflection.ICustomAttributeProvider {
 		get_BaseType(): Type;
+
 		get_Assembly(): Reflection.Assembly;
+
 		get_AssemblyQualifiedName(): string;
+
 		get_FullName(): string;
 		GetElementType(): Type;
 		IsAssignableFrom(type: Type): boolean;
@@ -2361,6 +2441,7 @@ declare module System {
 		GetFields$1(
 			bindingAttr: Reflection.BindingFlags,
 		): Reflection.FieldInfo[];
+
 		get_IsValueType(): boolean;
 		GetArrayRank(): int;
 		GetConstructor$2(
@@ -2382,25 +2463,42 @@ declare module System {
 		GetEnumUnderlyingType(): Type;
 		MakeArrayType(): Type;
 		MakeArrayType$1(rank: int): Type;
+
 		get_Attributes(): Reflection.TypeAttributes;
+
 		get_IsPrimitive(): boolean;
+
 		get_IsAbstract(): boolean;
+
 		get_IsEnum(): boolean;
+
 		get_IsInterface(): boolean;
+
 		get_IsSealed(): boolean;
+
 		get_IsGenericType(): boolean;
 		GetGenericTypeDefinition(): Type;
 		MakeGenericType(typeArguments: Type[]): Type;
+
 		get_GenericTypeArguments(): Type[];
 		GetGenericArguments(): Type[];
+
 		get_IsArray(): boolean;
+
 		get_IsTypedArrayCompatible(): boolean;
+
 		get_IsGenericTypeDefinition(): boolean;
+
 		get_IsGenericParameter(): boolean;
+
 		get_HasElementType(): boolean;
+
 		get_IsNested(): boolean;
+
 		get_IsNestedPublic(): boolean;
+
 		get_IsVisible(): boolean;
+
 		get_IsPublic(): boolean;
 	}
 	export interface TypeTypeFunc extends TypeFunction {
@@ -2601,6 +2699,7 @@ declare module System {
 		// System.Collections.DictionaryEntry
 		export interface DictionaryEntry extends ValueType {
 			get_Key(): any;
+
 			get_Value(): any;
 		}
 		export interface DictionaryEntryTypeFunc extends TypeFunction {
@@ -2725,6 +2824,7 @@ declare module System {
 			export interface Comparer$1TypeFunc<T> extends TypeFunction {
 				(): Comparer$1TypeFunc<T>;
 				prototype: Comparer$1<T>;
+
 				get_Default(): Comparer$1<T>;
 				Create(comparison: Comparison$1<T>): Comparer$1<T>;
 			}
@@ -2750,21 +2850,30 @@ declare module System {
 					key: TKey,
 					/* out */ value: { value: TValue },
 				): boolean;
+
 				get_Item(key: TKey): TValue;
+
 				set_Item(key: TKey, value: TValue): void;
+
 				get_Keys(): ICollection$1<TKey>;
+
 				get_Values(): ICollection$1<TValue>;
+
 				get_Count(): int;
+
 				get_SyncRoot(): any;
+
 				get_IsSynchronized(): boolean;
 				CopyTo(array: Array<any>, index: int): void;
 				GetEnumerator(): IEnumerator$1<KeyValuePair$2<TKey, TValue>>;
+
 				get_IsReadOnly(): boolean;
 				Add(item: KeyValuePair$2<TKey, TValue>): void;
 				CopyTo$1(
 					array: KeyValuePair$2<TKey, TValue>[],
 					arrayIndex: int,
 				): void;
+
 				get_IsFixedSize(): boolean;
 			}
 			export interface Dictionary$2TypeFunc<TKey, TValue>
@@ -2814,6 +2923,7 @@ declare module System {
 				extends TypeFunction {
 				(): EqualityComparer$1TypeFunc<T>;
 				prototype: EqualityComparer$1<T>;
+
 				get_Default(): EqualityComparer$1<T>;
 			}
 			export function EqualityComparer$1<T>(
@@ -2828,10 +2938,13 @@ declare module System {
 					IEnumerable$1<T>,
 					IEnumerable {
 				get_Count(): int;
+
 				get_SyncRoot(): any;
+
 				get_IsSynchronized(): boolean;
 				CopyTo(array: Array<any>, index: int): void;
 				GetEnumerator(): IEnumerator$1<T>;
+
 				get_IsReadOnly(): boolean;
 				Clear(): void;
 				Contains(item: T): boolean;
@@ -3016,6 +3129,7 @@ declare module System {
 			// System.Collections.Generic.KeyValuePair<TKey, TValue>
 			export interface KeyValuePair$2<TKey, TValue> extends ValueType {
 				get_Key(): TKey;
+
 				get_Value(): TValue;
 			}
 			export interface KeyValuePair$2TypeFunc<TKey, TValue>
@@ -3047,9 +3161,12 @@ declare module System {
 				Enqueue(item: T): void;
 				Dequeue(): T;
 				Peek(): T;
+
 				get_Count(): int;
 				GetEnumerator(): IEnumerator$1<T>;
+
 				get_SyncRoot(): any;
+
 				get_IsSynchronized(): boolean;
 				CopyTo(array: Array<any>, index: int): void;
 			}
@@ -3073,17 +3190,25 @@ declare module System {
 					ICollection,
 					IEnumerable {
 				Add(key: TKey, value: TValue): void;
+
 				get_Capacity(): int;
+
 				set_Capacity(value: int): void;
+
 				get_Comparer(): IComparer$1<TKey>;
+
 				get_Count(): int;
+
 				get_Keys(): IList$1<TKey>;
+
 				get_Values(): IList$1<TValue>;
 				Clear(): void;
 				ContainsKey(key: TKey): boolean;
 				ContainsValue(value: TValue): boolean;
 				GetEnumerator(): IEnumerator$1<KeyValuePair$2<TKey, TValue>>;
+
 				get_Item(key: TKey): TValue;
+
 				set_Item(key: TKey, value: TValue): void;
 				IndexOfKey(key: TKey): int;
 				IndexOfValue(value: TValue): int;
@@ -3199,9 +3324,13 @@ declare module System {
 					ICollection,
 					IEnumerable {
 				get_Capacity(): int;
+
 				set_Capacity(value: int): void;
+
 				get_Count(): int;
+
 				get_Item(index: int): T;
+
 				set_Item(index: int, value: T): void;
 				Add(item: T): void;
 				AddRange(collection: IEnumerable$1<T>): void;
@@ -3291,9 +3420,12 @@ declare module System {
 				Push(item: T): void;
 				Pop(): T;
 				Peek(): T;
+
 				get_Count(): int;
 				GetEnumerator(): IEnumerator$1<T>;
+
 				get_SyncRoot(): any;
+
 				get_IsSynchronized(): boolean;
 				CopyTo(array: Array<any>, index: int): void;
 			}
@@ -3320,6 +3452,7 @@ declare module System {
 					Generic.IEnumerable$1<T>,
 					IEnumerable {
 				get_Count(): int;
+
 				get_Item(index: int): T;
 				Contains(value: T): boolean;
 				CopyTo(array: T[], index: int): void;
@@ -3358,6 +3491,7 @@ declare module System {
 			DefaultCategory: string;
 			Break(): void;
 			Launch(): boolean;
+
 			get_IsAttached(): boolean;
 			Log(level: int, category: string, message: string): void;
 			IsLogging(): boolean;
@@ -3439,6 +3573,7 @@ declare module System {
 		// System.Globalization.CultureInfo
 		export interface CultureInfo extends Object, IFormatProvider {
 			get_Name(): string;
+
 			get_CompareInfo(): CompareInfo;
 			GetFormat(formatType: Type): any;
 		}
@@ -3528,7 +3663,9 @@ declare module System {
 		// System.IO.MemoryStream
 		export interface MemoryStream extends Stream, IDisposable {
 			GetBuffer(): byte[];
+
 			get_Capacity(): int;
+
 			set_Capacity(value: int): void;
 			ToArray(): byte[];
 			WriteTo(stream: Stream): void;
@@ -3615,15 +3752,25 @@ declare module System {
 		// System.IO.Stream
 		export interface Stream extends Object, IDisposable {
 			get_CanRead(): boolean;
+
 			get_CanSeek(): boolean;
+
 			get_CanTimeout(): boolean;
+
 			get_CanWrite(): boolean;
+
 			get_Length(): long;
+
 			get_Position(): long;
+
 			set_Position(value: long): void;
+
 			get_ReadTimeout(): int;
+
 			set_ReadTimeout(value: int): void;
+
 			get_WriteTimeout(): int;
+
 			set_WriteTimeout(value: int): void;
 			CopyTo(destination: Stream): void;
 			CopyTo$1(destination: Stream, bufferSize: int): void;
@@ -4350,7 +4497,9 @@ declare module System {
 			GetEnumerator(): Collections.Generic.IEnumerator$1<
 				IGrouping$2<TKey, TElement>
 			>;
+
 			get_Count(): int;
+
 			get_Item(key: TKey): Collections.Generic.IEnumerable$1<TElement>;
 			Contains(key: TKey): boolean;
 		}
@@ -4401,15 +4550,20 @@ declare module System {
 			// System.Linq.Expressions.BinaryExpression
 			export interface BinaryExpression extends Expression {
 				get_Left(): Expression;
+
 				get_Right(): Expression;
+
 				get_Method(): Reflection.MethodInfo;
+
 				get_Conversion(): LambdaExpression;
+
 				get_IsLifted(): boolean;
 				Update(
 					left: Expression,
 					conversion: LambdaExpression,
 					right: Expression,
 				): BinaryExpression;
+
 				get_IsLiftedToNull(): boolean;
 			}
 			export interface BinaryExpressionTypeFunc extends TypeFunction {
@@ -4442,7 +4596,9 @@ declare module System {
 			// System.Linq.Expressions.ConditionalExpression
 			export interface ConditionalExpression extends Expression {
 				get_Test(): Expression;
+
 				get_IfTrue(): Expression;
+
 				get_IfFalse(): Expression;
 				Update(
 					test: Expression,
@@ -4503,6 +4659,7 @@ declare module System {
 			// System.Linq.Expressions.ElementInit
 			export interface ElementInit extends Object {
 				get_AddMethod(): Reflection.MethodInfo;
+
 				get_Arguments(): Collections.Generic.List$1<Expression>;
 				Update(
 					args: Collections.Generic.List$1<Expression>,
@@ -4528,6 +4685,7 @@ declare module System {
 			export interface Expression extends Object {
 				get_NodeType(): ExpressionType;
 				Accept(visitor: ExpressionVisitor): Expression;
+
 				get_Type(): Type;
 			}
 			export interface ExpressionTypeFunc extends TypeFunction {
@@ -4932,7 +5090,9 @@ declare module System {
 			// System.Linq.Expressions.IndexExpression
 			export interface IndexExpression extends Expression {
 				get_Object(): Expression;
+
 				get_Indexer(): Reflection.PropertyInfo;
+
 				get_Arguments(): Collections.Generic.List$1<Expression>;
 			}
 			export interface IndexExpressionTypeFunc extends TypeFunction {
@@ -4958,6 +5118,7 @@ declare module System {
 			// System.Linq.Expressions.InvocationExpression
 			export interface InvocationExpression extends Expression {
 				get_Expression(): Expression;
+
 				get_Arguments(): Collections.Generic.List$1<Expression>;
 			}
 			export interface InvocationExpressionTypeFunc extends TypeFunction {
@@ -4981,9 +5142,13 @@ declare module System {
 			// System.Linq.Expressions.LambdaExpression
 			export interface LambdaExpression extends Expression {
 				get_Name(): string;
+
 				get_Body(): Expression;
+
 				get_Parameters(): Collections.Generic.List$1<ParameterExpression>;
+
 				get_DelegateType(): Type;
+
 				get_TailCall(): boolean;
 				Update(
 					body: Expression,
@@ -5000,6 +5165,7 @@ declare module System {
 			// System.Linq.Expressions.ListInitExpression
 			export interface ListInitExpression extends Expression {
 				get_NewExpression(): NewExpression;
+
 				get_Initializers(): Collections.Generic.List$1<ElementInit>;
 				Update(
 					NewExpression: NewExpression,
@@ -5046,6 +5212,7 @@ declare module System {
 			// System.Linq.Expressions.MemberBinding
 			export interface MemberBinding extends Object {
 				get_BindingType(): MemberBindingType;
+
 				get_Member(): Reflection.MemberInfo;
 			}
 			export interface MemberBindingTypeFunc extends TypeFunction {
@@ -5074,6 +5241,7 @@ declare module System {
 			// System.Linq.Expressions.MemberExpression
 			export interface MemberExpression extends Expression {
 				get_Expression(): Expression;
+
 				get_Member(): Reflection.MemberInfo;
 				Update(Expression: Expression): Expression;
 			}
@@ -5096,6 +5264,7 @@ declare module System {
 			// System.Linq.Expressions.MemberInitExpression
 			export interface MemberInitExpression extends Expression {
 				get_NewExpression(): NewExpression;
+
 				get_Bindings(): Collections.Generic.List$1<MemberBinding>;
 				Update(
 					newExpression: NewExpression,
@@ -5171,7 +5340,9 @@ declare module System {
 			// System.Linq.Expressions.MethodCallExpression
 			export interface MethodCallExpression extends Expression {
 				get_Object(): Expression;
+
 				get_Method(): Reflection.MethodInfo;
+
 				get_Arguments(): Collections.Generic.List$1<Expression>;
 			}
 			export interface MethodCallExpressionTypeFunc extends TypeFunction {
@@ -5220,6 +5391,7 @@ declare module System {
 			// System.Linq.Expressions.NewExpression
 			export interface NewExpression extends Expression {
 				get_Arguments(): Collections.Generic.List$1<Expression>;
+
 				get_Constructor(): Reflection.ConstructorInfo;
 				Update(
 					args: Collections.Generic.List$1<Expression>,
@@ -5244,6 +5416,7 @@ declare module System {
 			// System.Linq.Expressions.ParameterExpression
 			export interface ParameterExpression extends Expression {
 				get_ParameterType(): Type;
+
 				get_Name(): string;
 			}
 			export interface ParameterExpressionTypeFunc extends TypeFunction {
@@ -5280,6 +5453,7 @@ declare module System {
 			// System.Linq.Expressions.TypeBinaryExpression
 			export interface TypeBinaryExpression extends Expression {
 				get_Expression(): Expression;
+
 				get_TypeOperand(): Type;
 				Update(expression: Expression): Expression;
 			}
@@ -5304,6 +5478,7 @@ declare module System {
 			// System.Linq.Expressions.UnaryExpression
 			export interface UnaryExpression extends Expression {
 				get_Operand(): Expression;
+
 				get_Method(): Reflection.MethodInfo;
 				Update(operand: Expression): UnaryExpression;
 			}
@@ -5338,9 +5513,13 @@ declare module System {
 			GetManifestResourceBytes(name: string): byte[];
 			GetManifestResourceNames(): string[];
 			GetManifestResourceStream(name: string): IO.Stream;
+
 			get_CodeBase(): string;
+
 			get_FullName(): string;
+
 			get_EntryPoint(): MethodInfo;
+
 			get_Location(): string;
 			GetName(): AssemblyName;
 			GetName$1(copiedName: boolean): AssemblyName;
@@ -5461,12 +5640,19 @@ declare module System {
 		// System.Reflection.AssemblyName
 		export interface AssemblyName extends Object {
 			get_Name(): string;
+
 			set_Name(value: string): void;
+
 			get_CultureInfo(): Globalization.CultureInfo;
+
 			set_CultureInfo(value: Globalization.CultureInfo): void;
+
 			get_CultureName(): string;
+
 			get_CodeBase(): string;
+
 			set_CodeBase(value: string): void;
+
 			get_FullName(): string;
 		}
 		export interface AssemblyNameTypeFunc extends TypeFunction {
@@ -5611,7 +5797,9 @@ declare module System {
 			extends MemberInfo,
 				ICustomAttributeProvider {
 			get_AddMethod(): MethodInfo;
+
 			get_RemoveMethod(): MethodInfo;
+
 			get_EventHandlerType(): Type;
 			GetAddMethod$1(nonPublic: boolean): MethodInfo;
 			GetRemoveMethod$1(nonPublic: boolean): MethodInfo;
@@ -5654,18 +5842,31 @@ declare module System {
 			extends MemberInfo,
 				ICustomAttributeProvider {
 			get_FieldType(): Type;
+
 			get_Attributes(): FieldAttributes;
+
 			get_IsPublic(): boolean;
+
 			get_IsPrivate(): boolean;
+
 			get_IsFamily(): boolean;
+
 			get_IsAssembly(): boolean;
+
 			get_IsFamilyAndAssembly(): boolean;
+
 			get_IsFamilyOrAssembly(): boolean;
+
 			get_IsStatic(): boolean;
+
 			get_IsInitOnly(): boolean;
+
 			get_IsLiteral(): boolean;
+
 			get_IsNotSerialized(): boolean;
+
 			get_IsSpecialName(): boolean;
+
 			get_IsPinvokeImpl(): boolean;
 			GetRequiredCustomModifiers(): Type[];
 			GetOptionalCustomModifiers(): Type[];
@@ -5705,7 +5906,9 @@ declare module System {
 		// System.Reflection.MemberInfo
 		export interface MemberInfo extends Object, ICustomAttributeProvider {
 			get_MemberType(): MemberTypes;
+
 			get_Name(): string;
+
 			get_DeclaringType(): Type;
 			GetCustomAttributes(inherit: boolean): any[];
 			GetCustomAttributes$1(attributeType: Type, inherit: boolean): any[];
@@ -5761,25 +5964,45 @@ declare module System {
 			extends MemberInfo,
 				ICustomAttributeProvider {
 			get_Attributes(): MethodAttributes;
+
 			get_CallingConvention(): CallingConventions;
+
 			get_IsGenericMethodDefinition(): boolean;
+
 			get_ContainsGenericParameters(): boolean;
+
 			get_IsGenericMethod(): boolean;
+
 			get_IsSecurityCritical(): boolean;
+
 			get_IsSecuritySafeCritical(): boolean;
+
 			get_IsSecurityTransparent(): boolean;
+
 			get_IsPublic(): boolean;
+
 			get_IsPrivate(): boolean;
+
 			get_IsFamily(): boolean;
+
 			get_IsAssembly(): boolean;
+
 			get_IsFamilyAndAssembly(): boolean;
+
 			get_IsFamilyOrAssembly(): boolean;
+
 			get_IsStatic(): boolean;
+
 			get_IsFinal(): boolean;
+
 			get_IsVirtual(): boolean;
+
 			get_IsHideBySig(): boolean;
+
 			get_IsAbstract(): boolean;
+
 			get_IsSpecialName(): boolean;
+
 			get_IsConstructor(): boolean;
 			GetParameters(): ParameterInfo[];
 			Invoke$1(
@@ -5804,6 +6027,7 @@ declare module System {
 			extends MethodBase,
 				ICustomAttributeProvider {
 			get_ReturnType(): Type;
+
 			get_ReturnTypeCustomAttributes(): ICustomAttributeProvider;
 			GetBaseDefinition(): MethodInfo;
 			GetGenericMethodDefinition(): MethodInfo;
@@ -5837,17 +6061,29 @@ declare module System {
 			extends Object,
 				ICustomAttributeProvider {
 			get_ParameterType(): Type;
+
 			get_Name(): string;
+
 			get_HasDefaultValue(): boolean;
+
 			get_DefaultValue(): any;
+
 			get_RawDefaultValue(): any;
+
 			get_Position(): int;
+
 			get_Attributes(): ParameterAttributes;
+
 			get_Member(): MemberInfo;
+
 			get_IsIn(): boolean;
+
 			get_IsOut(): boolean;
+
 			get_IsLcid(): boolean;
+
 			get_IsRetval(): boolean;
+
 			get_IsOptional(): boolean;
 			GetCustomAttributes(inherit: boolean): any[];
 			GetCustomAttributes$1(attributeType: Type, inherit: boolean): any[];
@@ -5862,6 +6098,7 @@ declare module System {
 		// System.Reflection.ParameterModifier
 		export interface ParameterModifier extends ValueType {
 			get_Item(index: int): boolean;
+
 			set_Item(index: int, value: boolean): void;
 		}
 		export interface ParameterModifierTypeFunc extends TypeFunction {
@@ -5890,11 +6127,17 @@ declare module System {
 			extends MemberInfo,
 				ICustomAttributeProvider {
 			get_PropertyType(): Type;
+
 			get_Attributes(): PropertyAttributes;
+
 			get_CanRead(): boolean;
+
 			get_CanWrite(): boolean;
+
 			get_GetMethod(): MethodInfo;
+
 			get_SetMethod(): MethodInfo;
+
 			get_IsSpecialName(): boolean;
 			SetValue$2(
 				obj: any,
@@ -6142,6 +6385,7 @@ declare module System {
 			// System.Runtime.CompilerServices.OperationCanceledException
 			export interface OperationCanceledException extends Exception {
 				get_CancellationToken(): Threading.CancellationToken;
+
 				set_CancellationToken(value: Threading.CancellationToken): void;
 			}
 			export interface OperationCanceledExceptionTypeFunc
@@ -6244,7 +6488,9 @@ declare module System {
 		// System.Text.StringBuilder
 		export interface StringBuilder extends Object {
 			get_Item(index: int): char;
+
 			get_Length(): int;
+
 			set_Length(value: int): void;
 			Append$12(s: string): StringBuilder;
 			Append(value: boolean): StringBuilder;
@@ -6341,6 +6587,7 @@ declare module System {
 			// System.Threading.Tasks.Task
 			export interface Task extends Object {
 				get_IsCompleted(): boolean;
+
 				get_IsFaulted(): boolean;
 				GetAwaiter(): Runtime.CompilerServices.TaskAwaiter;
 				Wait(continueWith: Action): void;
@@ -6372,6 +6619,7 @@ declare module System {
 					TNewResult: TypeArg<TNewResult>,
 					continuationFunction: Func$2<Task$1<TResult>, TNewResult>,
 				): Task$1<TNewResult>;
+
 				get_Result(): TResult;
 			}
 			export interface Task$1TypeFunc<TResult> extends TypeFunction {
@@ -6439,52 +6687,97 @@ declare module DuoCode {
 
 		// DuoCode.Runtime.RuntimeFunctions
 		var defaultOf: (type: Function) => any;
+
 		var as: (obj: any, dstType: Function) => any;
+
 		var is: (obj: any, dstType: Function) => boolean;
+
 		var cast: (obj: any, dstType: Function) => any;
+
 		var ncast: (x: number, t: Function, uncheck: boolean) => number;
+
 		var delegate: {
 			<TDelegate>(method: Function, target?: any): TDelegate;
 		};
+
 		var gimn: () => string;
+
 		var toString: (o: any) => string;
+
 		var getTypeFromInst: (instance: any) => System.Type;
+
 		var retype: (obj: any, typeFunc: Function) => void;
+
 		var typeOf: (typeFunc: Function) => System.Type;
+
 		var mdi: (array: Array<any>) => int;
+
 		var boxEnum: (enumType: Function, value: number) => System.Enum;
+
 		var check: (x: number, t: Function) => number;
+
 		var toInt8: (x: number) => number;
+
 		var toInt16: (x: number) => number;
+
 		var toInt64: (x: number) => number;
+
 		var toUInt64: (x: number) => number;
+
 		var signEx: (e: System.Exception, offset?: int) => System.Exception;
+
 		var nv: (n: any) => any;
+
 		var ncl: (a: any, b: any) => any;
+
 		var nle: (a: number, b: number) => boolean;
+
 		var nge: (a: number, b: number) => boolean;
+
 		var nlt: (a: number, b: number) => boolean;
+
 		var ngt: (a: number, b: number) => boolean;
+
 		var nsub: (a: number, b: number) => number;
+
 		var nadd: (a: number, b: number) => number;
+
 		var nmod: (a: number, b: number) => number;
+
 		var ndiv: (a: number, b: number) => number;
+
 		var ndivf: (a: number, b: number) => number;
+
 		var nmul: (a: number, b: number) => number;
+
 		var nband: (a: number, b: number) => number;
+
 		var nbor: (a: number, b: number) => number;
+
 		var nbxor: (a: number, b: number) => number;
+
 		var nshl: (a: number, b: number) => number;
+
 		var nshr: (a: number, b: number) => number;
+
 		var nand: (a: boolean, b: boolean) => boolean;
+
 		var nor: (a: boolean, b: boolean) => boolean;
+
 		var nnot: (a: boolean) => boolean;
+
 		var nneg: (a: number) => number;
+
 		var npos: (a: number) => number;
+
 		var ncpl: (a: number) => number;
+
 		var nlu: (op: Function, a: any) => any;
+
 		var nlb: (op: Function, a: any, b: any) => any;
+
 		var neq: (op: Function, a: any, b: any) => boolean;
+
 		var nne: (op: Function, a: any, b: any) => boolean;
 	}
 }

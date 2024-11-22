@@ -39,6 +39,7 @@ ${[commands, ...args].join(" ")}`,
 
 	if (result.code !== 0) {
 		Output.show();
+
 		throw Error(
 			Constants.executeCommandMessage.failedToRunCommand(
 				commands.concat(...args),
@@ -57,12 +58,14 @@ export async function tryExecuteCommand(
 	return await new Promise(
 		(resolve: (res: any) => void, reject: (error: Error) => void): void => {
 			let cmdOutput: string = "";
+
 			let cmdOutputIncludingStderr: string = "";
 
 			const options: cp.SpawnOptions = {
 				cwd: workingDirectory || os.tmpdir(),
 				shell: true,
 			};
+
 			const childProcess: cp.ChildProcess = cp.spawn(
 				commands,
 				args,

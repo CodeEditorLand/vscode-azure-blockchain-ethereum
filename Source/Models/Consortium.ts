@@ -63,6 +63,7 @@ export abstract class Consortium extends ExtensionItem {
 		const obj = super.toJSON();
 		obj.urls = this.urls.map((url) => url.toString());
 		obj.consortiumId = this.consortiumId;
+
 		return obj;
 	}
 
@@ -76,6 +77,7 @@ export abstract class Consortium extends ExtensionItem {
 		}
 
 		const url = this.urls[0];
+
 		return url.pathname === "/" ? "" : url.pathname || "";
 	}
 

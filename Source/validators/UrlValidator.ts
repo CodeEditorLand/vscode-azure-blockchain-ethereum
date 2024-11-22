@@ -10,6 +10,7 @@ export namespace UrlValidator {
 
 	export function validateHostUrl(url: string): string | null {
 		const matches = url.match(UrlValidator.urlValidationExpression);
+
 		if (matches === null || matches.length > 1) {
 			return Constants.validationMessages.incorrectHostAddress;
 		}
@@ -19,6 +20,7 @@ export namespace UrlValidator {
 
 	export function splitUrl(url: string): string[] {
 		const address = url.replace(/(^\w+:|^)\/\//, "");
+
 		return address.split(":");
 	}
 }

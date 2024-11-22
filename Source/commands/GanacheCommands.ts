@@ -20,6 +20,7 @@ export namespace GanacheCommands {
 			window.showInformationMessage(
 				Constants.ganacheCommandStrings.serverAlreadyRunning,
 			);
+
 			return;
 		}
 
@@ -44,6 +45,7 @@ export namespace GanacheCommands {
 			window.showInformationMessage(
 				Constants.ganacheCommandStrings.serverCanNotStop,
 			);
+
 			return;
 		}
 
@@ -80,6 +82,7 @@ export namespace GanacheCommands {
 	export async function dispose(): Promise<void> {
 		if (server) {
 			server = undefined;
+
 			return shell.freePort(Constants.defaultLocalhostPort);
 		}
 	}

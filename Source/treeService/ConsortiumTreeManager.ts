@@ -23,6 +23,7 @@ export class ConsortiumTreeManager {
 
 	public loadState(): IExtensionItem[] {
 		const store = this.context.globalState.get(this.resourceKey, "");
+
 		if (store) {
 			try {
 				const obj = JSON.parse(store);
@@ -61,6 +62,7 @@ export class ConsortiumTreeManager {
 			result = this.items.filter(
 				(item) => item.getChildren().length !== 0,
 			);
+
 			if (result.length === 0) {
 				result = defaultCommandsItems();
 			}
@@ -70,6 +72,7 @@ export class ConsortiumTreeManager {
 
 	public removeItem(extensionItem: IExtensionItem): void {
 		const parent = extensionItem.getParent();
+
 		if (parent) {
 			parent.removeChild(extensionItem);
 		}

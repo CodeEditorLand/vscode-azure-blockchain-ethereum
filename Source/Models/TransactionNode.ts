@@ -20,6 +20,7 @@ export class TransactionNode extends ExtensionItem {
 	public toJSON(): { [p: string]: any } {
 		const obj = super.toJSON();
 		obj.dns = this.dns;
+
 		return obj;
 	}
 }

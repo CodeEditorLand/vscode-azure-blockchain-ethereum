@@ -29,7 +29,9 @@ export function isWorkspaceOpen(): boolean {
 
 export function createTemporaryDir(projectPath: string): string {
 	let temporaryDir = path.join(projectPath, Constants.tempPath);
+
 	let counter = Constants.defaultCounter;
+
 	while (counter--) {
 		const result = fs.pathExistsSync(temporaryDir);
 
@@ -39,6 +41,7 @@ export function createTemporaryDir(projectPath: string): string {
 			);
 		} else {
 			fs.mkdirSync(temporaryDir);
+
 			break;
 		}
 	}

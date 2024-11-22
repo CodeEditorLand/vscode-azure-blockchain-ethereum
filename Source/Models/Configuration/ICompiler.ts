@@ -1,6 +1,8 @@
 export interface ICompiler {
 	version: string;
+
 	docker: boolean;
+
 	settings: {
 		optimizer: {
 			enabled: boolean;

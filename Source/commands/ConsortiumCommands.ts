@@ -37,6 +37,7 @@ export namespace ConsortiumCommands {
 		const destination = await selectDestination(
 			createConsortiumDestination,
 		);
+
 		return await destination.cmd();
 	}
 
@@ -87,11 +88,14 @@ async function execute(
 	consortiumTreeManager: ConsortiumTreeManager,
 ): Promise<Consortium> {
 	const destination = await selectDestination(consortiumDestination);
+
 	const networkItem = await getNetwork(
 		consortiumTreeManager,
 		destination.itemType,
 	);
+
 	const childrenFilters = await getChildrenFilters(networkItem);
+
 	const consortiumItem = await destination.cmd(childrenFilters);
 
 	await networkItem.addChild(consortiumItem);
@@ -141,6 +145,7 @@ async function connectLocalNetwork(): Promise<LocalNetworkConsortium> {
 
 			if (value.match(new RegExp(/^\d+$/g))) {
 				value = `${Constants.networkProtocols.http}${Constants.localhost}:${value}`;
+
 				return UrlValidator.validateHostUrl(value);
 			}
 
@@ -149,12 +154,15 @@ async function connectLocalNetwork(): Promise<LocalNetworkConsortium> {
 	});
 
 	const label = `localhost:${port}`;
+
 	const url = `${Constants.networkProtocols.http}${Constants.localhost}:${port}`;
+
 	return new LocalNetworkConsortium(label, url);
 }
 
 async function connectToEthereumTestnet(): Promise<TestNetworkConsortium> {
 	const consortiumName = await getConsortiumName();
+
 	const url = await getConsortiumUrl();
 
 	return new TestNetworkConsortium(consortiumName, url);
@@ -162,6 +170,7 @@ async function connectToEthereumTestnet(): Promise<TestNetworkConsortium> {
 
 async function connectToPublicNetwork(): Promise<MainNetworkConsortium> {
 	const consortiumName = await getConsortiumName();
+
 	const url = await getConsortiumUrl();
 
 	return new MainNetworkConsortium(consortiumName, url);

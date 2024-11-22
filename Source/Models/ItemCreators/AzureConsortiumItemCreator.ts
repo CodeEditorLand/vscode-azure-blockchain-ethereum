@@ -22,6 +22,7 @@ export class AzureConsortiumItemCreator extends ConsortiumItemCreator {
 		[key: string]: any;
 	}): any[] {
 		const { memberName, resourcesGroup, subscriptionId } = obj;
+
 		return [subscriptionId, resourcesGroup, memberName];
 	}
 

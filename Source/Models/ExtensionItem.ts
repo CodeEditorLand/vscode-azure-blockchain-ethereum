@@ -48,6 +48,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 		this.children.push(child);
 
 		this.collapse();
+
 		return this.refreshTree();
 	}
 
@@ -55,6 +56,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 		this.children = this.children.filter((_child) => _child !== child);
 
 		this.collapse();
+
 		return this.refreshTree();
 	}
 
@@ -63,6 +65,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 		this.children.forEach((child) => child.addParent(this));
 
 		this.collapse();
+
 		return this.refreshTree();
 	}
 

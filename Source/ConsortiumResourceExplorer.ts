@@ -48,8 +48,10 @@ export class ConsortiumResourceExplorer {
 		await this.waitForLogin();
 
 		const subscriptionItem = await this.getOrSelectSubscriptionItem();
+
 		const resourceGroupItem =
 			await this.getOrSelectResourceGroup(subscriptionItem);
+
 		return await this.getOrSelectConsortiumItem(
 			subscriptionItem,
 			resourceGroupItem,
@@ -61,8 +63,10 @@ export class ConsortiumResourceExplorer {
 		await this.waitForLogin();
 
 		const subscriptionItem = await this.getOrSelectSubscriptionItem();
+
 		const resourceGroupItem =
 			await this.getOrCreateResourceGroup(subscriptionItem);
+
 		return await this.createConsortiumItem(
 			subscriptionItem,
 			resourceGroupItem,
@@ -74,6 +78,7 @@ export class ConsortiumResourceExplorer {
 		await this._accountApi.waitForFilters();
 
 		const subscriptionId = consortium.getSubscriptionId();
+
 		const resourceGroup = consortium.getResourceGroup();
 
 		const subscription = this._accountApi.filters.find(
@@ -179,9 +184,11 @@ export class ConsortiumResourceExplorer {
 		const createGroupItem: QuickPickItem = {
 			label: "$(plus) Create Resource Group",
 		};
+
 		const items: QuickPickItem[] = [];
 		items.push(createGroupItem);
 		items.push(...(await this.getResourceGroupItems(subscriptionItem)));
+
 		const pick = await showQuickPick(items, {
 			placeHolder: Constants.placeholders.selectResourceGroup,
 			ignoreFocusOut: true,
@@ -226,11 +233,13 @@ export class ConsortiumResourceExplorer {
 				} else {
 					const resourceManagementClient =
 						await this.getResourceClient(subscriptionItem);
+
 					const resourceGroup =
 						await resourceManagementClient.resourceGroups.createOrUpdate(
 							resourceGroupName,
 							{ location: locationItem.description },
 						);
+
 					return new ResourceGroupItem(
 						resourceGroup.name,
 						resourceGroup.location,
@@ -245,8 +254,10 @@ export class ConsortiumResourceExplorer {
 	): Promise<ResourceGroupItem[]> {
 		const resourceManagementClient =
 			await this.getResourceClient(subscriptionItem);
+
 		const resourceGroups =
 			await resourceManagementClient.resourceGroups.list();
+
 		return resourceGroups.map(
 			(resourceGroup) =>
 				new ResourceGroupItem(
@@ -267,6 +278,7 @@ export class ConsortiumResourceExplorer {
 		const locations = await subscriptionClient.subscriptions.listLocations(
 			subscriptionItem.subscriptionId,
 		);
+
 		return locations.map(
 			(location: SubscriptionModels.Location) =>
 				new LocationItem(location),
@@ -320,6 +332,7 @@ export class ConsortiumResourceExplorer {
 
 		const members: IAzureMemberDto[] =
 			await client.memberResource.getListMember();
+
 		if (!members.length) {
 			throw new Error(
 				`No members found in resource group ${resourceGroupItem.label}.`,
@@ -350,6 +363,7 @@ export class ConsortiumResourceExplorer {
 					await client.transactionNodeResource.getListTransactionNode(
 						member.name,
 					);
+
 				const memberItem = new Member(member.name);
 
 				await consortium.setChildren([
@@ -437,9 +451,11 @@ export class ConsortiumResourceExplorer {
 
 	private async waitForLogin(): Promise<boolean> {
 		let result = await this._accountApi.waitForLogin();
+
 		if (!result) {
 			await commands.executeCommand("azure-account.askForLogin");
 			result = await this._accountApi.waitForLogin();
+
 			if (!result) {
 				throw new Error(Constants.errorMessageStrings.WaitForLogin);
 			}

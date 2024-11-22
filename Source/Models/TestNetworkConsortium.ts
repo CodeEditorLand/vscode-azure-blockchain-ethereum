@@ -16,6 +16,7 @@ export class TestNetworkConsortium extends NetworkConsortium {
 
 	public async getTruffleNetwork(): Promise<TruffleConfiguration.INetwork> {
 		const network = await super.getTruffleNetwork();
+
 		const targetURL = network.options.provider!.url;
 
 		network.options.network_id = this.getNetworkId(targetURL!);
@@ -28,6 +29,7 @@ export class TestNetworkConsortium extends NetworkConsortium {
 	 */
 	private getNetworkId(host: string): number | string {
 		host = host.toLowerCase();
+
 		if (host.includes("ropsten")) {
 			return 3;
 		} else if (host.includes("rinkeby")) {

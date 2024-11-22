@@ -67,6 +67,7 @@ async function createProject(
 	await fs.ensureDir(projectPath);
 
 	const arrayFiles = await fs.readdir(projectPath);
+
 	const path = arrayFiles.length
 		? createTemporaryDir(projectPath)
 		: projectPath;
@@ -83,6 +84,7 @@ async function createProject(
 			"unbox",
 			truffleBoxName,
 		);
+
 		if (arrayFiles.length) {
 			fs.moveSync(path, projectPath);
 		}

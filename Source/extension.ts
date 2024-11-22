@@ -34,11 +34,15 @@ export async function activate(context: ExtensionContext) {
 	TelemetryClient.initialize();
 
 	setCommandContext(CommandContext.Enabled, true);
+
 	setCommandContext(CommandContext.IsWorkspaceOpen, isWorkspaceOpen());
 
 	const welcomePage = new WelcomePage(context);
+
 	const requirementsPage = new RequirementsPage(context);
+
 	const consortiumTreeManager = new ConsortiumTreeManager(context);
+
 	const consortiumTree = new ConsortiumTree(consortiumTreeManager);
 
 	welcomePage.checkAndShow();
@@ -51,18 +55,21 @@ export async function activate(context: ExtensionContext) {
 			consortiumTree.refresh(element);
 		},
 	);
+
 	const showWelcomePage = commands.registerCommand(
 		"azureBlockchainService.showWelcomePage",
 		() => {
 			welcomePage.show();
 		},
 	);
+
 	const showRequirementsPage = commands.registerCommand(
 		"azureBlockchainService.showRequirementsPage",
 		() => {
 			requirementsPage.show();
 		},
 	);
+
 	const copyRPCEndpointAddress = commands.registerCommand(
 		"azureBlockchainService.copyRPCEndpointAddress",
 		async (viewItem: ConsortiumView) => {
@@ -71,30 +78,35 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const copyAccessKey = commands.registerCommand(
 		"azureBlockchainService.copyAccessKey",
 		async (viewItem: ConsortiumView) => {
 			await tryExecute(() => AzureBlockchain.copyAccessKey(viewItem));
 		},
 	);
+
 	const installNpm = commands.registerCommand(
 		"azureBlockchainService.required.installNpm",
 		async () => {
 			await tryExecute(() => required.installNpm());
 		},
 	);
+
 	const installTruffle = commands.registerCommand(
 		"azureBlockchainService.required.installTruffle",
 		async () => {
 			await tryExecute(() => required.installTruffle());
 		},
 	);
+
 	const installGanache = commands.registerCommand(
 		"azureBlockchainService.required.installGanache",
 		async () => {
 			await tryExecute(() => required.installGanache());
 		},
 	);
+
 	const getAllVersions = commands.registerCommand(
 		"azureBlockchainService.required.getAllVersions",
 		async () => {
@@ -126,12 +138,14 @@ export async function activate(context: ExtensionContext) {
 			await tryExecute(() => ProjectCommands.newSolidityProject());
 		},
 	);
+
 	const buildContracts = commands.registerCommand(
 		"truffle.buildContracts",
 		async () => {
 			await tryExecute(() => TruffleCommands.buildContracts());
 		},
 	);
+
 	const deployContracts = commands.registerCommand(
 		"truffle.deployContracts",
 		async () => {
@@ -140,12 +154,14 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const copyByteCode = commands.registerCommand(
 		"contract.copyByteCode",
 		async (uri: Uri) => {
 			await tryExecute(() => TruffleCommands.writeBytecodeToBuffer(uri));
 		},
 	);
+
 	const copyABI = commands.registerCommand(
 		"contract.copyABI",
 		async (uri: Uri) => {
@@ -161,6 +177,7 @@ export async function activate(context: ExtensionContext) {
 			await tryExecute(() => ConsortiumCommands.createConsortium());
 		},
 	);
+
 	const connectConsortium = commands.registerCommand(
 		"azureBlockchainService.connectConsortium",
 		async () => {
@@ -169,6 +186,7 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const disconnectConsortium = commands.registerCommand(
 		"azureBlockchainService.disconnectConsortium",
 		async (viewItem: ConsortiumView) => {
@@ -189,6 +207,7 @@ export async function activate(context: ExtensionContext) {
 			await tryExecute(() => AzureBlockchain.viewGasEstimates());
 		},
 	);
+
 	const generateSmartContractUI = commands.registerCommand(
 		"drizzle.generateSmartContractUI",
 		async () => {
@@ -206,6 +225,7 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const pushLedgerEvents = commands.registerCommand(
 		"azureBlockchainService.pushLedgerEvents",
 		async (uri: Uri) => {
@@ -225,6 +245,7 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const generateDataPublishingWorkflows = commands.registerCommand(
 		"azureBlockchainService.generateDataPublishingWorkflows",
 		async (filePath: Uri | undefined) => {
@@ -233,6 +254,7 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const generateEventPublishingWorkflows = commands.registerCommand(
 		"azureBlockchainService.generateEventPublishingWorkflows",
 		async (filePath: Uri | undefined) => {
@@ -241,6 +263,7 @@ export async function activate(context: ExtensionContext) {
 			);
 		},
 	);
+
 	const generateReportPublishingWorkflows = commands.registerCommand(
 		"azureBlockchainService.generateReportPublishingWorkflows",
 		async (filePath: Uri | undefined) => {
@@ -305,6 +328,7 @@ async function tryExecute(
 
 async function runWithCurrentOpenFile(func: (uri: Uri) => {}): Promise<void> {
 	const currentTextEditor = window.activeTextEditor;
+
 	if (currentTextEditor === undefined) {
 		throw new Error("There is no open file.");
 	}

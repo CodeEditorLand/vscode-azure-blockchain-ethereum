@@ -83,6 +83,7 @@ export namespace TruffleConfiguration {
 
 	export async function getTruffleConfigUri(): Promise<Uri[]> {
 		const workspaceRoot = getWorkspaceRoot();
+
 		const configFiles = await workspace.findFiles(
 			new RelativePattern(workspaceRoot, "{**/truffle-config.js}"),
 			new RelativePattern(
@@ -129,7 +130,9 @@ export namespace TruffleConfiguration {
 
 		public async getNetworks(): Promise<INetwork[]> {
 			const ast = await this.getAST();
+
 			const networks: INetwork[] = [];
+
 			const moduleExports: IFound = walk.findNodeAt(
 				ast as ESTree.Node,
 				null,
@@ -139,6 +142,7 @@ export namespace TruffleConfiguration {
 
 			if (moduleExports.node) {
 				const node = moduleExports.node as ESTree.ExpressionStatement;
+
 				const rightExpression = (
 					node.expression as ESTree.AssignmentExpression
 				).right;
@@ -148,6 +152,7 @@ export namespace TruffleConfiguration {
 						rightExpression,
 						"networks",
 					);
+
 					if (
 						networksNode &&
 						networksNode.value.type === "ObjectExpression"
@@ -181,6 +186,7 @@ export namespace TruffleConfiguration {
 
 		public async setNetworks(network: INetwork): Promise<void> {
 			const ast = await this.getAST();
+
 			const moduleExports: IFound = walk.findNodeAt(
 				ast as ESTree.Node,
 				null,
@@ -190,6 +196,7 @@ export namespace TruffleConfiguration {
 
 			if (moduleExports.node) {
 				const node = moduleExports.node as ESTree.ExpressionStatement;
+
 				const rightExpression = (
 					node.expression as ESTree.AssignmentExpression
 				).right;
@@ -199,6 +206,7 @@ export namespace TruffleConfiguration {
 						rightExpression,
 						"networks",
 					);
+
 					if (!networksNode) {
 						networksNode = generateProperty(
 							"networks",
@@ -212,6 +220,7 @@ export namespace TruffleConfiguration {
 							networksNode.value,
 							network.name,
 						);
+
 						if (isExist) {
 							throw Error(
 								`Network with name ${network.name} already existed in truffle-config.js`,
@@ -229,17 +238,20 @@ export namespace TruffleConfiguration {
 			}
 
 			this.ast = ast;
+
 			return this.writeAST();
 		}
 
 		public async importFs(): Promise<void> {
 			const ast = await this.getAST();
+
 			const fsRequired: IFound = walk.findNodeAt(
 				ast as ESTree.Node,
 				null,
 				null,
 				isVarDeclaration("fs"),
 			);
+
 			if (!fsRequired) {
 				const declaration = generateVariableDeclaration(
 					"fs",
@@ -286,6 +298,7 @@ export namespace TruffleConfiguration {
 	function isHDWalletProvider(nodeType: string, node: ESTree.Node): boolean {
 		if (nodeType === "NewExpression") {
 			node = node as ESTree.NewExpression;
+
 			if (
 				node.callee.type === "Identifier" &&
 				node.callee.name === "HDWalletProvider"
@@ -302,6 +315,7 @@ export namespace TruffleConfiguration {
 		return (nodeType: string, node: ESTree.Node) => {
 			if (nodeType === "VariableDeclaration") {
 				node = node as ESTree.VariableDeclaration;
+
 				if (
 					node.declarations[0].type === "VariableDeclarator" &&
 					(node.declarations[0].id as ESTree.Identifier).name ===
@@ -340,6 +354,7 @@ export namespace TruffleConfiguration {
 		};
 
 		const id = findProperty(node, "network_id");
+
 		if (
 			id &&
 			id.value.type === "Literal" &&
@@ -350,6 +365,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const port = findProperty(node, "port");
+
 		if (
 			port &&
 			port.value.type === "Literal" &&
@@ -359,6 +375,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const host = findProperty(node, "host");
+
 		if (
 			host &&
 			host.value.type === "Literal" &&
@@ -368,6 +385,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const websockets = findProperty(node, "websockets");
+
 		if (
 			websockets &&
 			websockets.value.type === "Literal" &&
@@ -377,6 +395,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const gas = findProperty(node, "gas");
+
 		if (
 			gas &&
 			gas.value.type === "Literal" &&
@@ -386,6 +405,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const gasPrice = findProperty(node, "gasPrice");
+
 		if (
 			gasPrice &&
 			gasPrice.value.type === "Literal" &&
@@ -395,6 +415,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const from = findProperty(node, "from");
+
 		if (
 			from &&
 			from.value.type === "Literal" &&
@@ -404,6 +425,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const skipDryRun = findProperty(node, "skipDryRun");
+
 		if (
 			skipDryRun &&
 			skipDryRun.value.type === "Literal" &&
@@ -413,6 +435,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const timeoutBlocks = findProperty(node, "timeoutBlocks");
+
 		if (
 			timeoutBlocks &&
 			timeoutBlocks.value.type === "Literal" &&
@@ -422,6 +445,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const provider = findProperty(node, "provider");
+
 		if (provider && provider.value.type === "FunctionExpression") {
 			const hdWalletProvider: IFound = walk.findNodeAt(
 				provider,
@@ -429,6 +453,7 @@ export namespace TruffleConfiguration {
 				null,
 				isHDWalletProvider,
 			);
+
 			if (
 				hdWalletProvider.node &&
 				hdWalletProvider.node.type === "NewExpression"
@@ -442,6 +467,7 @@ export namespace TruffleConfiguration {
 		}
 
 		const consortiumId = findProperty(node, "consortium_id");
+
 		if (
 			consortiumId &&
 			consortiumId.value.type === "Literal" &&
@@ -458,6 +484,7 @@ export namespace TruffleConfiguration {
 			properties: [],
 			type: "ObjectExpression",
 		};
+
 		const options = network.options;
 
 		if (options.network_id !== undefined) {
@@ -553,11 +580,13 @@ export namespace TruffleConfiguration {
 		};
 
 		const mnemonicNode = node.arguments[0];
+
 		if (mnemonicNode && mnemonicNode.type === "Literal") {
 			provider.mnemonic = "" + mnemonicNode.value;
 		}
 
 		const urlNode = node.arguments[1];
+
 		if (urlNode && urlNode.type === "Literal") {
 			provider.url = "" + urlNode.value;
 		}
@@ -591,6 +620,7 @@ export namespace TruffleConfiguration {
 		value: ESTree.Expression,
 	): ESTree.Property {
 		notAllowedSymbols.lastIndex = 0;
+
 		const isLiteral = notAllowedSymbols.test(name);
 
 		return {
@@ -651,6 +681,7 @@ export namespace TruffleConfiguration {
 			},
 			type: "CallExpression",
 		};
+
 		return call as ESTree.CallExpression;
 	}
 
@@ -686,6 +717,7 @@ export namespace TruffleConfiguration {
 			kind: "const",
 			type: "VariableDeclaration",
 		};
+
 		return declaration as ESTree.VariableDeclaration;
 	}
 }

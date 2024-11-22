@@ -27,13 +27,17 @@ export abstract class ProtectedConsortium extends Consortium {
 		const truffleConfigPath = (
 			await TruffleConfiguration.getTruffleConfigUri()
 		)[0].fsPath;
+
 		const config = new TruffleConfiguration.TruffleConfig(
 			truffleConfigPath,
 		);
+
 		const network = await super.getTruffleNetwork();
 
 		const targetURL = await this.getRPCAddress();
+
 		const accessKey = await this.getAccessKey();
+
 		const mnemonic = await this.getMnemonic();
 		await config.importFs();
 
@@ -51,7 +55,9 @@ export abstract class ProtectedConsortium extends Consortium {
 				cmd: async () => {
 					const mnemonic =
 						await TruffleConfiguration.generateMnemonic();
+
 					const path = await this.saveMnemonicFile(mnemonic);
+
 					return { mnemonic, path };
 				},
 				label: Constants.placeholders.generateMnemonic,
@@ -62,7 +68,9 @@ export abstract class ProtectedConsortium extends Consortium {
 						ignoreFocusOut: true,
 						placeHolder: Constants.placeholders.pasteMnemonic,
 					});
+
 					const path = await this.saveMnemonicFile(mnemonic);
+
 					return { mnemonic, path };
 				},
 				label: Constants.placeholders.pasteMnemonic,
@@ -73,7 +81,9 @@ export abstract class ProtectedConsortium extends Consortium {
 			.filter((path) => fs.existsSync(path))
 			.map((path) => {
 				const mnemonic = MnemonicRepository.getMnemonic(path);
+
 				const label = `${mnemonic.split(" ")[0].slice(0, 3)} ... ${mnemonic.split(" ")[11].slice(-3)}`;
+
 				return {
 					cmd: async () => ({ mnemonic, path }),
 					detail: path,
@@ -96,6 +106,7 @@ export abstract class ProtectedConsortium extends Consortium {
 			Files: [Constants.mnemonicConstants.fileExt],
 		});
 		MnemonicRepository.saveMnemonicPath(path);
+
 		return path;
 	}
 }

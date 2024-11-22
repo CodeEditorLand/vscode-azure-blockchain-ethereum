@@ -23,6 +23,7 @@ export namespace ViewItemFactory {
 		extensionItem: IExtensionItem,
 	): ExtensionView<IExtensionItem> {
 		const creator = registeredTypes[extensionItem.itemType];
+
 		if (!creator) {
 			throw new Error(
 				`Type ${extensionItem.itemType} doesn't exist in factory`,
