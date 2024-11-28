@@ -1044,7 +1044,7 @@ declare module Nethereum {
 				// Nethereum.Generators.Core.CodeGenLanguageExt.StringComparerIgnoreCase
 				export interface StringComparerIgnoreCase
 					extends System.Object,
-						System.Collections.Generic.IEqualityComparer$1<String> {
+						System.Collections.Generic.IEqualityComparer$1<string> {
 					Equals$1(x: string, y: string): boolean;
 					GetHashCode$1(obj: string): int;
 				}

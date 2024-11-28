@@ -321,10 +321,10 @@ interface BooleanConstructor {
 interface String
 	extends System.Object,
 		System.IComparable,
-		System.IComparable$1<String>,
+		System.IComparable$1<string>,
 		System.Collections.Generic.IEnumerable$1<System.Char>,
 		System.Collections.IEnumerable,
-		System.IEquatable$1<String> {
+		System.IEquatable$1<string> {
 	get_Chars(index: int): char;
 	IndexOf(value: char): int;
 	IndexOf$1(value: char, startIndex?: int): int;
