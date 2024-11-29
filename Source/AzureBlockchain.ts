@@ -11,6 +11,7 @@ export namespace AzureBlockchain {
 		consortiumNode: ConsortiumView,
 	): Promise<void> {
 		const rpcEndpointAddress = await consortiumNode.getRPCAddress();
+
 		await AzureBlockchain.addDataInClipboard(
 			Constants.rpcEndpointAddress,
 			rpcEndpointAddress,
@@ -21,6 +22,7 @@ export namespace AzureBlockchain {
 		consortiumNode: ConsortiumView,
 	): Promise<void> {
 		const accessKey = await consortiumNode.getAccessKey();
+
 		await AzureBlockchain.addDataInClipboard(
 			Constants.accessKey,
 			accessKey,
@@ -33,6 +35,7 @@ export namespace AzureBlockchain {
 	) {
 		if (data) {
 			await env.clipboard.writeText(data);
+
 			window.showInformationMessage(typeOfData + Constants.dataCopied);
 		}
 	}

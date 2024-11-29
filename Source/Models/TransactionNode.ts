@@ -12,6 +12,7 @@ export class TransactionNode extends ExtensionItem {
 		super(ItemType.TRANSACTION_NODE, transactionNodeName);
 
 		this.contextValue = Constants.contextValue.transactionNode;
+
 		this.iconPath = Constants.icons.transactionNode;
 
 		this.dns = dns;
@@ -19,6 +20,7 @@ export class TransactionNode extends ExtensionItem {
 
 	public toJSON(): { [p: string]: any } {
 		const obj = super.toJSON();
+
 		obj.dns = this.dns;
 
 		return obj;

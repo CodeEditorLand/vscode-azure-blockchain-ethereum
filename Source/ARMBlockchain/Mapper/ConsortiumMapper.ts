@@ -1,8 +1,12 @@
 export interface ICreateQuorumMember {
 	region: string;
+
 	consortiumName: string;
+
 	consortiumPassword: string;
+
 	consortiumManagementAccountPassword: string;
+
 	protocol: string;
 }
 

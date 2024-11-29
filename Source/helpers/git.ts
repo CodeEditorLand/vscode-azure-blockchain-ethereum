@@ -23,5 +23,6 @@ export async function isRepoExists(workingDirectory: string): Promise<boolean> {
 	} catch (error) {
 		return false;
 	}
+
 	return true;
 }

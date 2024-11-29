@@ -33,6 +33,7 @@ export class LogicAppGenerator {
 	): Promise<void> {
 		return this.generateWorkflows("Data", filePath);
 	}
+
 	public async generateEventPublishingWorkflows(
 		filePath: Uri | undefined,
 	): Promise<void> {
@@ -85,6 +86,7 @@ export class LogicAppGenerator {
 
 			const [subscriptionItem, resourceGroupItem] =
 				await this.selectSubscriptionAndResourceGroup();
+
 			readJson(
 				compiledContractPath,
 				{ encoding: "utf8" },
@@ -146,6 +148,7 @@ export class LogicAppGenerator {
 
 		const [subscriptionItem, resourceGroupItem] =
 			await this.selectSubscriptionAndResourceGroup();
+
 		files.forEach((file) => {
 			readJson(
 				dirPath + file,
@@ -197,6 +200,7 @@ export class LogicAppGenerator {
 
 			return;
 		}
+
 		await this.createLogicAppFromAbi(
 			contents,
 			dirPath,
@@ -303,8 +307,10 @@ export class LogicAppGenerator {
 					JSON.stringify(contract.abi),
 				);
 		}
+
 		if (generator) {
 			const files: any[] = generator.GenerateAll();
+
 			files.forEach(this.writeFile);
 		} else {
 			throw new Error(
@@ -325,14 +331,17 @@ export class LogicAppGenerator {
 
 	private writeFile(file: Nethereum.Generators.Core.GeneratedFile): void {
 		const filePath = file.get_OutputFolder() + "/" + file.get_FileName();
+
 		mkdirp(path.dirname(filePath), (err: any) => {
 			if (err) {
 				throw err;
 			}
+
 			writeFile(filePath, file.get_GeneratedCode(), (err2: any) => {
 				if (err2) {
 					throw err2;
 				}
+
 				Output.outputLine(
 					Constants.outputChannel.logicAppGenerator,
 					"Saved file to " + filePath,
@@ -416,11 +425,13 @@ export class LogicAppGenerator {
 				),
 		);
 	}
+
 	private async waitForLogin(): Promise<boolean> {
 		let result = await this._accountApi.waitForLogin();
 
 		if (!result) {
 			await commands.executeCommand("azure-account.askForLogin");
+
 			result = await this._accountApi.waitForLogin();
 
 			if (!result) {

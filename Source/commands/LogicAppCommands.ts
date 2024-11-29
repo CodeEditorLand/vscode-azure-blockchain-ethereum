@@ -10,6 +10,7 @@ export namespace LogicAppCommands {
 
 		return generator.generateMicroservicesWorkflows(filePath);
 	}
+
 	export async function generateDataPublishingWorkflows(
 		filePath: Uri | undefined,
 	): Promise<void> {
@@ -17,6 +18,7 @@ export namespace LogicAppCommands {
 
 		return generator.generateDataPublishingWorkflows(filePath);
 	}
+
 	export async function generateEventPublishingWorkflows(
 		filePath: Uri | undefined,
 	): Promise<void> {
@@ -24,6 +26,7 @@ export namespace LogicAppCommands {
 
 		return generator.generateEventPublishingWorkflows(filePath);
 	}
+
 	export async function generateReportPublishingWorkflows(
 		filePath: Uri | undefined,
 	): Promise<void> {

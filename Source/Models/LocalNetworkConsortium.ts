@@ -21,7 +21,9 @@ export class LocalNetworkConsortium extends Consortium {
 		const network = await super.getTruffleNetwork();
 
 		const url = this.getUrls()[0];
+
 		network.options.host = url.hostname || Constants.localhost;
+
 		network.options.port =
 			parseInt(url.port, 10) || Constants.defaultLocalhostPort;
 

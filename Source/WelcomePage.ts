@@ -15,6 +15,7 @@ import { required } from "./helpers";
 
 export class WelcomePage {
 	private panel?: WebviewPanel;
+
 	private context: ExtensionContext;
 
 	constructor(context: ExtensionContext) {
@@ -45,9 +46,11 @@ export class WelcomePage {
 			const rootPath = Uri.file(this.context.asAbsolutePath("."))
 				.with({ scheme: "vscode-resource" })
 				.toString();
+
 			this.panel.webview.html = fs
 				.readFileSync(Constants.welcomePagePath, "utf8")
 				.replace(/{{root}}/g, rootPath);
+
 			this.panel.onDidDispose(() => {
 				this.dispose();
 			});
@@ -65,6 +68,7 @@ export class WelcomePage {
 									versions: await required.getAllVersions(),
 								});
 							}
+
 							return;
 					}
 				},
@@ -78,6 +82,7 @@ export class WelcomePage {
 		if (this.panel) {
 			this.panel.dispose();
 		}
+
 		this.panel = undefined;
 	}
 }

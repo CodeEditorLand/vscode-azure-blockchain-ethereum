@@ -11,10 +11,14 @@ export interface IExtensionItem extends TreeItem {
 	getParent(): IExtensionItem | null;
 
 	getChildren(): IExtensionItem[];
+
 	addParent(parent: IExtensionItem): void;
+
 	addChild(child: IExtensionItem): void;
+
 	removeChild(child: IExtensionItem): void;
 
 	setChildren(children: IExtensionItem[]): void;
+
 	toJSON(): { [key: string]: any };
 }

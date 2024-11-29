@@ -29,16 +29,27 @@ declare module Nethereum {
 			get_PathDelimiter(): string;
 
 			get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 			GenerateAllMessagesFileAndService(): Core.GeneratedFile[];
+
 			GenerateAllMessages(): Core.GeneratedFile;
+
 			GenerateAll(): Core.GeneratedFile[];
+
 			GenerateService(singleMessagesFile?: boolean): Core.GeneratedFile;
+
 			GenerateAllCQSMessages(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 			GenerateAllFunctionDTOs(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 			GetAllFunctionDTOsGenerators(): System.Collections.Generic.List$1<DTOs.FunctionOutputDTOGenerator>;
+
 			GenerateAllEventDTOs(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 			GetllEventDTOGenerators(): System.Collections.Generic.List$1<DTOs.EventDTOGenerator>;
+
 			GeneratCQSFunctionMessages(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 			GetAllCQSFunctionMessageGenerators(): System.Collections.Generic.List$1<CQS.FunctionCQSMessageGenerator>;
 
 			get_AddRootNamespaceOnVbProjectsToImportStatements(): boolean;
@@ -46,14 +57,21 @@ declare module Nethereum {
 			set_AddRootNamespaceOnVbProjectsToImportStatements(
 				value: boolean,
 			): void;
+
 			GetCQSMessageDeploymentGenerator(): CQS.ContractDeploymentCQSMessageGenerator;
+
 			GeneratCQSMessageDeployment(): Core.GeneratedFile;
+
 			GetFullNamespace(namespace: string): string;
+
 			GetFullPath(namespace: string): string;
 		}
+
 		export interface ContractProjectGeneratorTypeFunc extends TypeFunction {
 			(): ContractProjectGeneratorTypeFunc;
+
 			prototype: ContractProjectGenerator;
+
 			new (
 				contractABI: Model.ContractABI,
 				contractName: string,
@@ -66,6 +84,7 @@ declare module Nethereum {
 				pathDelimiter: string,
 				codeGenLanguage: Core.CodeGenLanguage,
 			): ContractProjectGenerator;
+
 			ctor: {
 				new (
 					contractABI: Model.ContractABI,
@@ -81,6 +100,7 @@ declare module Nethereum {
 				): ContractProjectGenerator;
 			};
 		}
+
 		const ContractProjectGenerator: ContractProjectGeneratorTypeFunc;
 
 		// Nethereum.Generators.NetStandardLibraryGenerator
@@ -88,20 +108,25 @@ declare module Nethereum {
 			get_ProjectFileName(): string;
 
 			get_CodeGenLanguage(): Core.CodeGenLanguage;
+
 			GenerateFileContent(outputPath: string): Core.GeneratedFile;
 
 			get_NethereumWeb3Version(): string;
 
 			set_NethereumWeb3Version(value: string): void;
 		}
+
 		export interface NetStandardLibraryGeneratorTypeFunc
 			extends TypeFunction {
 			(): NetStandardLibraryGeneratorTypeFunc;
+
 			prototype: NetStandardLibraryGenerator;
+
 			new (
 				projectFileName: string,
 				codeGenLanguage: Core.CodeGenLanguage,
 			): NetStandardLibraryGenerator;
+
 			ctor: {
 				new (
 					projectFileName: string,
@@ -109,26 +134,39 @@ declare module Nethereum {
 				): NetStandardLibraryGenerator;
 			};
 		}
+
 		const NetStandardLibraryGenerator: NetStandardLibraryGeneratorTypeFunc;
+
 		module Core {
 			// Nethereum.Generators.Core.FunctionABIModel
 			export interface FunctionABIModel extends System.Object {
 				get_FunctionABI(): Model.FunctionABI;
+
 				GetSingleOutputReturnType(): string;
+
 				GetSingleAbiReturnType(): string;
+
 				IsMultipleOutput(): boolean;
+
 				IsSingleOutput(): boolean;
+
 				HasNoInputParameters(): boolean;
+
 				HasNoReturn(): boolean;
+
 				IsTransaction(): boolean;
 			}
+
 			export interface FunctionABIModelTypeFunc extends TypeFunction {
 				(): FunctionABIModelTypeFunc;
+
 				prototype: FunctionABIModel;
+
 				new (
 					functionABI: Model.FunctionABI,
 					abiTypeToDotnetTypeConvertor: ITypeConvertor,
 				): FunctionABIModel;
+
 				ctor: {
 					new (
 						functionABI: Model.FunctionABI,
@@ -136,6 +174,7 @@ declare module Nethereum {
 					): FunctionABIModel;
 				};
 			}
+
 			const FunctionABIModel: FunctionABIModelTypeFunc;
 
 			// Nethereum.Generators.Core.ParameterABIModel
@@ -144,24 +183,34 @@ declare module Nethereum {
 				GetPropertyName$1(
 					parameterDirection: ParameterDirection,
 				): string;
+
 				GetVariableName$1(name: string, order: int): string;
+
 				GetPropertyName$2(
 					name: string,
 					order: int,
 					parameterDirection?: ParameterDirection,
 				): string;
 			}
+
 			export interface ParameterABIModelTypeFunc extends TypeFunction {
 				(): ParameterABIModelTypeFunc;
+
 				prototype: ParameterABIModel;
+
 				AnonymousInputParameterPrefix: string;
+
 				AnonymousOutputParameterPrefix: string;
+
 				ctor$1: {
 					new (parameter: Model.ParameterABI): ParameterABIModel;
 				};
+
 				new (): ParameterABIModel;
+
 				ctor: { new (): ParameterABIModel };
 			}
+
 			const ParameterABIModel: ParameterABIModelTypeFunc;
 
 			// Nethereum.Generators.Core.ParameterABIModelTypeMap
@@ -169,33 +218,44 @@ declare module Nethereum {
 				GetParameterDotNetOutputMapType(
 					parameter: Model.ParameterABI,
 				): string;
+
 				GetParameterDotNetInputMapType(
 					parameter: Model.ParameterABI,
 				): string;
 			}
+
 			export interface ParameterABIModelTypeMapTypeFunc
 				extends TypeFunction {
 				(): ParameterABIModelTypeMapTypeFunc;
+
 				prototype: ParameterABIModelTypeMap;
+
 				new (typeConvertor: ITypeConvertor): ParameterABIModelTypeMap;
+
 				ctor: {
 					new (
 						typeConvertor: ITypeConvertor,
 					): ParameterABIModelTypeMap;
 				};
 			}
+
 			const ParameterABIModelTypeMap: ParameterABIModelTypeMapTypeFunc;
 
 			// Nethereum.Generators.Core.ABITypeToCSharpType
 			export interface ABITypeToCSharpType
 				extends ABITypeToDotNetTypeBase,
 					ITypeConvertor {}
+
 			export interface ABITypeToCSharpTypeTypeFunc extends TypeFunction {
 				(): ABITypeToCSharpTypeTypeFunc;
+
 				prototype: ABITypeToCSharpType;
+
 				new (): ABITypeToCSharpType;
+
 				ctor: { new (): ABITypeToCSharpType };
 			}
+
 			const ABITypeToCSharpType: ABITypeToCSharpTypeTypeFunc;
 
 			// Nethereum.Generators.Core.ABITypeToDotNetTypeBase
@@ -204,35 +264,48 @@ declare module Nethereum {
 					ITypeConvertor {
 				Convert(typeName: string, outputArrayAsList?: boolean): string;
 			}
+
 			export interface ABITypeToDotNetTypeBaseTypeFunc
 				extends TypeFunction {
 				(): ABITypeToDotNetTypeBaseTypeFunc;
+
 				prototype: ABITypeToDotNetTypeBase;
 			}
+
 			const ABITypeToDotNetTypeBase: ABITypeToDotNetTypeBaseTypeFunc;
 
 			// Nethereum.Generators.Core.ABITypeToFSharpType
 			export interface ABITypeToFSharpType
 				extends ABITypeToDotNetTypeBase,
 					ITypeConvertor {}
+
 			export interface ABITypeToFSharpTypeTypeFunc extends TypeFunction {
 				(): ABITypeToFSharpTypeTypeFunc;
+
 				prototype: ABITypeToFSharpType;
+
 				new (): ABITypeToFSharpType;
+
 				ctor: { new (): ABITypeToFSharpType };
 			}
+
 			const ABITypeToFSharpType: ABITypeToFSharpTypeTypeFunc;
 
 			// Nethereum.Generators.Core.ABITypeToVBType
 			export interface ABITypeToVBType
 				extends ABITypeToDotNetTypeBase,
 					ITypeConvertor {}
+
 			export interface ABITypeToVBTypeTypeFunc extends TypeFunction {
 				(): ABITypeToVBTypeTypeFunc;
+
 				prototype: ABITypeToVBType;
+
 				new (): ABITypeToVBType;
+
 				ctor: { new (): ABITypeToVBType };
 			}
+
 			const ABITypeToVBType: ABITypeToVBTypeTypeFunc;
 
 			// Nethereum.Generators.Core.ClassGeneratorBase<TClassTemplate, TClassModel>
@@ -242,21 +315,29 @@ declare module Nethereum {
 					IGenerator,
 					IClassGenerator {
 				GenerateFileContent$1(outputPath: string): GeneratedFile;
+
 				GenerateFileContent(): string;
+
 				GetFileName(): string;
+
 				GenerateClass(): string;
 			}
+
 			export interface ClassGeneratorBase$2TypeFunc<
 				TClassTemplate,
 				TClassModel,
 			> extends TypeFunction {
 				(): ClassGeneratorBase$2TypeFunc<TClassTemplate, TClassModel>;
+
 				prototype: ClassGeneratorBase$2<TClassTemplate, TClassModel>;
+
 				new (): ClassGeneratorBase$2<TClassTemplate, TClassModel>;
+
 				ctor: {
 					new (): ClassGeneratorBase$2<TClassTemplate, TClassModel>;
 				};
 			}
+
 			export function ClassGeneratorBase$2<TClassTemplate, TClassModel>(
 				TClassTemplate: TypeArg<TClassTemplate>,
 				TClassModel: TypeArg<TClassModel>,
@@ -273,47 +354,65 @@ declare module Nethereum {
 			// Nethereum.Generators.Core.CodeGenLanguageExt
 			export interface CodeGenLanguageExtTypeFunc extends TypeFunction {
 				(): CodeGenLanguageExtTypeFunc;
+
 				ProjectFileExtensions: System.Collections.Generic.Dictionary$2<
 					CodeGenLanguage,
 					string
 				>;
+
 				LanguageMappings: System.Collections.Generic.Dictionary$2<
 					string,
 					CodeGenLanguage
 				>;
+
 				DotNetCliLanguage: System.Collections.Generic.Dictionary$2<
 					CodeGenLanguage,
 					string
 				>;
+
 				GetValidProjectFileExtensions(): System.Collections.Generic.IEnumerable$1<string>;
+
 				ParseLanguage(languageTag: string): CodeGenLanguage;
+
 				ToDotNetCli(language: CodeGenLanguage): string;
+
 				AddProjectFileExtension(
 					language: CodeGenLanguage,
 					projectFileName: string,
 				): string;
+
 				GetCodeGenLanguageFromProjectFile(
 					projectFilePath: string,
 				): CodeGenLanguage;
+
 				GetCodeOutputFileExtension(
 					codeGenLanguage: CodeGenLanguage,
 				): string;
+
 				StringComparerIgnoreCase: CodeGenLanguageExt.StringComparerIgnoreCaseTypeFunc;
 			}
+
 			const CodeGenLanguageExt: CodeGenLanguageExtTypeFunc;
 
 			// Nethereum.Generators.Core.CommonGenerators
 			export interface CommonGenerators extends System.Object {
 				GenerateVariableName(value: string): string;
+
 				GeneratePropertyName(value: string): string;
+
 				GenerateClassName(value: string): string;
 			}
+
 			export interface CommonGeneratorsTypeFunc extends TypeFunction {
 				(): CommonGeneratorsTypeFunc;
+
 				prototype: CommonGenerators;
+
 				new (): CommonGenerators;
+
 				ctor: { new (): CommonGenerators };
 			}
+
 			const CommonGenerators: CommonGeneratorsTypeFunc;
 
 			// Nethereum.Generators.Core.FileModel
@@ -323,18 +422,24 @@ declare module Nethereum {
 				get_CodeGenLanguage(): CodeGenLanguage;
 
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
+
 				GetFileName(): string;
 
 				get_Namespace(): string;
 
 				get_NamespaceDependencies(): System.Collections.Generic.List$1<string>;
 			}
+
 			export interface FileModelTypeFunc extends TypeFunction {
 				(): FileModelTypeFunc;
+
 				prototype: FileModel;
+
 				new (namespace: string, name: string): FileModel;
+
 				ctor: { new (namespace: string, name: string): FileModel };
 			}
+
 			const FileModel: FileModelTypeFunc;
 
 			// Nethereum.Generators.Core.GeneratedFile
@@ -345,14 +450,18 @@ declare module Nethereum {
 
 				get_OutputFolder(): string;
 			}
+
 			export interface GeneratedFileTypeFunc extends TypeFunction {
 				(): GeneratedFileTypeFunc;
+
 				prototype: GeneratedFile;
+
 				new (
 					generatedCode: string,
 					fileName: string,
 					outputFolder: string,
 				): GeneratedFile;
+
 				ctor: {
 					new (
 						generatedCode: string,
@@ -361,34 +470,43 @@ declare module Nethereum {
 					): GeneratedFile;
 				};
 			}
+
 			const GeneratedFile: GeneratedFileTypeFunc;
 
 			// Nethereum.Generators.Core.IClassGenerator
 			export interface IClassGenerator {
 				Nethereum$Generators$Core$IClassGenerator$GenerateClass(): string;
 			}
+
 			const IClassGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IClassModel
 			export interface IClassModel extends IFileModel {
 				Nethereum$Generators$Core$IClassModel$GetTypeName(): string;
+
 				Nethereum$Generators$Core$IClassModel$GetVariableName(): string;
 			}
+
 			const IClassModel: TypeFunction;
 
 			// Nethereum.Generators.Core.IFileModel
 			export interface IFileModel {
 				Nethereum$Generators$Core$IFileModel$GetFileName(): string;
+
 				Nethereum$Generators$Core$IFileModel$get_Namespace(): string;
+
 				Nethereum$Generators$Core$IFileModel$get_NamespaceDependencies(): System.Collections.Generic.List$1<string>;
 			}
+
 			const IFileModel: TypeFunction;
 
 			// Nethereum.Generators.Core.IClassTemplate
 			export interface IClassTemplate {
 				Nethereum$Generators$Core$IClassTemplate$GenerateClass(): string;
+
 				Nethereum$Generators$Core$IClassTemplate$GenerateFullClass(): string;
 			}
+
 			const IClassTemplate: TypeFunction;
 
 			// Nethereum.Generators.Core.IFileGenerator
@@ -396,25 +514,32 @@ declare module Nethereum {
 				Nethereum$Generators$Core$IFileGenerator$GenerateFileContent$1(
 					outputPath: string,
 				): GeneratedFile;
+
 				Nethereum$Generators$Core$IFileGenerator$GenerateFileContent(): string;
+
 				Nethereum$Generators$Core$IFileGenerator$GetFileName(): string;
 			}
+
 			const IFileGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IGenerator
 			export interface IGenerator {
 				Nethereum$Generators$Core$IGenerator$GenerateClass(): string;
 			}
+
 			const IGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IMessage<TParameter>
 			export interface IMessage$1<TParameter> {
 				Nethereum$Generators$Core$IMessage$1$get_InputParameters(): TParameter[];
+
 				Nethereum$Generators$Core$IMessage$1$get_Name(): string;
+
 				Nethereum$Generators$Core$IMessage$1$set_Name(
 					value: string,
 				): void;
 			}
+
 			export function IMessage$1<TParameter>(
 				TParameter: TypeArg<TParameter>,
 			): TypeFunction;
@@ -426,12 +551,14 @@ declare module Nethereum {
 					outputArrayAsList?: boolean,
 				): string;
 			}
+
 			const ITypeConvertor: TypeFunction;
 
 			// Nethereum.Generators.Core.IWFGenerator
 			export interface IWFGenerator {
 				Nethereum$Generators$Core$IWFGenerator$GenerateWorkflow(): string;
 			}
+
 			const IWFGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IWorkflowFileGenerator
@@ -439,50 +566,64 @@ declare module Nethereum {
 				Nethereum$Generators$Core$IWorkflowFileGenerator$GenerateFileContent$1(
 					outputPath: string,
 				): GeneratedFile;
+
 				Nethereum$Generators$Core$IWorkflowFileGenerator$GenerateFileContent(): string;
+
 				Nethereum$Generators$Core$IWorkflowFileGenerator$GetFileName(): string;
 			}
+
 			const IWorkflowFileGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IWorkflowGenerator
 			export interface IWorkflowGenerator {
 				Nethereum$Generators$Core$IWorkflowGenerator$GenerateWorkflow(): string;
 			}
+
 			const IWorkflowGenerator: TypeFunction;
 
 			// Nethereum.Generators.Core.IWorkflowModel
 			export interface IWorkflowModel extends IFileModel {
 				Nethereum$Generators$Core$IWorkflowModel$GetTypeName(): string;
+
 				Nethereum$Generators$Core$IWorkflowModel$GetVariableName(): string;
 			}
+
 			const IWorkflowModel: TypeFunction;
 
 			// Nethereum.Generators.Core.IWorkflowTemplate
 			export interface IWorkflowTemplate {
 				Nethereum$Generators$Core$IWorkflowTemplate$GenerateWorkflow(): string;
+
 				Nethereum$Generators$Core$IWorkflowTemplate$GenerateFullWorkflow(): string;
 			}
+
 			const IWorkflowTemplate: TypeFunction;
 
 			// Nethereum.Generators.Core.JavascriptEscapeUtility
 			export interface JavascriptEscapeUtilityTypeFunc
 				extends TypeFunction {
 				(): JavascriptEscapeUtilityTypeFunc;
+
 				JavaScriptEscape(text: string): string;
 			}
+
 			const JavascriptEscapeUtility: JavascriptEscapeUtilityTypeFunc;
 
 			// Nethereum.Generators.Core.LogicAppWorkflowFileTemplate
 			export interface LogicAppWorkflowFileTemplate
 				extends WorkflowFileTemplate {}
+
 			export interface LogicAppWorkflowFileTemplateTypeFunc
 				extends TypeFunction {
 				(): LogicAppWorkflowFileTemplateTypeFunc;
+
 				prototype: LogicAppWorkflowFileTemplate;
+
 				new (
 					workflowModel: IWorkflowModel,
 					workflowTemplate: IWorkflowTemplate,
 				): LogicAppWorkflowFileTemplate;
+
 				ctor: {
 					new (
 						workflowModel: IWorkflowModel,
@@ -490,6 +631,7 @@ declare module Nethereum {
 					): LogicAppWorkflowFileTemplate;
 				};
 			}
+
 			const LogicAppWorkflowFileTemplate: LogicAppWorkflowFileTemplateTypeFunc;
 
 			// Nethereum.Generators.Core.MessageMap<MFrom, MTo, PFrom, PTo>
@@ -513,10 +655,13 @@ declare module Nethereum {
 					>,
 				): void;
 			}
+
 			export interface MessageMap$4TypeFunc<MFrom, MTo, PFrom, PTo>
 				extends TypeFunction {
 				(): MessageMap$4TypeFunc<MFrom, MTo, PFrom, PTo>;
+
 				prototype: MessageMap$4<MFrom, MTo, PFrom, PTo>;
+
 				new (
 					from: MFrom,
 					to: MTo,
@@ -524,6 +669,7 @@ declare module Nethereum {
 						ParameterMap$2<PFrom, PTo>
 					>,
 				): MessageMap$4<MFrom, MTo, PFrom, PTo>;
+
 				ctor: {
 					new (
 						from: MFrom,
@@ -534,6 +680,7 @@ declare module Nethereum {
 					): MessageMap$4<MFrom, MTo, PFrom, PTo>;
 				};
 			}
+
 			export function MessageMap$4<MFrom, MTo, PFrom, PTo>(
 				MFrom: TypeArg<MFrom>,
 				MTo: TypeArg<MTo>,
@@ -555,10 +702,14 @@ declare module Nethereum {
 					IFileGenerator,
 					IGenerator {
 				GenerateFileContent$1(outputPath: string): GeneratedFile;
+
 				GenerateFileContent(): string;
+
 				GetFileName(): string;
+
 				GenerateClass(): string;
 			}
+
 			export interface MultipleClassGeneratorBase$2TypeFunc<
 				TMultipleClassFileTemplate,
 				TMultipleClassFileModel,
@@ -567,14 +718,17 @@ declare module Nethereum {
 					TMultipleClassFileTemplate,
 					TMultipleClassFileModel
 				>;
+
 				prototype: MultipleClassGeneratorBase$2<
 					TMultipleClassFileTemplate,
 					TMultipleClassFileModel
 				>;
+
 				new (): MultipleClassGeneratorBase$2<
 					TMultipleClassFileTemplate,
 					TMultipleClassFileModel
 				>;
+
 				ctor: {
 					new (): MultipleClassGeneratorBase$2<
 						TMultipleClassFileTemplate,
@@ -582,6 +736,7 @@ declare module Nethereum {
 					>;
 				};
 			}
+
 			export function MultipleClassGeneratorBase$2<
 				TMultipleClassFileTemplate,
 				TMultipleClassFileModel,
@@ -601,14 +756,19 @@ declare module Nethereum {
 
 				get_Order(): int;
 			}
+
 			export interface ParameterTypeFunc extends TypeFunction {
 				(): ParameterTypeFunc;
+
 				prototype: Parameter;
+
 				new (name: string, type: string, order: int): Parameter;
+
 				ctor: {
 					new (name: string, type: string, order: int): Parameter;
 				};
 			}
+
 			const Parameter: ParameterTypeFunc;
 
 			// Nethereum.Generators.Core.ParameterDirection
@@ -627,13 +787,18 @@ declare module Nethereum {
 
 				set_To(value: T2): void;
 			}
+
 			export interface ParameterMap$2TypeFunc<T1, T2>
 				extends TypeFunction {
 				(): ParameterMap$2TypeFunc<T1, T2>;
+
 				prototype: ParameterMap$2<T1, T2>;
+
 				new (from: T1, to: T2): ParameterMap$2<T1, T2>;
+
 				ctor: { new (from: T1, to: T2): ParameterMap$2<T1, T2> };
 			}
+
 			export function ParameterMap$2<T1, T2>(
 				T1: TypeArg<T1>,
 				T2: TypeArg<T2>,
@@ -651,6 +816,7 @@ declare module Nethereum {
 					TParameterFrom,
 					TParameterTo
 				> {}
+
 			export interface ParameterMapperAssignerCSharpTemplate$4TypeFunc<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -663,18 +829,21 @@ declare module Nethereum {
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				prototype: ParameterMapperAssignerCSharpTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				new (): ParameterMapperAssignerCSharpTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				ctor: {
 					new (): ParameterMapperAssignerCSharpTemplate$4<
 						TParameterModelFrom,
@@ -684,6 +853,7 @@ declare module Nethereum {
 					>;
 				};
 			}
+
 			export function ParameterMapperAssignerCSharpTemplate$4<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -713,20 +883,24 @@ declare module Nethereum {
 					variableSourceName: string,
 					destinationVariableName: string,
 				): string;
+
 				GenerateMappingAssigment(
 					map: ParameterMap$2<TParameterFrom, TParameterTo>,
 					variableSourceName: string,
 				): string;
+
 				GenerateMappingsReturn$1(
 					map: ParameterMap$2<TParameterFrom, TParameterTo>,
 					variableSourceName: string,
 					destinationVariableName: string,
 				): string;
+
 				GenerateMappingsReturn(
 					map: ParameterMap$2<TParameterFrom, TParameterTo>,
 					variableSourceName: string,
 				): string;
 			}
+
 			export interface ParameterMapperAssignerTemplate$4TypeFunc<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -739,18 +913,21 @@ declare module Nethereum {
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				prototype: ParameterMapperAssignerTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				new (): ParameterMapperAssignerTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				ctor: {
 					new (): ParameterMapperAssignerTemplate$4<
 						TParameterModelFrom,
@@ -760,6 +937,7 @@ declare module Nethereum {
 					>;
 				};
 			}
+
 			export function ParameterMapperAssignerTemplate$4<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -789,6 +967,7 @@ declare module Nethereum {
 					TParameterFrom,
 					TParameterTo
 				> {}
+
 			export interface ParameterMapperAssignerVbTemplate$4TypeFunc<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -801,18 +980,21 @@ declare module Nethereum {
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				prototype: ParameterMapperAssignerVbTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				new (): ParameterMapperAssignerVbTemplate$4<
 					TParameterModelFrom,
 					TParameterModelTo,
 					TParameterFrom,
 					TParameterTo
 				>;
+
 				ctor: {
 					new (): ParameterMapperAssignerVbTemplate$4<
 						TParameterModelFrom,
@@ -822,6 +1004,7 @@ declare module Nethereum {
 					>;
 				};
 			}
+
 			export function ParameterMapperAssignerVbTemplate$4<
 				TParameterModelFrom,
 				TParameterModelTo,
@@ -845,19 +1028,27 @@ declare module Nethereum {
 				get_Parameter(): TParameter;
 
 				set_Parameter(value: TParameter): void;
+
 				GetVariableName(): string;
+
 				GetPropertyName(): string;
 			}
+
 			export interface ParameterModel$1TypeFunc<TParameter>
 				extends TypeFunction {
 				(): ParameterModel$1TypeFunc<TParameter>;
+
 				prototype: ParameterModel$1<TParameter>;
+
 				new (): ParameterModel$1<TParameter>;
+
 				ctor: { new (): ParameterModel$1<TParameter> };
+
 				ctor$1: {
 					new (parameter: TParameter): ParameterModel$1<TParameter>;
 				};
 			}
+
 			export function ParameterModel$1<TParameter>(
 				TParameter: TypeArg<TParameter>,
 			): ParameterModel$1TypeFunc<TParameter>;
@@ -871,18 +1062,29 @@ declare module Nethereum {
 
 			// Nethereum.Generators.Core.SpaceUtils
 			export interface SpaceUtils extends System.Object {}
+
 			export interface SpaceUtilsTypeFunc extends TypeFunction {
 				(): SpaceUtilsTypeFunc;
+
 				prototype: SpaceUtils;
+
 				NoTabs: string;
+
 				OneTab: string;
+
 				TwoTabs: string;
+
 				ThreeTabs: string;
+
 				FourTabs: string;
+
 				FiveTabs: string;
+
 				new (): SpaceUtils;
+
 				ctor: { new (): SpaceUtils };
 			}
+
 			const SpaceUtils: SpaceUtilsTypeFunc;
 
 			// Nethereum.Generators.Core.TypeMessageModel
@@ -901,38 +1103,57 @@ declare module Nethereum {
 				get_CodeGenLanguage(): CodeGenLanguage;
 
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
+
 				GetTypeName$1(name: string): string;
+
 				GetFileName$1(name: string): string;
+
 				GetVariableName$1(name: string): string;
+
 				GetTypeName(): string;
+
 				GetFileName(): string;
+
 				GetVariableName(): string;
 			}
+
 			export interface TypeMessageModelTypeFunc extends TypeFunction {
 				(): TypeMessageModelTypeFunc;
+
 				prototype: TypeMessageModel;
 			}
+
 			const TypeMessageModel: TypeMessageModelTypeFunc;
 
 			// Nethereum.Generators.Core.Utils
 			export interface Utils extends System.Object {
 				RemoveUnderscorePrefix(value: string): string;
+
 				LowerCaseFirstCharAndRemoveUnderscorePrefix(
 					value: string,
 				): string;
+
 				CapitaliseFirstCharAndRemoveUnderscorePrefix(
 					value: string,
 				): string;
+
 				LowerCaseFirstChar(value: string): string;
+
 				CapitaliseFirstChar(value: string): string;
+
 				GetBooleanAsString(value: boolean): string;
 			}
+
 			export interface UtilsTypeFunc extends TypeFunction {
 				(): UtilsTypeFunc;
+
 				prototype: Utils;
+
 				new (): Utils;
+
 				ctor: { new (): Utils };
 			}
+
 			const Utils: UtilsTypeFunc;
 
 			// Nethereum.Generators.Core.WorkflowFileTemplate
@@ -940,12 +1161,16 @@ declare module Nethereum {
 				get_WorkflowModel(): IWorkflowModel;
 
 				get_WorkflowTemplate(): IWorkflowTemplate;
+
 				GenerateFullWorkflow(): string;
 			}
+
 			export interface WorkflowFileTemplateTypeFunc extends TypeFunction {
 				(): WorkflowFileTemplateTypeFunc;
+
 				prototype: WorkflowFileTemplate;
 			}
+
 			const WorkflowFileTemplate: WorkflowFileTemplateTypeFunc;
 
 			// Nethereum.Generators.Core.WorkflowGeneratorBase<TWorkflowTemplate, TWorkflowModel>
@@ -957,10 +1182,14 @@ declare module Nethereum {
 					IWFGenerator,
 					IWorkflowGenerator {
 				GenerateFileContent$1(outputPath: string): GeneratedFile;
+
 				GenerateFileContent(): string;
+
 				GetFileName(): string;
+
 				GenerateWorkflow(): string;
 			}
+
 			export interface WorkflowGeneratorBase$2TypeFunc<
 				TWorkflowTemplate,
 				TWorkflowModel,
@@ -969,14 +1198,17 @@ declare module Nethereum {
 					TWorkflowTemplate,
 					TWorkflowModel
 				>;
+
 				prototype: WorkflowGeneratorBase$2<
 					TWorkflowTemplate,
 					TWorkflowModel
 				>;
+
 				new (): WorkflowGeneratorBase$2<
 					TWorkflowTemplate,
 					TWorkflowModel
 				>;
+
 				ctor: {
 					new (): WorkflowGeneratorBase$2<
 						TWorkflowTemplate,
@@ -984,6 +1216,7 @@ declare module Nethereum {
 					>;
 				};
 			}
+
 			export function WorkflowGeneratorBase$2<
 				TWorkflowTemplate,
 				TWorkflowModel,
@@ -1000,13 +1233,17 @@ declare module Nethereum {
 				extends System.Object,
 					IWorkflowTemplate {
 				GenerateWorkflow(): string;
+
 				GenerateFullWorkflow(): string;
 			}
+
 			export interface WorkflowTemplateBase$1TypeFunc<TModel>
 				extends TypeFunction {
 				(): WorkflowTemplateBase$1TypeFunc<TModel>;
+
 				prototype: WorkflowTemplateBase$1<TModel>;
 			}
+
 			export function WorkflowTemplateBase$1<TModel>(
 				TModel: TypeArg<TModel>,
 			): WorkflowTemplateBase$1TypeFunc<TModel>;
@@ -1027,36 +1264,52 @@ declare module Nethereum {
 				get_CodeGenLanguage(): CodeGenLanguage;
 
 				set_CodeGenLanguage(value: CodeGenLanguage): void;
+
 				GetTypeName$1(name: string): string;
+
 				GetFileName$1(name: string): string;
+
 				GetVariableName$1(name: string): string;
+
 				GetTypeName(): string;
+
 				GetFileName(): string;
+
 				GetVariableName(): string;
 			}
+
 			export interface WorkflowTypeMessageModelTypeFunc
 				extends TypeFunction {
 				(): WorkflowTypeMessageModelTypeFunc;
+
 				prototype: WorkflowTypeMessageModel;
 			}
+
 			const WorkflowTypeMessageModel: WorkflowTypeMessageModelTypeFunc;
+
 			module CodeGenLanguageExt {
 				// Nethereum.Generators.Core.CodeGenLanguageExt.StringComparerIgnoreCase
 				export interface StringComparerIgnoreCase
 					extends System.Object,
 						System.Collections.Generic.IEqualityComparer$1<string> {
 					Equals$1(x: string, y: string): boolean;
+
 					GetHashCode$1(obj: string): int;
 				}
+
 				export interface StringComparerIgnoreCaseTypeFunc
 					extends TypeFunction {
 					(): StringComparerIgnoreCaseTypeFunc;
+
 					prototype: StringComparerIgnoreCase;
+
 					new (): StringComparerIgnoreCase;
+
 					ctor: { new (): StringComparerIgnoreCase };
 				}
 			}
 		}
+
 		module Model {
 			// Nethereum.Generators.Model.ConstructorABI
 			export interface ConstructorABI
@@ -1070,12 +1323,17 @@ declare module Nethereum {
 
 				set_InputParameters(value: ParameterABI[]): void;
 			}
+
 			export interface ConstructorABITypeFunc extends TypeFunction {
 				(): ConstructorABITypeFunc;
+
 				prototype: ConstructorABI;
+
 				new (): ConstructorABI;
+
 				ctor: { new (): ConstructorABI };
 			}
+
 			const ConstructorABI: ConstructorABITypeFunc;
 
 			// Nethereum.Generators.Model.ContractABI
@@ -1092,12 +1350,17 @@ declare module Nethereum {
 
 				set_Events(value: EventABI[]): void;
 			}
+
 			export interface ContractABITypeFunc extends TypeFunction {
 				(): ContractABITypeFunc;
+
 				prototype: ContractABI;
+
 				new (): ContractABI;
+
 				ctor: { new (): ContractABI };
 			}
+
 			const ContractABI: ContractABITypeFunc;
 
 			// Nethereum.Generators.Model.EventABI
@@ -1108,12 +1371,17 @@ declare module Nethereum {
 
 				set_InputParameters(value: ParameterABI[]): void;
 			}
+
 			export interface EventABITypeFunc extends TypeFunction {
 				(): EventABITypeFunc;
+
 				prototype: EventABI;
+
 				new (name: string): EventABI;
+
 				ctor: { new (name: string): EventABI };
 			}
+
 			const EventABI: EventABITypeFunc;
 
 			// Nethereum.Generators.Model.FunctionABI
@@ -1136,14 +1404,18 @@ declare module Nethereum {
 
 				set_OutputParameters(value: ParameterABI[]): void;
 			}
+
 			export interface FunctionABITypeFunc extends TypeFunction {
 				(): FunctionABITypeFunc;
+
 				prototype: FunctionABI;
+
 				new (
 					name: string,
 					constant: boolean,
 					serpent?: boolean,
 				): FunctionABI;
+
 				ctor: {
 					new (
 						name: string,
@@ -1152,6 +1424,7 @@ declare module Nethereum {
 					): FunctionABI;
 				};
 			}
+
 			const FunctionABI: FunctionABITypeFunc;
 
 			// Nethereum.Generators.Model.ParameterABI
@@ -1160,9 +1433,12 @@ declare module Nethereum {
 
 				set_Indexed(value: boolean): void;
 			}
+
 			export interface ParameterABITypeFunc extends TypeFunction {
 				(): ParameterABITypeFunc;
+
 				prototype: ParameterABI;
+
 				ctor$1: {
 					new (
 						type: string,
@@ -1170,11 +1446,15 @@ declare module Nethereum {
 						order?: int,
 					): ParameterABI;
 				};
+
 				new (type: string, order: int): ParameterABI;
+
 				ctor: { new (type: string, order: int): ParameterABI };
 			}
+
 			const ParameterABI: ParameterABITypeFunc;
 		}
+
 		module Service {
 			// Nethereum.Generators.Service.AllMessagesGenerator
 			export interface AllMessagesGenerator
@@ -1186,15 +1466,19 @@ declare module Nethereum {
 					Core.IGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface AllMessagesGeneratorTypeFunc extends TypeFunction {
 				(): AllMessagesGeneratorTypeFunc;
+
 				prototype: AllMessagesGenerator;
+
 				new (
 					classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
 					contractName: string,
 					namespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): AllMessagesGenerator;
+
 				ctor: {
 					new (
 						classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
@@ -1204,6 +1488,7 @@ declare module Nethereum {
 					): AllMessagesGenerator;
 				};
 			}
+
 			const AllMessagesGenerator: AllMessagesGeneratorTypeFunc;
 
 			// Nethereum.Generators.Service.AllMessagesModel
@@ -1212,10 +1497,14 @@ declare module Nethereum {
 					Core.IFileModel {
 				get_ContractDeploymentCQSMessageModel(): CQS.ContractDeploymentCQSMessageModel;
 			}
+
 			export interface AllMessagesModelTypeFunc extends TypeFunction {
 				(): AllMessagesModelTypeFunc;
+
 				prototype: AllMessagesModel;
+
 				new (contractName: string, namespace: string): AllMessagesModel;
+
 				ctor: {
 					new (
 						contractName: string,
@@ -1223,6 +1512,7 @@ declare module Nethereum {
 					): AllMessagesModel;
 				};
 			}
+
 			const AllMessagesModel: AllMessagesModelTypeFunc;
 
 			// Nethereum.Generators.Service.ServiceGenerator
@@ -1235,11 +1525,15 @@ declare module Nethereum {
 					Core.IGenerator,
 					Core.IClassGenerator {
 				get_ContractABI(): Model.ContractABI;
+
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface ServiceGeneratorTypeFunc extends TypeFunction {
 				(): ServiceGeneratorTypeFunc;
+
 				prototype: ServiceGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -1249,6 +1543,7 @@ declare module Nethereum {
 					functionOutputNamespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): ServiceGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -1261,6 +1556,7 @@ declare module Nethereum {
 					): ServiceGenerator;
 				};
 			}
+
 			const ServiceGenerator: ServiceGeneratorTypeFunc;
 
 			// Nethereum.Generators.Service.ServiceModel
@@ -1276,9 +1572,12 @@ declare module Nethereum {
 
 				get_ContractDeploymentCQSMessageModel(): CQS.ContractDeploymentCQSMessageModel;
 			}
+
 			export interface ServiceModelTypeFunc extends TypeFunction {
 				(): ServiceModelTypeFunc;
+
 				prototype: ServiceModel;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -1287,6 +1586,7 @@ declare module Nethereum {
 					cqsNamespace: string,
 					functionOutputNamespace: string,
 				): ServiceModel;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -1298,6 +1598,7 @@ declare module Nethereum {
 					): ServiceModel;
 				};
 			}
+
 			const ServiceModel: ServiceModelTypeFunc;
 
 			// Nethereum.Generators.Service.ContractDeploymentServiceMethodsCSharpTemplate
@@ -1305,51 +1606,67 @@ declare module Nethereum {
 				extends System.Object {
 				GenerateMethods(): string;
 			}
+
 			export interface ContractDeploymentServiceMethodsCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentServiceMethodsCSharpTemplateTypeFunc;
+
 				prototype: ContractDeploymentServiceMethodsCSharpTemplate;
+
 				new (
 					model: ServiceModel,
 				): ContractDeploymentServiceMethodsCSharpTemplate;
+
 				ctor: {
 					new (
 						model: ServiceModel,
 					): ContractDeploymentServiceMethodsCSharpTemplate;
 				};
 			}
+
 			const ContractDeploymentServiceMethodsCSharpTemplate: ContractDeploymentServiceMethodsCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.FunctionServiceMethodCSharpTemplate
 			export interface FunctionServiceMethodCSharpTemplate
 				extends System.Object {
 				GenerateMethods(): string;
+
 				GenerateMethod(functionABI: Model.FunctionABI): string;
 			}
+
 			export interface FunctionServiceMethodCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionServiceMethodCSharpTemplateTypeFunc;
+
 				prototype: FunctionServiceMethodCSharpTemplate;
+
 				new (model: ServiceModel): FunctionServiceMethodCSharpTemplate;
+
 				ctor: {
 					new (
 						model: ServiceModel,
 					): FunctionServiceMethodCSharpTemplate;
 				};
 			}
+
 			const FunctionServiceMethodCSharpTemplate: FunctionServiceMethodCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.ServiceCSharpTemplate
 			export interface ServiceCSharpTemplate
 				extends CQS.ClassTemplateBase$1<ServiceModel>,
 					Core.IClassTemplate {}
+
 			export interface ServiceCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ServiceCSharpTemplateTypeFunc;
+
 				prototype: ServiceCSharpTemplate;
+
 				new (model: ServiceModel): ServiceCSharpTemplate;
+
 				ctor: { new (model: ServiceModel): ServiceCSharpTemplate };
 			}
+
 			const ServiceCSharpTemplate: ServiceCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.ContractDeploymentServiceMethodsFSharpTemplate
@@ -1357,51 +1674,67 @@ declare module Nethereum {
 				extends System.Object {
 				GenerateMethods(): string;
 			}
+
 			export interface ContractDeploymentServiceMethodsFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentServiceMethodsFSharpTemplateTypeFunc;
+
 				prototype: ContractDeploymentServiceMethodsFSharpTemplate;
+
 				new (
 					model: ServiceModel,
 				): ContractDeploymentServiceMethodsFSharpTemplate;
+
 				ctor: {
 					new (
 						model: ServiceModel,
 					): ContractDeploymentServiceMethodsFSharpTemplate;
 				};
 			}
+
 			const ContractDeploymentServiceMethodsFSharpTemplate: ContractDeploymentServiceMethodsFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.FunctionServiceMethodFSharpTemplate
 			export interface FunctionServiceMethodFSharpTemplate
 				extends System.Object {
 				GenerateMethods(): string;
+
 				GenerateMethod(functionABI: Model.FunctionABI): string;
 			}
+
 			export interface FunctionServiceMethodFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionServiceMethodFSharpTemplateTypeFunc;
+
 				prototype: FunctionServiceMethodFSharpTemplate;
+
 				new (model: ServiceModel): FunctionServiceMethodFSharpTemplate;
+
 				ctor: {
 					new (
 						model: ServiceModel,
 					): FunctionServiceMethodFSharpTemplate;
 				};
 			}
+
 			const FunctionServiceMethodFSharpTemplate: FunctionServiceMethodFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.ServiceFSharpTemplate
 			export interface ServiceFSharpTemplate
 				extends CQS.ClassTemplateBase$1<ServiceModel>,
 					Core.IClassTemplate {}
+
 			export interface ServiceFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ServiceFSharpTemplateTypeFunc;
+
 				prototype: ServiceFSharpTemplate;
+
 				new (model: ServiceModel): ServiceFSharpTemplate;
+
 				ctor: { new (model: ServiceModel): ServiceFSharpTemplate };
 			}
+
 			const ServiceFSharpTemplate: ServiceFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.ContractDeploymentServiceMethodsVbTemplate
@@ -1409,62 +1742,83 @@ declare module Nethereum {
 				extends System.Object {
 				GenerateMethods(): string;
 			}
+
 			export interface ContractDeploymentServiceMethodsVbTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentServiceMethodsVbTemplateTypeFunc;
+
 				prototype: ContractDeploymentServiceMethodsVbTemplate;
+
 				new (
 					model: ServiceModel,
 				): ContractDeploymentServiceMethodsVbTemplate;
+
 				ctor: {
 					new (
 						model: ServiceModel,
 					): ContractDeploymentServiceMethodsVbTemplate;
 				};
 			}
+
 			const ContractDeploymentServiceMethodsVbTemplate: ContractDeploymentServiceMethodsVbTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.FunctionServiceMethodVbTemplate
 			export interface FunctionServiceMethodVbTemplate
 				extends System.Object {
 				GenerateMethods(): string;
+
 				GenerateMethod(functionABI: Model.FunctionABI): string;
 			}
+
 			export interface FunctionServiceMethodVbTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionServiceMethodVbTemplateTypeFunc;
+
 				prototype: FunctionServiceMethodVbTemplate;
+
 				new (model: ServiceModel): FunctionServiceMethodVbTemplate;
+
 				ctor: {
 					new (model: ServiceModel): FunctionServiceMethodVbTemplate;
 				};
 			}
+
 			const FunctionServiceMethodVbTemplate: FunctionServiceMethodVbTemplateTypeFunc;
 
 			// Nethereum.Generators.Service.ServiceVbTemplate
 			export interface ServiceVbTemplate
 				extends CQS.ClassTemplateBase$1<ServiceModel>,
 					Core.IClassTemplate {}
+
 			export interface ServiceVbTemplateTypeFunc extends TypeFunction {
 				(): ServiceVbTemplateTypeFunc;
+
 				prototype: ServiceVbTemplate;
+
 				new (model: ServiceModel): ServiceVbTemplate;
+
 				ctor: { new (model: ServiceModel): ServiceVbTemplate };
 			}
+
 			const ServiceVbTemplate: ServiceVbTemplateTypeFunc;
 		}
+
 		module CQS {
 			// Nethereum.Generators.CQS.ClassFileTemplate
 			export interface ClassFileTemplate extends FileTemplate {
 				get_ClassModel(): Core.IClassModel;
 
 				get_ClassTemplate(): Core.IClassTemplate;
+
 				GenerateFullClass(): string;
 			}
+
 			export interface ClassFileTemplateTypeFunc extends TypeFunction {
 				(): ClassFileTemplateTypeFunc;
+
 				prototype: ClassFileTemplate;
 			}
+
 			const ClassFileTemplate: ClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.ClassTemplateBase<TModel>
@@ -1472,13 +1826,17 @@ declare module Nethereum {
 				extends System.Object,
 					Core.IClassTemplate {
 				GenerateClass(): string;
+
 				GenerateFullClass(): string;
 			}
+
 			export interface ClassTemplateBase$1TypeFunc<TModel>
 				extends TypeFunction {
 				(): ClassTemplateBase$1TypeFunc<TModel>;
+
 				prototype: ClassTemplateBase$1<TModel>;
 			}
+
 			export function ClassTemplateBase$1<TModel>(
 				TModel: TypeArg<TModel>,
 			): ClassTemplateBase$1TypeFunc<TModel>;
@@ -1486,14 +1844,18 @@ declare module Nethereum {
 			// Nethereum.Generators.CQS.CSharpClassFileTemplate
 			export interface CSharpClassFileTemplate
 				extends ClassFileTemplate {}
+
 			export interface CSharpClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): CSharpClassFileTemplateTypeFunc;
+
 				prototype: CSharpClassFileTemplate;
+
 				new (
 					classModel: Core.IClassModel,
 					classTemplate: Core.IClassTemplate,
 				): CSharpClassFileTemplate;
+
 				ctor: {
 					new (
 						classModel: Core.IClassModel,
@@ -1501,19 +1863,24 @@ declare module Nethereum {
 					): CSharpClassFileTemplate;
 				};
 			}
+
 			const CSharpClassFileTemplate: CSharpClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.CSharpMultipleClassFileTemplate
 			export interface CSharpMultipleClassFileTemplate
 				extends MultipleClassFileTemplate {}
+
 			export interface CSharpMultipleClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): CSharpMultipleClassFileTemplateTypeFunc;
+
 				prototype: CSharpMultipleClassFileTemplate;
+
 				new (
 					classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
 					fileModel: Core.IFileModel,
 				): CSharpMultipleClassFileTemplate;
+
 				ctor: {
 					new (
 						classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
@@ -1521,31 +1888,41 @@ declare module Nethereum {
 					): CSharpMultipleClassFileTemplate;
 				};
 			}
+
 			const CSharpMultipleClassFileTemplate: CSharpMultipleClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FileTemplate
 			export interface FileTemplate extends System.Object {
 				get_FileModel(): Core.IFileModel;
+
 				GenerateNamespaceDependencies(): string;
+
 				GenerateNamespaceDependency(namespaceName: string): string;
 			}
+
 			export interface FileTemplateTypeFunc extends TypeFunction {
 				(): FileTemplateTypeFunc;
+
 				prototype: FileTemplate;
 			}
+
 			const FileTemplate: FileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FSharpClassFileTemplate
 			export interface FSharpClassFileTemplate
 				extends ClassFileTemplate {}
+
 			export interface FSharpClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): FSharpClassFileTemplateTypeFunc;
+
 				prototype: FSharpClassFileTemplate;
+
 				new (
 					classModel: Core.IClassModel,
 					classTemplate: Core.IClassTemplate,
 				): FSharpClassFileTemplate;
+
 				ctor: {
 					new (
 						classModel: Core.IClassModel,
@@ -1553,19 +1930,24 @@ declare module Nethereum {
 					): FSharpClassFileTemplate;
 				};
 			}
+
 			const FSharpClassFileTemplate: FSharpClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FSharpMultipleClassFileTemplate
 			export interface FSharpMultipleClassFileTemplate
 				extends MultipleClassFileTemplate {}
+
 			export interface FSharpMultipleClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): FSharpMultipleClassFileTemplateTypeFunc;
+
 				prototype: FSharpMultipleClassFileTemplate;
+
 				new (
 					classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
 					fileModel: Core.IFileModel,
 				): FSharpMultipleClassFileTemplate;
+
 				ctor: {
 					new (
 						classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
@@ -1573,20 +1955,25 @@ declare module Nethereum {
 					): FSharpMultipleClassFileTemplate;
 				};
 			}
+
 			const FSharpMultipleClassFileTemplate: FSharpMultipleClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.MultipleClassFileTemplate
 			export interface MultipleClassFileTemplate extends FileTemplate {
 				GenerateFile(): string;
 			}
+
 			export interface MultipleClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): MultipleClassFileTemplateTypeFunc;
+
 				prototype: MultipleClassFileTemplate;
+
 				new (
 					classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
 					fileModel: Core.IFileModel,
 				): MultipleClassFileTemplate;
+
 				ctor: {
 					new (
 						classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
@@ -1594,17 +1981,22 @@ declare module Nethereum {
 					): MultipleClassFileTemplate;
 				};
 			}
+
 			const MultipleClassFileTemplate: MultipleClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.VbClassFileTemplate
 			export interface VbClassFileTemplate extends ClassFileTemplate {}
+
 			export interface VbClassFileTemplateTypeFunc extends TypeFunction {
 				(): VbClassFileTemplateTypeFunc;
+
 				prototype: VbClassFileTemplate;
+
 				new (
 					classModel: Core.IClassModel,
 					classTemplate: Core.IClassTemplate,
 				): VbClassFileTemplate;
+
 				ctor: {
 					new (
 						classModel: Core.IClassModel,
@@ -1612,19 +2004,24 @@ declare module Nethereum {
 					): VbClassFileTemplate;
 				};
 			}
+
 			const VbClassFileTemplate: VbClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.VbMultipleClassFileTemplate
 			export interface VbMultipleClassFileTemplate
 				extends MultipleClassFileTemplate {}
+
 			export interface VbMultipleClassFileTemplateTypeFunc
 				extends TypeFunction {
 				(): VbMultipleClassFileTemplateTypeFunc;
+
 				prototype: VbMultipleClassFileTemplate;
+
 				new (
 					classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
 					fileModel: Core.IFileModel,
 				): VbMultipleClassFileTemplate;
+
 				ctor: {
 					new (
 						classGenerators: System.Collections.Generic.IEnumerable$1<Core.IClassGenerator>,
@@ -1632,6 +2029,7 @@ declare module Nethereum {
 					): VbMultipleClassFileTemplate;
 				};
 			}
+
 			const VbMultipleClassFileTemplate: VbMultipleClassFileTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.ContractDeploymentCQSMessageGenerator
@@ -1645,10 +2043,13 @@ declare module Nethereum {
 					Core.IClassGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface ContractDeploymentCQSMessageGeneratorTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentCQSMessageGeneratorTypeFunc;
+
 				prototype: ContractDeploymentCQSMessageGenerator;
+
 				new (
 					abi: Model.ConstructorABI,
 					namespaceName: string,
@@ -1656,6 +2057,7 @@ declare module Nethereum {
 					contractName: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): ContractDeploymentCQSMessageGenerator;
+
 				ctor: {
 					new (
 						abi: Model.ConstructorABI,
@@ -1666,6 +2068,7 @@ declare module Nethereum {
 					): ContractDeploymentCQSMessageGenerator;
 				};
 			}
+
 			const ContractDeploymentCQSMessageGenerator: ContractDeploymentCQSMessageGeneratorTypeFunc;
 
 			// Nethereum.Generators.CQS.ContractDeploymentCQSMessageModel
@@ -1677,16 +2080,20 @@ declare module Nethereum {
 
 				get_ByteCode(): string;
 			}
+
 			export interface ContractDeploymentCQSMessageModelTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentCQSMessageModelTypeFunc;
+
 				prototype: ContractDeploymentCQSMessageModel;
+
 				new (
 					constructorABI: Model.ConstructorABI,
 					namespace: string,
 					byteCode: string,
 					contractName: string,
 				): ContractDeploymentCQSMessageModel;
+
 				ctor: {
 					new (
 						constructorABI: Model.ConstructorABI,
@@ -1696,6 +2103,7 @@ declare module Nethereum {
 					): ContractDeploymentCQSMessageModel;
 				};
 			}
+
 			const ContractDeploymentCQSMessageModel: ContractDeploymentCQSMessageModelTypeFunc;
 
 			// Nethereum.Generators.CQS.FunctionCQSMessageGenerator
@@ -1709,16 +2117,20 @@ declare module Nethereum {
 					Core.IClassGenerator {
 				get_FunctionABI(): Model.FunctionABI;
 			}
+
 			export interface FunctionCQSMessageGeneratorTypeFunc
 				extends TypeFunction {
 				(): FunctionCQSMessageGeneratorTypeFunc;
+
 				prototype: FunctionCQSMessageGenerator;
+
 				new (
 					functionABI: Model.FunctionABI,
 					namespace: string,
 					namespaceFunctionOutput: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): FunctionCQSMessageGenerator;
+
 				ctor: {
 					new (
 						functionABI: Model.FunctionABI,
@@ -1728,6 +2140,7 @@ declare module Nethereum {
 					): FunctionCQSMessageGenerator;
 				};
 			}
+
 			const FunctionCQSMessageGenerator: FunctionCQSMessageGeneratorTypeFunc;
 
 			// Nethereum.Generators.CQS.FunctionCQSMessageModel
@@ -1737,14 +2150,18 @@ declare module Nethereum {
 					Core.IFileModel {
 				get_FunctionABI(): Model.FunctionABI;
 			}
+
 			export interface FunctionCQSMessageModelTypeFunc
 				extends TypeFunction {
 				(): FunctionCQSMessageModelTypeFunc;
+
 				prototype: FunctionCQSMessageModel;
+
 				new (
 					functionABI: Model.FunctionABI,
 					namespace: string,
 				): FunctionCQSMessageModel;
+
 				ctor: {
 					new (
 						functionABI: Model.FunctionABI,
@@ -1752,6 +2169,7 @@ declare module Nethereum {
 					): FunctionCQSMessageModel;
 				};
 			}
+
 			const FunctionCQSMessageModel: FunctionCQSMessageModelTypeFunc;
 
 			// Nethereum.Generators.CQS.ContractDeploymentCQSMessageCSharpTemplate
@@ -1760,19 +2178,24 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface ContractDeploymentCQSMessageCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentCQSMessageCSharpTemplateTypeFunc;
+
 				prototype: ContractDeploymentCQSMessageCSharpTemplate;
+
 				new (
 					model: ContractDeploymentCQSMessageModel,
 				): ContractDeploymentCQSMessageCSharpTemplate;
+
 				ctor: {
 					new (
 						model: ContractDeploymentCQSMessageModel,
 					): ContractDeploymentCQSMessageCSharpTemplate;
 				};
 			}
+
 			const ContractDeploymentCQSMessageCSharpTemplate: ContractDeploymentCQSMessageCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FunctionCQSMessageCSharpTemplate
@@ -1781,15 +2204,19 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface FunctionCQSMessageCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionCQSMessageCSharpTemplateTypeFunc;
+
 				prototype: FunctionCQSMessageCSharpTemplate;
+
 				new (
 					model: FunctionCQSMessageModel,
 					functionOutputDTOModel: DTOs.FunctionOutputDTOModel,
 					functionABIModel: Core.FunctionABIModel,
 				): FunctionCQSMessageCSharpTemplate;
+
 				ctor: {
 					new (
 						model: FunctionCQSMessageModel,
@@ -1798,40 +2225,50 @@ declare module Nethereum {
 					): FunctionCQSMessageCSharpTemplate;
 				};
 			}
+
 			const FunctionCQSMessageCSharpTemplate: FunctionCQSMessageCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.ContractDeploymentCQSMessageFSharpTemplate
 			export interface ContractDeploymentCQSMessageFSharpTemplate
 				extends ClassTemplateBase$1<ContractDeploymentCQSMessageModel>,
 					Core.IClassTemplate {}
+
 			export interface ContractDeploymentCQSMessageFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentCQSMessageFSharpTemplateTypeFunc;
+
 				prototype: ContractDeploymentCQSMessageFSharpTemplate;
+
 				new (
 					model: ContractDeploymentCQSMessageModel,
 				): ContractDeploymentCQSMessageFSharpTemplate;
+
 				ctor: {
 					new (
 						model: ContractDeploymentCQSMessageModel,
 					): ContractDeploymentCQSMessageFSharpTemplate;
 				};
 			}
+
 			const ContractDeploymentCQSMessageFSharpTemplate: ContractDeploymentCQSMessageFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FunctionCQSMessageFSharpTemplate
 			export interface FunctionCQSMessageFSharpTemplate
 				extends ClassTemplateBase$1<FunctionCQSMessageModel>,
 					Core.IClassTemplate {}
+
 			export interface FunctionCQSMessageFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionCQSMessageFSharpTemplateTypeFunc;
+
 				prototype: FunctionCQSMessageFSharpTemplate;
+
 				new (
 					model: FunctionCQSMessageModel,
 					functionOutputDTOModel: DTOs.FunctionOutputDTOModel,
 					functionABIModel: Core.FunctionABIModel,
 				): FunctionCQSMessageFSharpTemplate;
+
 				ctor: {
 					new (
 						model: FunctionCQSMessageModel,
@@ -1840,6 +2277,7 @@ declare module Nethereum {
 					): FunctionCQSMessageFSharpTemplate;
 				};
 			}
+
 			const FunctionCQSMessageFSharpTemplate: FunctionCQSMessageFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.ContractDeploymentCQSMessageVbTemplate
@@ -1848,19 +2286,24 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface ContractDeploymentCQSMessageVbTemplateTypeFunc
 				extends TypeFunction {
 				(): ContractDeploymentCQSMessageVbTemplateTypeFunc;
+
 				prototype: ContractDeploymentCQSMessageVbTemplate;
+
 				new (
 					model: ContractDeploymentCQSMessageModel,
 				): ContractDeploymentCQSMessageVbTemplate;
+
 				ctor: {
 					new (
 						model: ContractDeploymentCQSMessageModel,
 					): ContractDeploymentCQSMessageVbTemplate;
 				};
 			}
+
 			const ContractDeploymentCQSMessageVbTemplate: ContractDeploymentCQSMessageVbTemplateTypeFunc;
 
 			// Nethereum.Generators.CQS.FunctionCQSMessageVbTemplate
@@ -1869,15 +2312,19 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface FunctionCQSMessageVbTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionCQSMessageVbTemplateTypeFunc;
+
 				prototype: FunctionCQSMessageVbTemplate;
+
 				new (
 					model: FunctionCQSMessageModel,
 					functionOutputDTOModel: DTOs.FunctionOutputDTOModel,
 					functionABIModel: Core.FunctionABIModel,
 				): FunctionCQSMessageVbTemplate;
+
 				ctor: {
 					new (
 						model: FunctionCQSMessageModel,
@@ -1886,8 +2333,10 @@ declare module Nethereum {
 					): FunctionCQSMessageVbTemplate;
 				};
 			}
+
 			const FunctionCQSMessageVbTemplate: FunctionCQSMessageVbTemplateTypeFunc;
 		}
+
 		module DataWorkflow {
 			// Nethereum.Generators.DataWorkflow.DataWorkflowEventSqlModel
 			export interface DataWorkflowEventSqlModel
@@ -1895,16 +2344,21 @@ declare module Nethereum {
 					Core.IWorkflowModel,
 					Core.IFileModel {
 				get_EventABI(): Model.EventABI;
+
 				CanGenerateOutputLogicApp(): boolean;
 			}
+
 			export interface DataWorkflowEventSqlModelTypeFunc
 				extends TypeFunction {
 				(): DataWorkflowEventSqlModelTypeFunc;
+
 				prototype: DataWorkflowEventSqlModel;
+
 				new (
 					eventABI: Model.EventABI,
 					namespace: string,
 				): DataWorkflowEventSqlModel;
+
 				ctor: {
 					new (
 						eventABI: Model.EventABI,
@@ -1912,6 +2366,7 @@ declare module Nethereum {
 					): DataWorkflowEventSqlModel;
 				};
 			}
+
 			const DataWorkflowEventSqlModel: DataWorkflowEventSqlModelTypeFunc;
 
 			// Nethereum.Generators.DataWorkflow.DataWorkflowProjectGenerator
@@ -1942,17 +2397,26 @@ declare module Nethereum {
 				get_Location(): string;
 
 				get_ContractAbiString(): string;
+
 				GenerateAll(): Core.GeneratedFile[];
+
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GenerateLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GetAllLogicAppGenerators(): System.Collections.Generic.List$1<Core.IWorkflowFileGenerator>;
+
 				GetFullNamespace(namespace: string): string;
+
 				GetFullPath(namespace: string): string;
 			}
+
 			export interface DataWorkflowProjectGeneratorTypeFunc
 				extends TypeFunction {
 				(): DataWorkflowProjectGeneratorTypeFunc;
+
 				prototype: DataWorkflowProjectGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -1968,6 +2432,7 @@ declare module Nethereum {
 					location: string,
 					contractAbiString: string,
 				): DataWorkflowProjectGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -1986,6 +2451,7 @@ declare module Nethereum {
 					): DataWorkflowProjectGenerator;
 				};
 			}
+
 			const DataWorkflowProjectGenerator: DataWorkflowProjectGeneratorTypeFunc;
 
 			// Nethereum.Generators.DataWorkflow.DataWorkflowSqlOutputGenerator
@@ -1999,15 +2465,19 @@ declare module Nethereum {
 					Core.IWorkflowGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface DataWorkflowSqlOutputGeneratorTypeFunc
 				extends TypeFunction {
 				(): DataWorkflowSqlOutputGeneratorTypeFunc;
+
 				prototype: DataWorkflowSqlOutputGenerator;
+
 				new (
 					eventABI: Model.EventABI,
 					namespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): DataWorkflowSqlOutputGenerator;
+
 				ctor: {
 					new (
 						eventABI: Model.EventABI,
@@ -2016,6 +2486,7 @@ declare module Nethereum {
 					): DataWorkflowSqlOutputGenerator;
 				};
 			}
+
 			const DataWorkflowSqlOutputGenerator: DataWorkflowSqlOutputGeneratorTypeFunc;
 
 			// Nethereum.Generators.DataWorkflow.DataWorkflowEventLogicAppModel
@@ -2024,16 +2495,21 @@ declare module Nethereum {
 					Core.IWorkflowModel,
 					Core.IFileModel {
 				get_EventABI(): Model.EventABI;
+
 				CanGenerateOutputLogicApp(): boolean;
 			}
+
 			export interface DataWorkflowEventLogicAppModelTypeFunc
 				extends TypeFunction {
 				(): DataWorkflowEventLogicAppModelTypeFunc;
+
 				prototype: DataWorkflowEventLogicAppModel;
+
 				new (
 					eventABI: Model.EventABI,
 					namespace: string,
 				): DataWorkflowEventLogicAppModel;
+
 				ctor: {
 					new (
 						eventABI: Model.EventABI,
@@ -2041,6 +2517,7 @@ declare module Nethereum {
 					): DataWorkflowEventLogicAppModel;
 				};
 			}
+
 			const DataWorkflowEventLogicAppModel: DataWorkflowEventLogicAppModelTypeFunc;
 
 			// Nethereum.Generators.DataWorkflow.DataWorkflowFunctionOutputLogicAppGenerator
@@ -2054,10 +2531,13 @@ declare module Nethereum {
 					Core.IWorkflowGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface DataWorkflowFunctionOutputLogicAppGeneratorTypeFunc
 				extends TypeFunction {
 				(): DataWorkflowFunctionOutputLogicAppGeneratorTypeFunc;
+
 				prototype: DataWorkflowFunctionOutputLogicAppGenerator;
+
 				new (
 					eventABI: Model.EventABI,
 					namespace: string,
@@ -2067,6 +2547,7 @@ declare module Nethereum {
 					escapedAbi: string,
 					location: string,
 				): DataWorkflowFunctionOutputLogicAppGenerator;
+
 				ctor: {
 					new (
 						eventABI: Model.EventABI,
@@ -2079,25 +2560,32 @@ declare module Nethereum {
 					): DataWorkflowFunctionOutputLogicAppGenerator;
 				};
 			}
+
 			const DataWorkflowFunctionOutputLogicAppGenerator: DataWorkflowFunctionOutputLogicAppGeneratorTypeFunc;
+
 			module LogicApps {
 				// Nethereum.Generators.DataWorkflow.LogicApps.DataWorkflowSqlOutputLogicAppTemplate
 				export interface DataWorkflowSqlOutputLogicAppTemplate
 					extends Core.WorkflowTemplateBase$1<DataWorkflowEventSqlModel>,
 						Core.IWorkflowTemplate {}
+
 				export interface DataWorkflowSqlOutputLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): DataWorkflowSqlOutputLogicAppTemplateTypeFunc;
+
 					prototype: DataWorkflowSqlOutputLogicAppTemplate;
+
 					new (
 						model: DataWorkflowEventSqlModel,
 					): DataWorkflowSqlOutputLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: DataWorkflowEventSqlModel,
 						): DataWorkflowSqlOutputLogicAppTemplate;
 					};
 				}
+
 				const DataWorkflowSqlOutputLogicAppTemplate: DataWorkflowSqlOutputLogicAppTemplateTypeFunc;
 
 				// Nethereum.Generators.DataWorkflow.LogicApps.DataWorkflowFunctionOutputLogicAppTemplate
@@ -2105,17 +2593,23 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<DataWorkflowEventLogicAppModel>,
 						Core.IWorkflowTemplate {
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface DataWorkflowFunctionOutputLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): DataWorkflowFunctionOutputLogicAppTemplateTypeFunc;
+
 					prototype: DataWorkflowFunctionOutputLogicAppTemplate;
+
 					new (
 						model: DataWorkflowEventLogicAppModel,
 						contractAddress: string,
@@ -2123,6 +2617,7 @@ declare module Nethereum {
 						subsciptionId: string,
 						location: string,
 					): DataWorkflowFunctionOutputLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: DataWorkflowEventLogicAppModel,
@@ -2133,8 +2628,10 @@ declare module Nethereum {
 						): DataWorkflowFunctionOutputLogicAppTemplate;
 					};
 				}
+
 				const DataWorkflowFunctionOutputLogicAppTemplate: DataWorkflowFunctionOutputLogicAppTemplateTypeFunc;
 			}
+
 			module FlowApps {
 				// Nethereum.Generators.DataWorkflow.FlowApps.DataWorkflowEventFlowAppModel
 				export interface DataWorkflowEventFlowAppModel
@@ -2142,16 +2639,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface DataWorkflowEventFlowAppModelTypeFunc
 					extends TypeFunction {
 					(): DataWorkflowEventFlowAppModelTypeFunc;
+
 					prototype: DataWorkflowEventFlowAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): DataWorkflowEventFlowAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -2159,6 +2661,7 @@ declare module Nethereum {
 						): DataWorkflowEventFlowAppModel;
 					};
 				}
+
 				const DataWorkflowEventFlowAppModel: DataWorkflowEventFlowAppModelTypeFunc;
 
 				// Nethereum.Generators.DataWorkflow.FlowApps.DataWorkflowFunctionOutputFlowAppGenerator
@@ -2174,10 +2677,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface DataWorkflowFunctionOutputFlowAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): DataWorkflowFunctionOutputFlowAppGeneratorTypeFunc;
+
 					prototype: DataWorkflowFunctionOutputFlowAppGenerator;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
@@ -2187,6 +2693,7 @@ declare module Nethereum {
 						escapedAbi: string,
 						location: string,
 					): DataWorkflowFunctionOutputFlowAppGenerator;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -2199,6 +2706,7 @@ declare module Nethereum {
 						): DataWorkflowFunctionOutputFlowAppGenerator;
 					};
 				}
+
 				const DataWorkflowFunctionOutputFlowAppGenerator: DataWorkflowFunctionOutputFlowAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.DataWorkflow.FlowApps.DataWorkflowFunctionOutputFlowAppTemplate
@@ -2206,18 +2714,25 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<DataWorkflowEventFlowAppModel>,
 						Core.IWorkflowTemplate {
 					GetConnections(): string;
+
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface DataWorkflowFunctionOutputFlowAppTemplateTypeFunc
 					extends TypeFunction {
 					(): DataWorkflowFunctionOutputFlowAppTemplateTypeFunc;
+
 					prototype: DataWorkflowFunctionOutputFlowAppTemplate;
+
 					new (
 						model: DataWorkflowEventFlowAppModel,
 						contractAddress: string,
@@ -2225,6 +2740,7 @@ declare module Nethereum {
 						subsciptionId: string,
 						location: string,
 					): DataWorkflowFunctionOutputFlowAppTemplate;
+
 					ctor: {
 						new (
 							model: DataWorkflowEventFlowAppModel,
@@ -2235,9 +2751,11 @@ declare module Nethereum {
 						): DataWorkflowFunctionOutputFlowAppTemplate;
 					};
 				}
+
 				const DataWorkflowFunctionOutputFlowAppTemplate: DataWorkflowFunctionOutputFlowAppTemplateTypeFunc;
 			}
 		}
+
 		module DTOs {
 			// Nethereum.Generators.DTOs.EventDTOGenerator
 			export interface EventDTOGenerator
@@ -2250,14 +2768,18 @@ declare module Nethereum {
 					Core.IClassGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface EventDTOGeneratorTypeFunc extends TypeFunction {
 				(): EventDTOGeneratorTypeFunc;
+
 				prototype: EventDTOGenerator;
+
 				new (
 					abi: Model.EventABI,
 					namespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): EventDTOGenerator;
+
 				ctor: {
 					new (
 						abi: Model.EventABI,
@@ -2266,6 +2788,7 @@ declare module Nethereum {
 					): EventDTOGenerator;
 				};
 			}
+
 			const EventDTOGenerator: EventDTOGeneratorTypeFunc;
 
 			// Nethereum.Generators.DTOs.EventDTOModel
@@ -2274,15 +2797,20 @@ declare module Nethereum {
 					Core.IClassModel,
 					Core.IFileModel {
 				get_EventABI(): Model.EventABI;
+
 				CanGenerateOutputDTO(): boolean;
 			}
+
 			export interface EventDTOModelTypeFunc extends TypeFunction {
 				(): EventDTOModelTypeFunc;
+
 				prototype: EventDTOModel;
+
 				new (
 					eventABI: Model.EventABI,
 					namespace: string,
 				): EventDTOModel;
+
 				ctor: {
 					new (
 						eventABI: Model.EventABI,
@@ -2290,6 +2818,7 @@ declare module Nethereum {
 					): EventDTOModel;
 				};
 			}
+
 			const EventDTOModel: EventDTOModelTypeFunc;
 
 			// Nethereum.Generators.DTOs.FunctionOutputDTOGenerator
@@ -2303,15 +2832,19 @@ declare module Nethereum {
 					Core.IClassGenerator {
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface FunctionOutputDTOGeneratorTypeFunc
 				extends TypeFunction {
 				(): FunctionOutputDTOGeneratorTypeFunc;
+
 				prototype: FunctionOutputDTOGenerator;
+
 				new (
 					functionABI: Model.FunctionABI,
 					namespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): FunctionOutputDTOGenerator;
+
 				ctor: {
 					new (
 						functionABI: Model.FunctionABI,
@@ -2320,6 +2853,7 @@ declare module Nethereum {
 					): FunctionOutputDTOGenerator;
 				};
 			}
+
 			const FunctionOutputDTOGenerator: FunctionOutputDTOGeneratorTypeFunc;
 
 			// Nethereum.Generators.DTOs.FunctionOutputDTOModel
@@ -2328,16 +2862,21 @@ declare module Nethereum {
 					Core.IClassModel,
 					Core.IFileModel {
 				get_FunctionABI(): Model.FunctionABI;
+
 				CanGenerateOutputDTO(): boolean;
 			}
+
 			export interface FunctionOutputDTOModelTypeFunc
 				extends TypeFunction {
 				(): FunctionOutputDTOModelTypeFunc;
+
 				prototype: FunctionOutputDTOModel;
+
 				new (
 					functionABI: Model.FunctionABI,
 					namespace: string,
 				): FunctionOutputDTOModel;
+
 				ctor: {
 					new (
 						functionABI: Model.FunctionABI,
@@ -2345,6 +2884,7 @@ declare module Nethereum {
 					): FunctionOutputDTOModel;
 				};
 			}
+
 			const FunctionOutputDTOModel: FunctionOutputDTOModelTypeFunc;
 
 			// Nethereum.Generators.DTOs.EventDTOCSharpTemplate
@@ -2353,15 +2893,20 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface EventDTOCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): EventDTOCSharpTemplateTypeFunc;
+
 				prototype: EventDTOCSharpTemplate;
+
 				new (eventDTOModel: EventDTOModel): EventDTOCSharpTemplate;
+
 				ctor: {
 					new (eventDTOModel: EventDTOModel): EventDTOCSharpTemplate;
 				};
 			}
+
 			const EventDTOCSharpTemplate: EventDTOCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.FunctionOutputDTOCSharpTemplate
@@ -2370,145 +2915,192 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface FunctionOutputDTOCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionOutputDTOCSharpTemplateTypeFunc;
+
 				prototype: FunctionOutputDTOCSharpTemplate;
+
 				new (
 					model: FunctionOutputDTOModel,
 				): FunctionOutputDTOCSharpTemplate;
+
 				ctor: {
 					new (
 						model: FunctionOutputDTOModel,
 					): FunctionOutputDTOCSharpTemplate;
 				};
 			}
+
 			const FunctionOutputDTOCSharpTemplate: FunctionOutputDTOCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIEventDTOCSharpTemplate
 			export interface ParameterABIEventDTOCSharpTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
 			}
+
 			export interface ParameterABIEventDTOCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIEventDTOCSharpTemplateTypeFunc;
+
 				prototype: ParameterABIEventDTOCSharpTemplate;
+
 				new (): ParameterABIEventDTOCSharpTemplate;
+
 				ctor: { new (): ParameterABIEventDTOCSharpTemplate };
 			}
+
 			const ParameterABIEventDTOCSharpTemplate: ParameterABIEventDTOCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIFunctionDTOCSharpTemplate
 			export interface ParameterABIFunctionDTOCSharpTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
+
 				GenerateAllFunctionParameters(
 					parameters: Model.ParameterABI[],
 				): string;
+
 				GenerateFunctionParameter(
 					parameter: Model.ParameterABI,
 				): string;
+
 				GenerateAssigmentFunctionParametersToProperties(
 					parameters: Model.ParameterABI[],
 					objectName: string,
 					spacing: string,
 				): string;
+
 				GenerateAssigmentFunctionParameterToProperty(
 					parameter: Model.ParameterABI,
 					objectName: string,
 					spacing: string,
 				): string;
 			}
+
 			export interface ParameterABIFunctionDTOCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIFunctionDTOCSharpTemplateTypeFunc;
+
 				prototype: ParameterABIFunctionDTOCSharpTemplate;
+
 				new (): ParameterABIFunctionDTOCSharpTemplate;
+
 				ctor: { new (): ParameterABIFunctionDTOCSharpTemplate };
 			}
+
 			const ParameterABIFunctionDTOCSharpTemplate: ParameterABIFunctionDTOCSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.EventDTOFSharpTemplate
 			export interface EventDTOFSharpTemplate
 				extends CQS.ClassTemplateBase$1<EventDTOModel>,
 					Core.IClassTemplate {}
+
 			export interface EventDTOFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): EventDTOFSharpTemplateTypeFunc;
+
 				prototype: EventDTOFSharpTemplate;
+
 				new (eventDTOModel: EventDTOModel): EventDTOFSharpTemplate;
+
 				ctor: {
 					new (eventDTOModel: EventDTOModel): EventDTOFSharpTemplate;
 				};
 			}
+
 			const EventDTOFSharpTemplate: EventDTOFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.FunctionOutputDTOFSharpTemplate
 			export interface FunctionOutputDTOFSharpTemplate
 				extends CQS.ClassTemplateBase$1<FunctionOutputDTOModel>,
 					Core.IClassTemplate {}
+
 			export interface FunctionOutputDTOFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionOutputDTOFSharpTemplateTypeFunc;
+
 				prototype: FunctionOutputDTOFSharpTemplate;
+
 				new (
 					model: FunctionOutputDTOModel,
 				): FunctionOutputDTOFSharpTemplate;
+
 				ctor: {
 					new (
 						model: FunctionOutputDTOModel,
 					): FunctionOutputDTOFSharpTemplate;
 				};
 			}
+
 			const FunctionOutputDTOFSharpTemplate: FunctionOutputDTOFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIEventDTOFSharpTemplate
 			export interface ParameterABIEventDTOFSharpTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
 			}
+
 			export interface ParameterABIEventDTOFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIEventDTOFSharpTemplateTypeFunc;
+
 				prototype: ParameterABIEventDTOFSharpTemplate;
+
 				new (): ParameterABIEventDTOFSharpTemplate;
+
 				ctor: { new (): ParameterABIEventDTOFSharpTemplate };
 			}
+
 			const ParameterABIEventDTOFSharpTemplate: ParameterABIEventDTOFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIFunctionDTOFSharpTemplate
 			export interface ParameterABIFunctionDTOFSharpTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
+
 				GenerateAllFunctionParameters(
 					parameters: Model.ParameterABI[],
 				): string;
+
 				GenerateFunctionParameter(
 					parameter: Model.ParameterABI,
 				): string;
+
 				GenerateAssigmentFunctionParametersToProperties(
 					parameters: Model.ParameterABI[],
 					objectName: string,
 					spacing: string,
 				): string;
+
 				GenerateAssigmentFunctionParameterToProperty(
 					parameter: Model.ParameterABI,
 					objectName: string,
 					spacing: string,
 				): string;
 			}
+
 			export interface ParameterABIFunctionDTOFSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIFunctionDTOFSharpTemplateTypeFunc;
+
 				prototype: ParameterABIFunctionDTOFSharpTemplate;
+
 				new (): ParameterABIFunctionDTOFSharpTemplate;
+
 				ctor: { new (): ParameterABIFunctionDTOFSharpTemplate };
 			}
+
 			const ParameterABIFunctionDTOFSharpTemplate: ParameterABIFunctionDTOFSharpTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.EventDTOVbTemplate
@@ -2517,14 +3109,19 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface EventDTOVbTemplateTypeFunc extends TypeFunction {
 				(): EventDTOVbTemplateTypeFunc;
+
 				prototype: EventDTOVbTemplate;
+
 				new (eventDTOModel: EventDTOModel): EventDTOVbTemplate;
+
 				ctor: {
 					new (eventDTOModel: EventDTOModel): EventDTOVbTemplate;
 				};
 			}
+
 			const EventDTOVbTemplate: EventDTOVbTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.FunctionOutputDTOVbTemplate
@@ -2533,67 +3130,89 @@ declare module Nethereum {
 					Core.IClassTemplate {
 				GetPartialMainClass(): string;
 			}
+
 			export interface FunctionOutputDTOVbTemplateTypeFunc
 				extends TypeFunction {
 				(): FunctionOutputDTOVbTemplateTypeFunc;
+
 				prototype: FunctionOutputDTOVbTemplate;
+
 				new (
 					model: FunctionOutputDTOModel,
 				): FunctionOutputDTOVbTemplate;
+
 				ctor: {
 					new (
 						model: FunctionOutputDTOModel,
 					): FunctionOutputDTOVbTemplate;
 				};
 			}
+
 			const FunctionOutputDTOVbTemplate: FunctionOutputDTOVbTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIEventDTOVbTemplate
 			export interface ParameterABIEventDTOVbTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
 			}
+
 			export interface ParameterABIEventDTOVbTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIEventDTOVbTemplateTypeFunc;
+
 				prototype: ParameterABIEventDTOVbTemplate;
+
 				new (): ParameterABIEventDTOVbTemplate;
+
 				ctor: { new (): ParameterABIEventDTOVbTemplate };
 			}
+
 			const ParameterABIEventDTOVbTemplate: ParameterABIEventDTOVbTemplateTypeFunc;
 
 			// Nethereum.Generators.DTOs.ParameterABIFunctionDTOVbTemplate
 			export interface ParameterABIFunctionDTOVbTemplate
 				extends System.Object {
 				GenerateAllProperties(parameters: Model.ParameterABI[]): string;
+
 				GenerateProperty(parameter: Model.ParameterABI): string;
+
 				GenerateAllFunctionParameters(
 					parameters: Model.ParameterABI[],
 				): string;
+
 				GenerateFunctionParameter(
 					parameter: Model.ParameterABI,
 				): string;
+
 				GenerateAssigmentFunctionParametersToProperties(
 					parameters: Model.ParameterABI[],
 					objectName: string,
 					spacing: string,
 				): string;
+
 				GenerateAssigmentFunctionParameterToProperty(
 					parameter: Model.ParameterABI,
 					objectName: string,
 					spacing: string,
 				): string;
 			}
+
 			export interface ParameterABIFunctionDTOVbTemplateTypeFunc
 				extends TypeFunction {
 				(): ParameterABIFunctionDTOVbTemplateTypeFunc;
+
 				prototype: ParameterABIFunctionDTOVbTemplate;
+
 				new (): ParameterABIFunctionDTOVbTemplate;
+
 				ctor: { new (): ParameterABIFunctionDTOVbTemplate };
 			}
+
 			const ParameterABIFunctionDTOVbTemplate: ParameterABIFunctionDTOVbTemplateTypeFunc;
 		}
+
 		module MessagingWorkflow {
 			// Nethereum.Generators.MessagingWorkflow.MessagingWorkflowProjectGenerator
 			export interface MessagingWorkflowProjectGenerator
@@ -2631,17 +3250,26 @@ declare module Nethereum {
 				get_MessagingType(): Core.MessagingType;
 
 				set_MessagingType(value: Core.MessagingType): void;
+
 				GenerateAll(): Core.GeneratedFile[];
+
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GenerateLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GetAllLogicAppGenerators(): System.Collections.Generic.List$1<Core.IWorkflowFileGenerator>;
+
 				GetFullNamespace(namespace: string): string;
+
 				GetFullPath(namespace: string): string;
 			}
+
 			export interface MessagingWorkflowProjectGeneratorTypeFunc
 				extends TypeFunction {
 				(): MessagingWorkflowProjectGeneratorTypeFunc;
+
 				prototype: MessagingWorkflowProjectGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -2659,6 +3287,7 @@ declare module Nethereum {
 					topicName: string,
 					messagingType: Core.MessagingType,
 				): MessagingWorkflowProjectGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -2679,7 +3308,9 @@ declare module Nethereum {
 					): MessagingWorkflowProjectGenerator;
 				};
 			}
+
 			const MessagingWorkflowProjectGenerator: MessagingWorkflowProjectGeneratorTypeFunc;
+
 			module FlowApps {
 				// Nethereum.Generators.MessagingWorkflow.FlowApps.MessagingWorkflowEventFlowAppGenerator
 				export interface MessagingWorkflowEventFlowAppGenerator
@@ -2694,10 +3325,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface MessagingWorkflowEventFlowAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventFlowAppGeneratorTypeFunc;
+
 					prototype: MessagingWorkflowEventFlowAppGenerator;
+
 					new (
 						abi: Model.EventABI,
 						namespace: string,
@@ -2709,6 +3343,7 @@ declare module Nethereum {
 						topicName: string,
 						messagingType: Core.MessagingType,
 					): MessagingWorkflowEventFlowAppGenerator;
+
 					ctor: {
 						new (
 							abi: Model.EventABI,
@@ -2723,6 +3358,7 @@ declare module Nethereum {
 						): MessagingWorkflowEventFlowAppGenerator;
 					};
 				}
+
 				const MessagingWorkflowEventFlowAppGenerator: MessagingWorkflowEventFlowAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.MessagingWorkflow.FlowApps.MessagingWorkflowEventFlowAppModel
@@ -2731,16 +3367,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface MessagingWorkflowEventFlowAppModelTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventFlowAppModelTypeFunc;
+
 					prototype: MessagingWorkflowEventFlowAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): MessagingWorkflowEventFlowAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -2748,6 +3389,7 @@ declare module Nethereum {
 						): MessagingWorkflowEventFlowAppModel;
 					};
 				}
+
 				const MessagingWorkflowEventFlowAppModel: MessagingWorkflowEventFlowAppModelTypeFunc;
 
 				// Nethereum.Generators.MessagingWorkflow.FlowApps.MessagingWorkflowEventFlowAppTemplate
@@ -2755,18 +3397,25 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<MessagingWorkflowEventFlowAppModel>,
 						Core.IWorkflowTemplate {
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetEventGridActions(): string;
+
 					GetServiceBusActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface MessagingWorkflowEventFlowAppTemplateTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventFlowAppTemplateTypeFunc;
+
 					prototype: MessagingWorkflowEventFlowAppTemplate;
+
 					new (
 						model: MessagingWorkflowEventFlowAppModel,
 						contractAddress: string,
@@ -2776,6 +3425,7 @@ declare module Nethereum {
 						topicName: string,
 						messagingType: Core.MessagingType,
 					): MessagingWorkflowEventFlowAppTemplate;
+
 					ctor: {
 						new (
 							model: MessagingWorkflowEventFlowAppModel,
@@ -2788,8 +3438,10 @@ declare module Nethereum {
 						): MessagingWorkflowEventFlowAppTemplate;
 					};
 				}
+
 				const MessagingWorkflowEventFlowAppTemplate: MessagingWorkflowEventFlowAppTemplateTypeFunc;
 			}
+
 			module LogicApps {
 				// Nethereum.Generators.MessagingWorkflow.LogicApps.MessagingWorkflowEventLogicAppGenerator
 				export interface MessagingWorkflowEventLogicAppGenerator
@@ -2804,10 +3456,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface MessagingWorkflowEventLogicAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventLogicAppGeneratorTypeFunc;
+
 					prototype: MessagingWorkflowEventLogicAppGenerator;
+
 					new (
 						abi: Model.EventABI,
 						namespace: string,
@@ -2819,6 +3474,7 @@ declare module Nethereum {
 						topicName: string,
 						messagingType: Core.MessagingType,
 					): MessagingWorkflowEventLogicAppGenerator;
+
 					ctor: {
 						new (
 							abi: Model.EventABI,
@@ -2833,6 +3489,7 @@ declare module Nethereum {
 						): MessagingWorkflowEventLogicAppGenerator;
 					};
 				}
+
 				const MessagingWorkflowEventLogicAppGenerator: MessagingWorkflowEventLogicAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.MessagingWorkflow.LogicApps.MessagingWorkflowEventLogicAppModel
@@ -2841,16 +3498,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface MessagingWorkflowEventLogicAppModelTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventLogicAppModelTypeFunc;
+
 					prototype: MessagingWorkflowEventLogicAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): MessagingWorkflowEventLogicAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -2858,6 +3520,7 @@ declare module Nethereum {
 						): MessagingWorkflowEventLogicAppModel;
 					};
 				}
+
 				const MessagingWorkflowEventLogicAppModel: MessagingWorkflowEventLogicAppModelTypeFunc;
 
 				// Nethereum.Generators.MessagingWorkflow.LogicApps.MessagingWorkflowEventLogicAppTemplate
@@ -2865,18 +3528,25 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<MessagingWorkflowEventLogicAppModel>,
 						Core.IWorkflowTemplate {
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetEventGridActions(): string;
+
 					GetServiceBusActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface MessagingWorkflowEventLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): MessagingWorkflowEventLogicAppTemplateTypeFunc;
+
 					prototype: MessagingWorkflowEventLogicAppTemplate;
+
 					new (
 						model: MessagingWorkflowEventLogicAppModel,
 						contractAddress: string,
@@ -2886,6 +3556,7 @@ declare module Nethereum {
 						topicName: string,
 						messagingType: Core.MessagingType,
 					): MessagingWorkflowEventLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: MessagingWorkflowEventLogicAppModel,
@@ -2898,9 +3569,11 @@ declare module Nethereum {
 						): MessagingWorkflowEventLogicAppTemplate;
 					};
 				}
+
 				const MessagingWorkflowEventLogicAppTemplate: MessagingWorkflowEventLogicAppTemplateTypeFunc;
 			}
 		}
+
 		module ReportingWorkflow {
 			// Nethereum.Generators.ReportingWorkflow.ReportingWorkflowProjectGenerator
 			export interface ReportingWorkflowProjectGenerator
@@ -2930,17 +3603,26 @@ declare module Nethereum {
 				get_Location(): string;
 
 				get_ContractAbiString(): string;
+
 				GenerateAll(): Core.GeneratedFile[];
+
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GenerateLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GetAllLogicAppGenerators(): System.Collections.Generic.List$1<Core.IWorkflowFileGenerator>;
+
 				GetFullNamespace(namespace: string): string;
+
 				GetFullPath(namespace: string): string;
 			}
+
 			export interface ReportingWorkflowProjectGeneratorTypeFunc
 				extends TypeFunction {
 				(): ReportingWorkflowProjectGeneratorTypeFunc;
+
 				prototype: ReportingWorkflowProjectGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -2956,6 +3638,7 @@ declare module Nethereum {
 					location: string,
 					contractAbiString: string,
 				): ReportingWorkflowProjectGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -2974,7 +3657,9 @@ declare module Nethereum {
 					): ReportingWorkflowProjectGenerator;
 				};
 			}
+
 			const ReportingWorkflowProjectGenerator: ReportingWorkflowProjectGeneratorTypeFunc;
+
 			module Csharp {
 				// Nethereum.Generators.ReportingWorkflow.Csharp.ReportingWorkflowCSharpOutputLogicAppGenerator
 				export interface ReportingWorkflowCSharpOutputLogicAppGenerator
@@ -2989,10 +3674,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface ReportingWorkflowCSharpOutputLogicAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowCSharpOutputLogicAppGeneratorTypeFunc;
+
 					prototype: ReportingWorkflowCSharpOutputLogicAppGenerator;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
@@ -3000,6 +3688,7 @@ declare module Nethereum {
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowCSharpOutputLogicAppGenerator;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3010,21 +3699,26 @@ declare module Nethereum {
 						): ReportingWorkflowCSharpOutputLogicAppGenerator;
 					};
 				}
+
 				const ReportingWorkflowCSharpOutputLogicAppGenerator: ReportingWorkflowCSharpOutputLogicAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.Csharp.ReportingWorkflowCSharpOutputLogicAppTemplate
 				export interface ReportingWorkflowCSharpOutputLogicAppTemplate
 					extends Core.WorkflowTemplateBase$1<ReportingWorkflowEventCSharpLogicAppModel>,
 						Core.IWorkflowTemplate {}
+
 				export interface ReportingWorkflowCSharpOutputLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowCSharpOutputLogicAppTemplateTypeFunc;
+
 					prototype: ReportingWorkflowCSharpOutputLogicAppTemplate;
+
 					new (
 						model: ReportingWorkflowEventCSharpLogicAppModel,
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowCSharpOutputLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: ReportingWorkflowEventCSharpLogicAppModel,
@@ -3033,6 +3727,7 @@ declare module Nethereum {
 						): ReportingWorkflowCSharpOutputLogicAppTemplate;
 					};
 				}
+
 				const ReportingWorkflowCSharpOutputLogicAppTemplate: ReportingWorkflowCSharpOutputLogicAppTemplateTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.Csharp.ReportingWorkflowEventCSharpLogicAppModel
@@ -3041,16 +3736,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ReportingWorkflowEventCSharpLogicAppModelTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventCSharpLogicAppModelTypeFunc;
+
 					prototype: ReportingWorkflowEventCSharpLogicAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): ReportingWorkflowEventCSharpLogicAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3058,8 +3758,10 @@ declare module Nethereum {
 						): ReportingWorkflowEventCSharpLogicAppModel;
 					};
 				}
+
 				const ReportingWorkflowEventCSharpLogicAppModel: ReportingWorkflowEventCSharpLogicAppModelTypeFunc;
 			}
+
 			module FlowApps {
 				// Nethereum.Generators.ReportingWorkflow.FlowApps.ReportingWorkflowEventFlowAppModel
 				export interface ReportingWorkflowEventFlowAppModel
@@ -3067,16 +3769,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ReportingWorkflowEventFlowAppModelTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventFlowAppModelTypeFunc;
+
 					prototype: ReportingWorkflowEventFlowAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): ReportingWorkflowEventFlowAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3084,6 +3791,7 @@ declare module Nethereum {
 						): ReportingWorkflowEventFlowAppModel;
 					};
 				}
+
 				const ReportingWorkflowEventFlowAppModel: ReportingWorkflowEventFlowAppModelTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.FlowApps.ReportingWorkflowEventsOutputFlowAppGenerator
@@ -3099,10 +3807,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface ReportingWorkflowEventsOutputFlowAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventsOutputFlowAppGeneratorTypeFunc;
+
 					prototype: ReportingWorkflowEventsOutputFlowAppGenerator;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
@@ -3114,6 +3825,7 @@ declare module Nethereum {
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowEventsOutputFlowAppGenerator;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3128,6 +3840,7 @@ declare module Nethereum {
 						): ReportingWorkflowEventsOutputFlowAppGenerator;
 					};
 				}
+
 				const ReportingWorkflowEventsOutputFlowAppGenerator: ReportingWorkflowEventsOutputFlowAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.FlowApps.ReportingWorkflowEventsOutputFlowAppTemplate
@@ -3135,18 +3848,25 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<ReportingWorkflowEventFlowAppModel>,
 						Core.IWorkflowTemplate {
 					GetConnections(): string;
+
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface ReportingWorkflowEventsOutputFlowAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventsOutputFlowAppTemplateTypeFunc;
+
 					prototype: ReportingWorkflowEventsOutputFlowAppTemplate;
+
 					new (
 						model: ReportingWorkflowEventFlowAppModel,
 						contractAddress: string,
@@ -3156,6 +3876,7 @@ declare module Nethereum {
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowEventsOutputFlowAppTemplate;
+
 					ctor: {
 						new (
 							model: ReportingWorkflowEventFlowAppModel,
@@ -3168,8 +3889,10 @@ declare module Nethereum {
 						): ReportingWorkflowEventsOutputFlowAppTemplate;
 					};
 				}
+
 				const ReportingWorkflowEventsOutputFlowAppTemplate: ReportingWorkflowEventsOutputFlowAppTemplateTypeFunc;
 			}
+
 			module LogicApps {
 				// Nethereum.Generators.ReportingWorkflow.LogicApps.ReportingWorkflowEventLogicAppModel
 				export interface ReportingWorkflowEventLogicAppModel
@@ -3177,16 +3900,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_EventABI(): Model.EventABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ReportingWorkflowEventLogicAppModelTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventLogicAppModelTypeFunc;
+
 					prototype: ReportingWorkflowEventLogicAppModel;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
 					): ReportingWorkflowEventLogicAppModel;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3194,6 +3922,7 @@ declare module Nethereum {
 						): ReportingWorkflowEventLogicAppModel;
 					};
 				}
+
 				const ReportingWorkflowEventLogicAppModel: ReportingWorkflowEventLogicAppModelTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.LogicApps.ReportingWorkflowEventsOutputLogicAppGenerator
@@ -3209,10 +3938,13 @@ declare module Nethereum {
 						codeGenLanguage: Core.CodeGenLanguage,
 					): void;
 				}
+
 				export interface ReportingWorkflowEventsOutputLogicAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventsOutputLogicAppGeneratorTypeFunc;
+
 					prototype: ReportingWorkflowEventsOutputLogicAppGenerator;
+
 					new (
 						eventABI: Model.EventABI,
 						namespace: string,
@@ -3224,6 +3956,7 @@ declare module Nethereum {
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowEventsOutputLogicAppGenerator;
+
 					ctor: {
 						new (
 							eventABI: Model.EventABI,
@@ -3238,6 +3971,7 @@ declare module Nethereum {
 						): ReportingWorkflowEventsOutputLogicAppGenerator;
 					};
 				}
+
 				const ReportingWorkflowEventsOutputLogicAppGenerator: ReportingWorkflowEventsOutputLogicAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.ReportingWorkflow.LogicApps.ReportingWorkflowEventsOutputLogicAppTemplate
@@ -3245,17 +3979,23 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<ReportingWorkflowEventLogicAppModel>,
 						Core.IWorkflowTemplate {
 					GetLogicAppStart(): string;
+
 					GetBlockchainEventTriggerForLogicApp(
 						escapedAbi: string,
 						contractAddress: string,
 					): string;
+
 					GetActions(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface ReportingWorkflowEventsOutputLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ReportingWorkflowEventsOutputLogicAppTemplateTypeFunc;
+
 					prototype: ReportingWorkflowEventsOutputLogicAppTemplate;
+
 					new (
 						model: ReportingWorkflowEventLogicAppModel,
 						contractAddress: string,
@@ -3265,6 +4005,7 @@ declare module Nethereum {
 						powerbiDatasetId: string,
 						powerbiTable: string,
 					): ReportingWorkflowEventsOutputLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: ReportingWorkflowEventLogicAppModel,
@@ -3277,9 +4018,11 @@ declare module Nethereum {
 						): ReportingWorkflowEventsOutputLogicAppTemplate;
 					};
 				}
+
 				const ReportingWorkflowEventsOutputLogicAppTemplate: ReportingWorkflowEventsOutputLogicAppTemplateTypeFunc;
 			}
 		}
+
 		module ServiceWorkflow {
 			// Nethereum.Generators.ServiceWorkflow.ServiceWorkflowProjectGenerator
 			export interface ServiceWorkflowProjectGenerator
@@ -3311,18 +4054,28 @@ declare module Nethereum {
 				get_BlockchainRpcEndpoint(): string;
 
 				get_ServiceType(): Core.ServiceType;
+
 				GenerateServiceWorkflows(): Core.GeneratedFile[];
+
 				GenerateAll(): Core.GeneratedFile[];
+
 				GenerateAllLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GenerateLogicAppFiles(): System.Collections.Generic.List$1<Core.GeneratedFile>;
+
 				GetAllLogicAppGenerators(): System.Collections.Generic.List$1<Core.IWorkflowFileGenerator>;
+
 				GetFullNamespace(namespace: string): string;
+
 				GetFullPath(namespace: string): string;
 			}
+
 			export interface ServiceWorkflowProjectGeneratorTypeFunc
 				extends TypeFunction {
 				(): ServiceWorkflowProjectGeneratorTypeFunc;
+
 				prototype: ServiceWorkflowProjectGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -3339,6 +4092,7 @@ declare module Nethereum {
 					location: string,
 					blockchainRpcEndpoint: string,
 				): ServiceWorkflowProjectGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -3358,7 +4112,9 @@ declare module Nethereum {
 					): ServiceWorkflowProjectGenerator;
 				};
 			}
+
 			const ServiceWorkflowProjectGenerator: ServiceWorkflowProjectGeneratorTypeFunc;
+
 			module FlowApps {
 				// Nethereum.Generators.ServiceWorkflow.FlowApps.ServiceWorkflowFunctionOutputFlowAppGenerator
 				export interface ServiceWorkflowFunctionOutputFlowAppGenerator
@@ -3369,10 +4125,13 @@ declare module Nethereum {
 						Core.IWorkflowFileGenerator,
 						Core.IWFGenerator,
 						Core.IWorkflowGenerator {}
+
 				export interface ServiceWorkflowFunctionOutputFlowAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFlowAppGeneratorTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFlowAppGenerator;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
@@ -3382,6 +4141,7 @@ declare module Nethereum {
 						subscriptionId: string,
 						location: string,
 					): ServiceWorkflowFunctionOutputFlowAppGenerator;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3394,6 +4154,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputFlowAppGenerator;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFlowAppGenerator: ServiceWorkflowFunctionOutputFlowAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.FlowApps.ServiceWorkflowFunctionOutputFlowAppModel
@@ -3402,16 +4163,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_FunctionABI(): Model.FunctionABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ServiceWorkflowFunctionOutputFlowAppModelTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFlowAppModelTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFlowAppModel;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
 					): ServiceWorkflowFunctionOutputFlowAppModel;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3419,6 +4185,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputFlowAppModel;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFlowAppModel: ServiceWorkflowFunctionOutputFlowAppModelTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.FlowApps.ServiceWorkflowFunctionOutputFlowAppTemplate
@@ -3426,16 +4193,24 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputFlowAppModel>,
 						Core.IWorkflowTemplate {
 					GetConnections(): string;
+
 					GetLogicAppStart(): string;
+
 					GetHttpRequestTriggerForLogicApp(): string;
+
 					GetExecuteFunctionActionForLogicApp(): string;
+
 					GetHttpResponseActionForLogicApp(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface ServiceWorkflowFunctionOutputFlowAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFlowAppTemplateTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFlowAppTemplate;
+
 					new (
 						model: ServiceWorkflowFunctionOutputFlowAppModel,
 						contractAddress: string,
@@ -3443,6 +4218,7 @@ declare module Nethereum {
 						subsciptionId: string,
 						location: string,
 					): ServiceWorkflowFunctionOutputFlowAppTemplate;
+
 					ctor: {
 						new (
 							model: ServiceWorkflowFunctionOutputFlowAppModel,
@@ -3453,6 +4229,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputFlowAppTemplate;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFlowAppTemplate: ServiceWorkflowFunctionOutputFlowAppTemplateTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.FlowApps.ServiceWorkflowParameterABIFunctionFlowAppTemplate
@@ -3461,19 +4238,26 @@ declare module Nethereum {
 					GenerateAllProperties(
 						parameters: Model.ParameterABI[],
 					): string;
+
 					GenerateProperty(parameter: Model.ParameterABI): string;
 				}
+
 				export interface ServiceWorkflowParameterABIFunctionFlowAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowParameterABIFunctionFlowAppTemplateTypeFunc;
+
 					prototype: ServiceWorkflowParameterABIFunctionFlowAppTemplate;
+
 					new (): ServiceWorkflowParameterABIFunctionFlowAppTemplate;
+
 					ctor: {
 						new (): ServiceWorkflowParameterABIFunctionFlowAppTemplate;
 					};
 				}
+
 				const ServiceWorkflowParameterABIFunctionFlowAppTemplate: ServiceWorkflowParameterABIFunctionFlowAppTemplateTypeFunc;
 			}
+
 			module Function {
 				// Nethereum.Generators.ServiceWorkflow.Function.ServiceWorkflowFunctionOutputFunctionGenerator
 				export interface ServiceWorkflowFunctionOutputFunctionGenerator
@@ -3484,15 +4268,19 @@ declare module Nethereum {
 						Core.IWorkflowFileGenerator,
 						Core.IWFGenerator,
 						Core.IWorkflowGenerator {}
+
 				export interface ServiceWorkflowFunctionOutputFunctionGeneratorTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFunctionGeneratorTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFunctionGenerator;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
 						codeGenLanguage: Core.CodeGenLanguage,
 					): ServiceWorkflowFunctionOutputFunctionGenerator;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3501,6 +4289,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputFunctionGenerator;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFunctionGenerator: ServiceWorkflowFunctionOutputFunctionGeneratorTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.Function.ServiceWorkflowFunctionOutputFunctionModel
@@ -3509,16 +4298,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_FunctionABI(): Model.FunctionABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ServiceWorkflowFunctionOutputFunctionModelTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFunctionModelTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFunctionModel;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
 					): ServiceWorkflowFunctionOutputFunctionModel;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3526,26 +4320,33 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputFunctionModel;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFunctionModel: ServiceWorkflowFunctionOutputFunctionModelTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.Function.ServiceWorkflowFunctionOutputFunctionTemplate
 				export interface ServiceWorkflowFunctionOutputFunctionTemplate
 					extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputFunctionModel>,
 						Core.IWorkflowTemplate {}
+
 				export interface ServiceWorkflowFunctionOutputFunctionTemplateTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputFunctionTemplateTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputFunctionTemplate;
+
 					new (
 						model: ServiceWorkflowFunctionOutputFunctionModel,
 					): ServiceWorkflowFunctionOutputFunctionTemplate;
+
 					ctor: {
 						new (
 							model: ServiceWorkflowFunctionOutputFunctionModel,
 						): ServiceWorkflowFunctionOutputFunctionTemplate;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputFunctionTemplate: ServiceWorkflowFunctionOutputFunctionTemplateTypeFunc;
+
 				module Blockchain {
 					// Nethereum.Generators.ServiceWorkflow.Function.Blockchain.ServiceWorkflowFunctionOutputBlockchainFileGenerator
 					export interface ServiceWorkflowFunctionOutputBlockchainFileGenerator
@@ -3556,16 +4357,20 @@ declare module Nethereum {
 							Core.IWorkflowFileGenerator,
 							Core.IWFGenerator,
 							Core.IWorkflowGenerator {}
+
 					export interface ServiceWorkflowFunctionOutputBlockchainFileGeneratorTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputBlockchainFileGeneratorTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputBlockchainFileGenerator;
+
 						new (
 							codeGenLanguage: Core.CodeGenLanguage,
 							escapedAbi: string,
 							contractAddress: string,
 							blockchainRpcEndpoint: string,
 						): ServiceWorkflowFunctionOutputBlockchainFileGenerator;
+
 						ctor: {
 							new (
 								codeGenLanguage: Core.CodeGenLanguage,
@@ -3575,6 +4380,7 @@ declare module Nethereum {
 							): ServiceWorkflowFunctionOutputBlockchainFileGenerator;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputBlockchainFileGenerator: ServiceWorkflowFunctionOutputBlockchainFileGeneratorTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.Blockchain.ServiceWorkflowFunctionOutputBlockchainFileModel
@@ -3584,31 +4390,40 @@ declare module Nethereum {
 							Core.IFileModel {
 						CanGenerateFile(): boolean;
 					}
+
 					export interface ServiceWorkflowFunctionOutputBlockchainFileModelTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputBlockchainFileModelTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputBlockchainFileModel;
+
 						new (): ServiceWorkflowFunctionOutputBlockchainFileModel;
+
 						ctor: {
 							new (): ServiceWorkflowFunctionOutputBlockchainFileModel;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputBlockchainFileModel: ServiceWorkflowFunctionOutputBlockchainFileModelTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.Blockchain.ServiceWorkflowFunctionOutputBlockchainFileTemplate
 					export interface ServiceWorkflowFunctionOutputBlockchainFileTemplate
 						extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputBlockchainFileModel>,
 							Core.IWorkflowTemplate {}
+
 					export interface ServiceWorkflowFunctionOutputBlockchainFileTemplateTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputBlockchainFileTemplateTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputBlockchainFileTemplate;
+
 						new (
 							model: ServiceWorkflowFunctionOutputBlockchainFileModel,
 							escapedAbi: string,
 							contractAddress: string,
 							blockchainRpcEndpoint: string,
 						): ServiceWorkflowFunctionOutputBlockchainFileTemplate;
+
 						ctor: {
 							new (
 								model: ServiceWorkflowFunctionOutputBlockchainFileModel,
@@ -3618,8 +4433,10 @@ declare module Nethereum {
 							): ServiceWorkflowFunctionOutputBlockchainFileTemplate;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputBlockchainFileTemplate: ServiceWorkflowFunctionOutputBlockchainFileTemplateTypeFunc;
 				}
+
 				module CSProj {
 					// Nethereum.Generators.ServiceWorkflow.Function.CSProj.ServiceWorkflowFunctionOutputCSProjGenerator
 					export interface ServiceWorkflowFunctionOutputCSProjGenerator
@@ -3630,19 +4447,24 @@ declare module Nethereum {
 							Core.IWorkflowFileGenerator,
 							Core.IWFGenerator,
 							Core.IWorkflowGenerator {}
+
 					export interface ServiceWorkflowFunctionOutputCSProjGeneratorTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputCSProjGeneratorTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputCSProjGenerator;
+
 						new (
 							codeGenLanguage: Core.CodeGenLanguage,
 						): ServiceWorkflowFunctionOutputCSProjGenerator;
+
 						ctor: {
 							new (
 								codeGenLanguage: Core.CodeGenLanguage,
 							): ServiceWorkflowFunctionOutputCSProjGenerator;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputCSProjGenerator: ServiceWorkflowFunctionOutputCSProjGeneratorTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.CSProj.ServiceWorkflowFunctionOutputCSProjModel
@@ -3652,36 +4474,47 @@ declare module Nethereum {
 							Core.IFileModel {
 						CanGenerateCSProj(): boolean;
 					}
+
 					export interface ServiceWorkflowFunctionOutputCSProjModelTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputCSProjModelTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputCSProjModel;
+
 						new (): ServiceWorkflowFunctionOutputCSProjModel;
+
 						ctor: {
 							new (): ServiceWorkflowFunctionOutputCSProjModel;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputCSProjModel: ServiceWorkflowFunctionOutputCSProjModelTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.CSProj.ServiceWorkflowFunctionOutputCSProjTemplate
 					export interface ServiceWorkflowFunctionOutputCSProjTemplate
 						extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputCSProjModel>,
 							Core.IWorkflowTemplate {}
+
 					export interface ServiceWorkflowFunctionOutputCSProjTemplateTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputCSProjTemplateTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputCSProjTemplate;
+
 						new (
 							model: ServiceWorkflowFunctionOutputCSProjModel,
 						): ServiceWorkflowFunctionOutputCSProjTemplate;
+
 						ctor: {
 							new (
 								model: ServiceWorkflowFunctionOutputCSProjModel,
 							): ServiceWorkflowFunctionOutputCSProjTemplate;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputCSProjTemplate: ServiceWorkflowFunctionOutputCSProjTemplateTypeFunc;
 				}
+
 				module Host {
 					// Nethereum.Generators.ServiceWorkflow.Function.Host.ServiceWorkflowFunctionOutputHostFileGenerator
 					export interface ServiceWorkflowFunctionOutputHostFileGenerator
@@ -3692,19 +4525,24 @@ declare module Nethereum {
 							Core.IWorkflowFileGenerator,
 							Core.IWFGenerator,
 							Core.IWorkflowGenerator {}
+
 					export interface ServiceWorkflowFunctionOutputHostFileGeneratorTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputHostFileGeneratorTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputHostFileGenerator;
+
 						new (
 							codeGenLanguage: Core.CodeGenLanguage,
 						): ServiceWorkflowFunctionOutputHostFileGenerator;
+
 						ctor: {
 							new (
 								codeGenLanguage: Core.CodeGenLanguage,
 							): ServiceWorkflowFunctionOutputHostFileGenerator;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputHostFileGenerator: ServiceWorkflowFunctionOutputHostFileGeneratorTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.Host.ServiceWorkflowFunctionOutputHostFileModel
@@ -3714,37 +4552,48 @@ declare module Nethereum {
 							Core.IFileModel {
 						CanGenerateFile(): boolean;
 					}
+
 					export interface ServiceWorkflowFunctionOutputHostFileModelTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputHostFileModelTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputHostFileModel;
+
 						new (): ServiceWorkflowFunctionOutputHostFileModel;
+
 						ctor: {
 							new (): ServiceWorkflowFunctionOutputHostFileModel;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputHostFileModel: ServiceWorkflowFunctionOutputHostFileModelTypeFunc;
 
 					// Nethereum.Generators.ServiceWorkflow.Function.Host.ServiceWorkflowFunctionOutputHostFileTemplate
 					export interface ServiceWorkflowFunctionOutputHostFileTemplate
 						extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputHostFileModel>,
 							Core.IWorkflowTemplate {}
+
 					export interface ServiceWorkflowFunctionOutputHostFileTemplateTypeFunc
 						extends TypeFunction {
 						(): ServiceWorkflowFunctionOutputHostFileTemplateTypeFunc;
+
 						prototype: ServiceWorkflowFunctionOutputHostFileTemplate;
+
 						new (
 							model: ServiceWorkflowFunctionOutputHostFileModel,
 						): ServiceWorkflowFunctionOutputHostFileTemplate;
+
 						ctor: {
 							new (
 								model: ServiceWorkflowFunctionOutputHostFileModel,
 							): ServiceWorkflowFunctionOutputHostFileTemplate;
 						};
 					}
+
 					const ServiceWorkflowFunctionOutputHostFileTemplate: ServiceWorkflowFunctionOutputHostFileTemplateTypeFunc;
 				}
 			}
+
 			module LogicApps {
 				// Nethereum.Generators.ServiceWorkflow.LogicApps.ServiceWorkflowFunctionOutputLogicAppGenerator
 				export interface ServiceWorkflowFunctionOutputLogicAppGenerator
@@ -3755,10 +4604,13 @@ declare module Nethereum {
 						Core.IWorkflowFileGenerator,
 						Core.IWFGenerator,
 						Core.IWorkflowGenerator {}
+
 				export interface ServiceWorkflowFunctionOutputLogicAppGeneratorTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputLogicAppGeneratorTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputLogicAppGenerator;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
@@ -3768,6 +4620,7 @@ declare module Nethereum {
 						subscriptionId: string,
 						location: string,
 					): ServiceWorkflowFunctionOutputLogicAppGenerator;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3780,6 +4633,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputLogicAppGenerator;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputLogicAppGenerator: ServiceWorkflowFunctionOutputLogicAppGeneratorTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.LogicApps.ServiceWorkflowFunctionOutputLogicAppModel
@@ -3788,16 +4642,21 @@ declare module Nethereum {
 						Core.IWorkflowModel,
 						Core.IFileModel {
 					get_FunctionABI(): Model.FunctionABI;
+
 					CanGenerateOutputLogicApp(): boolean;
 				}
+
 				export interface ServiceWorkflowFunctionOutputLogicAppModelTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputLogicAppModelTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputLogicAppModel;
+
 					new (
 						functionABI: Model.FunctionABI,
 						namespace: string,
 					): ServiceWorkflowFunctionOutputLogicAppModel;
+
 					ctor: {
 						new (
 							functionABI: Model.FunctionABI,
@@ -3805,6 +4664,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputLogicAppModel;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputLogicAppModel: ServiceWorkflowFunctionOutputLogicAppModelTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.LogicApps.ServiceWorkflowFunctionOutputLogicAppTemplate
@@ -3812,15 +4672,22 @@ declare module Nethereum {
 					extends Core.WorkflowTemplateBase$1<ServiceWorkflowFunctionOutputLogicAppModel>,
 						Core.IWorkflowTemplate {
 					GetLogicAppStart(): string;
+
 					GetHttpRequestTriggerForLogicApp(): string;
+
 					GetExecuteFunctionActionForLogicApp(): string;
+
 					GetHttpResponseActionForLogicApp(): string;
+
 					GetLogicAppEnd(): string;
 				}
+
 				export interface ServiceWorkflowFunctionOutputLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowFunctionOutputLogicAppTemplateTypeFunc;
+
 					prototype: ServiceWorkflowFunctionOutputLogicAppTemplate;
+
 					new (
 						model: ServiceWorkflowFunctionOutputLogicAppModel,
 						contractAddress: string,
@@ -3828,6 +4695,7 @@ declare module Nethereum {
 						subsciptionId: string,
 						location: string,
 					): ServiceWorkflowFunctionOutputLogicAppTemplate;
+
 					ctor: {
 						new (
 							model: ServiceWorkflowFunctionOutputLogicAppModel,
@@ -3838,6 +4706,7 @@ declare module Nethereum {
 						): ServiceWorkflowFunctionOutputLogicAppTemplate;
 					};
 				}
+
 				const ServiceWorkflowFunctionOutputLogicAppTemplate: ServiceWorkflowFunctionOutputLogicAppTemplateTypeFunc;
 
 				// Nethereum.Generators.ServiceWorkflow.LogicApps.ServiceWorkflowParameterABIFunctionLogicAppTemplate
@@ -3846,20 +4715,27 @@ declare module Nethereum {
 					GenerateAllProperties(
 						parameters: Model.ParameterABI[],
 					): string;
+
 					GenerateProperty(parameter: Model.ParameterABI): string;
 				}
+
 				export interface ServiceWorkflowParameterABIFunctionLogicAppTemplateTypeFunc
 					extends TypeFunction {
 					(): ServiceWorkflowParameterABIFunctionLogicAppTemplateTypeFunc;
+
 					prototype: ServiceWorkflowParameterABIFunctionLogicAppTemplate;
+
 					new (): ServiceWorkflowParameterABIFunctionLogicAppTemplate;
+
 					ctor: {
 						new (): ServiceWorkflowParameterABIFunctionLogicAppTemplate;
 					};
 				}
+
 				const ServiceWorkflowParameterABIFunctionLogicAppTemplate: ServiceWorkflowParameterABIFunctionLogicAppTemplateTypeFunc;
 			}
 		}
+
 		module XUnit {
 			// Nethereum.Generators.XUnit.SimpleTestGenerator
 			export interface SimpleTestGenerator
@@ -3871,11 +4747,15 @@ declare module Nethereum {
 					Core.IGenerator,
 					Core.IClassGenerator {
 				get_ContractABI(): Model.ContractABI;
+
 				InitialiseTemplate(codeGenLanguage: Core.CodeGenLanguage): void;
 			}
+
 			export interface SimpleTestGeneratorTypeFunc extends TypeFunction {
 				(): SimpleTestGeneratorTypeFunc;
+
 				prototype: SimpleTestGenerator;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -3884,6 +4764,7 @@ declare module Nethereum {
 					functionOutputNamespace: string,
 					codeGenLanguage: Core.CodeGenLanguage,
 				): SimpleTestGenerator;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -3895,6 +4776,7 @@ declare module Nethereum {
 					): SimpleTestGenerator;
 				};
 			}
+
 			const SimpleTestGenerator: SimpleTestGeneratorTypeFunc;
 
 			// Nethereum.Generators.XUnit.SimpleTestModel
@@ -3908,9 +4790,12 @@ declare module Nethereum {
 
 				get_FunctionOutputNamespace(): string;
 			}
+
 			export interface SimpleTestModelTypeFunc extends TypeFunction {
 				(): SimpleTestModelTypeFunc;
+
 				prototype: SimpleTestModel;
+
 				new (
 					contractABI: Model.ContractABI,
 					contractName: string,
@@ -3918,6 +4803,7 @@ declare module Nethereum {
 					cqsNamespace: string,
 					functionOutputNamespace: string,
 				): SimpleTestModel;
+
 				ctor: {
 					new (
 						contractABI: Model.ContractABI,
@@ -3928,21 +4814,27 @@ declare module Nethereum {
 					): SimpleTestModel;
 				};
 			}
+
 			const SimpleTestModel: SimpleTestModelTypeFunc;
 
 			// Nethereum.Generators.XUnit.SimpleTestCSharpTemplate
 			export interface SimpleTestCSharpTemplate
 				extends CQS.ClassTemplateBase$1<SimpleTestModel>,
 					Core.IClassTemplate {}
+
 			export interface SimpleTestCSharpTemplateTypeFunc
 				extends TypeFunction {
 				(): SimpleTestCSharpTemplateTypeFunc;
+
 				prototype: SimpleTestCSharpTemplate;
+
 				new (model: SimpleTestModel): SimpleTestCSharpTemplate;
+
 				ctor: {
 					new (model: SimpleTestModel): SimpleTestCSharpTemplate;
 				};
 			}
+
 			const SimpleTestCSharpTemplate: SimpleTestCSharpTemplateTypeFunc;
 		}
 	}

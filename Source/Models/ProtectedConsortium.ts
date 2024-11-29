@@ -39,6 +39,7 @@ export abstract class ProtectedConsortium extends Consortium {
 		const accessKey = await this.getAccessKey();
 
 		const mnemonic = await this.getMnemonic();
+
 		await config.importFs();
 
 		network.options.provider = {
@@ -105,6 +106,7 @@ export abstract class ProtectedConsortium extends Consortium {
 		const path = await saveTextInFile(mnemonic, "", {
 			Files: [Constants.mnemonicConstants.fileExt],
 		});
+
 		MnemonicRepository.saveMnemonicPath(path);
 
 		return path;

@@ -6,12 +6,15 @@ export interface ICompiler {
 	settings: {
 		optimizer: {
 			enabled: boolean;
+
 			runs: number;
 		};
+
 		evmVersion: string;
 	};
 
 	// For external compilers
 	command: string;
+
 	targets: object[];
 }

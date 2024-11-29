@@ -15,6 +15,7 @@ import { required } from "./helpers";
 
 export class RequirementsPage {
 	private panel?: WebviewPanel;
+
 	private context: ExtensionContext;
 
 	constructor(context: ExtensionContext) {
@@ -37,9 +38,11 @@ export class RequirementsPage {
 			const rootPath = Uri.file(this.context.asAbsolutePath("."))
 				.with({ scheme: "vscode-resource" })
 				.toString();
+
 			this.panel.webview.html = fs
 				.readFileSync(Constants.requirementsPagePath, "utf8")
 				.replace(/{{root}}/g, rootPath);
+
 			this.panel.onDidDispose(() => {
 				this.dispose();
 			});
@@ -57,6 +60,7 @@ export class RequirementsPage {
 									versions: await required.getAllVersions(),
 								});
 							}
+
 							return;
 					}
 				},
@@ -70,6 +74,7 @@ export class RequirementsPage {
 		if (this.panel) {
 			this.panel.dispose();
 		}
+
 		this.panel = undefined;
 	}
 }

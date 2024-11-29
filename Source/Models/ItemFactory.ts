@@ -34,6 +34,7 @@ export namespace ItemFactory {
 			const childrenItems = children.map((child) =>
 				ItemFactory.create(child),
 			);
+
 			extensionItem.setChildren(childrenItems);
 		}
 

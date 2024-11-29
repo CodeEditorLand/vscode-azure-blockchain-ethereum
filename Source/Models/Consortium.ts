@@ -23,6 +23,7 @@ const protocolRegExp = new RegExp(
 
 export abstract class Consortium extends ExtensionItem {
 	private readonly urls: URL[];
+
 	private consortiumId: number;
 
 	protected constructor(
@@ -33,9 +34,11 @@ export abstract class Consortium extends ExtensionItem {
 		super(itemType, consortiumName, description);
 
 		this.contextValue = Constants.contextValue.consortium;
+
 		this.iconPath = Constants.icons.consortium;
 
 		this.urls = [];
+
 		this.consortiumId = +Date.now();
 	}
 
@@ -61,7 +64,9 @@ export abstract class Consortium extends ExtensionItem {
 
 	public toJSON(): { [key: string]: any } {
 		const obj = super.toJSON();
+
 		obj.urls = this.urls.map((url) => url.toString());
+
 		obj.consortiumId = this.consortiumId;
 
 		return obj;

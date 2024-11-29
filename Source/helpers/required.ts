@@ -13,8 +13,11 @@ let timeoutID: NodeJS.Timeout;
 export namespace required {
 	export interface IRequiredVersion {
 		app: string;
+
 		isValid: boolean;
+
 		version: string;
+
 		requiredVersion: string | { min: string; max: string };
 	}
 
@@ -88,6 +91,7 @@ export namespace required {
 				getNodeVersion,
 				CommandContext.NodeIsAvailable,
 			));
+
 		currentState.npm =
 			currentState.npm ||
 			(await createRequiredVersion(
@@ -95,6 +99,7 @@ export namespace required {
 				getNpmVersion,
 				CommandContext.NpmIsAvailable,
 			));
+
 		currentState.git =
 			currentState.git ||
 			(await createRequiredVersion(
@@ -102,6 +107,7 @@ export namespace required {
 				getGitVersion,
 				CommandContext.GitIsAvailable,
 			));
+
 		currentState.python =
 			currentState.python ||
 			(await createRequiredVersion(
@@ -109,6 +115,7 @@ export namespace required {
 				getPythonVersion,
 				CommandContext.PythonIsAvailable,
 			));
+
 		currentState.truffle =
 			currentState.truffle ||
 			(await createRequiredVersion(
@@ -116,6 +123,7 @@ export namespace required {
 				getTruffleVersion,
 				CommandContext.TruffleIsAvailable,
 			));
+
 		currentState.ganache =
 			currentState.ganache ||
 			(await createRequiredVersion(
@@ -131,6 +139,7 @@ export namespace required {
 		commands.executeCommand("azureBlockchainService.showRequirementsPage");
 
 		clearTimeout(timeoutID as Timeout);
+
 		timeoutID = setTimeout(async () => {
 			try {
 				message =
@@ -193,6 +202,7 @@ export namespace required {
 		} catch (error) {
 			// ignore
 		}
+
 		currentState.truffle = await createRequiredVersion(
 			"truffle",
 			getTruffleVersion,
@@ -209,6 +219,7 @@ export namespace required {
 		} catch (error) {
 			// ignore
 		}
+
 		currentState.ganache = await createRequiredVersion(
 			"ganache",
 			getGanacheVersion,
@@ -261,6 +272,7 @@ export namespace required {
 				: packageVersion.min;
 
 		const majorVersion = version.split(".")[0];
+
 		await executeCommand(
 			undefined,
 			"npm",

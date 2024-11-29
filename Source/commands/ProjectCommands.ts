@@ -18,6 +18,7 @@ import { Output } from "../Output";
 
 interface IProjectDestination {
 	cmd: (projectPath: string) => Promise<void>;
+
 	label: string;
 }
 
@@ -47,6 +48,7 @@ export namespace ProjectCommands {
 		const projectPath = await showOpenFolderDialog();
 
 		await command.cmd(projectPath);
+
 		await gitHelper.gitInit(projectPath);
 	}
 }
@@ -57,6 +59,7 @@ async function createNewEmptyProject(projectPath: string): Promise<void> {
 
 async function createProjectFromTruffleBox(projectPath: string): Promise<void> {
 	const truffleBoxName = await getTruffleBoxName();
+
 	await createProject(projectPath, truffleBoxName);
 }
 
@@ -76,7 +79,9 @@ async function createProject(
 		window.showInformationMessage(
 			Constants.informationMessage.newProjectCreationStarted,
 		);
+
 		Output.show();
+
 		await outputCommandHelper.executeCommand(
 			path,
 			"npx",
@@ -88,6 +93,7 @@ async function createProject(
 		if (arrayFiles.length) {
 			fs.moveSync(path, projectPath);
 		}
+
 		workspace.updateWorkspaceFolders(
 			0,
 			workspace.workspaceFolders
@@ -95,6 +101,7 @@ async function createProject(
 				: null,
 			{ uri: Uri.file(projectPath) },
 		);
+
 		window.showInformationMessage(
 			Constants.informationMessage.newProjectCreationFinished,
 		);

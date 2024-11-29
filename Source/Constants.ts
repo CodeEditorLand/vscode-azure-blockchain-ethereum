@@ -7,10 +7,13 @@ import { ExtensionContext } from "vscode";
 
 export class Constants {
 	public static extensionContext: ExtensionContext;
+
 	public static temporaryDirectory = "";
 
 	public static extensionId = "";
+
 	public static extensionVersion = "";
+
 	public static extensionKey = "";
 
 	public static outputChannel = {
@@ -27,11 +30,15 @@ export class Constants {
 
 	public static defaultTruffleBox =
 		"Azure-Samples/Blockchain-Ethereum-Template";
+
 	public static tempPath = "tempPath";
+
 	public static defaultCounter = 10;
 
 	public static localhost = "127.0.0.1";
+
 	public static defaultLocalhostPort = 8545;
+
 	public static defaultAzureBSPort = 3200;
 
 	public static requiredVersions: {
@@ -219,17 +226,24 @@ export class Constants {
 	};
 
 	public static requestApiVersion = "2018-06-01-preview";
+
 	public static requestAcceptLanguage = "en-US";
+
 	public static requestBaseUri = "https://management.azure.com";
+
 	public static azurePortalBasUri =
 		"https://portal.azure.com/#@microsoft.onmicrosoft.com";
 
 	public static welcomePagePath = "";
+
 	public static requirementsPagePath = "";
+
 	public static nodeModulesPath = "";
 
 	public static dataCopied = " copied to clipboard";
+
 	public static rpcEndpointAddress = "RPCEndpointAddress";
+
 	public static accessKey = "AccessKey";
 
 	public static folderStrings = {
@@ -288,15 +302,19 @@ export class Constants {
 
 	public static initialize(context: ExtensionContext) {
 		this.extensionContext = context;
+
 		this.temporaryDirectory = context.storagePath
 			? context.storagePath
 			: os.tmpdir();
+
 		this.welcomePagePath = context.asAbsolutePath(
 			path.join("resources", "welcome", "index.html"),
 		);
+
 		this.requirementsPagePath = context.asAbsolutePath(
 			path.join("resources", "welcome", "prereqs.html"),
 		);
+
 		this.nodeModulesPath = context.asAbsolutePath("node_modules");
 
 		this.icons.blockchainService = {
@@ -307,6 +325,7 @@ export class Constants {
 				path.join("resources/light", "blockchainService.svg"),
 			),
 		};
+
 		this.icons.consortium = {
 			dark: context.asAbsolutePath(
 				path.join("resources/dark", "consortium.svg"),
@@ -315,6 +334,7 @@ export class Constants {
 				path.join("resources/light", "consortium.svg"),
 			),
 		};
+
 		this.icons.member = {
 			dark: context.asAbsolutePath(
 				path.join("resources/dark", "member.svg"),
@@ -323,6 +343,7 @@ export class Constants {
 				path.join("resources/light", "member.svg"),
 			),
 		};
+
 		this.icons.transactionNode = {
 			dark: context.asAbsolutePath(
 				path.join("resources/dark", "transactionNode.svg"),

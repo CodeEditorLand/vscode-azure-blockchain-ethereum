@@ -24,11 +24,17 @@ import { GanacheCommands } from "./GanacheCommands";
 
 interface IDeployDestination {
 	cmd: () => Promise<void>;
+
 	cwd?: string;
+
 	description?: string;
+
 	detail?: string;
+
 	label: string;
+
 	networkId: string | number;
+
 	consortiumId?: number;
 }
 
@@ -45,6 +51,7 @@ export namespace TruffleCommands {
 
 		try {
 			Output.show();
+
 			await outputCommandHelper.executeCommand(
 				getWorkspaceRoot(),
 				"npx",
@@ -81,8 +88,11 @@ export namespace TruffleCommands {
 			);
 
 		const deployDestinations: IDeployDestination[] = [];
+
 		deployDestinations.push(...defaultDeployDestinations);
+
 		deployDestinations.push(...truffleDeployDestinations);
+
 		deployDestinations.push(...consortiumDeployDestinations);
 
 		return execute(
@@ -90,6 +100,7 @@ export namespace TruffleCommands {
 				if (!destination.consortiumId) {
 					return true;
 				}
+
 				return (
 					self.findIndex(
 						(dest) =>
@@ -229,6 +240,7 @@ function getTruffleDeployFunction(
 	if (networkId === 1 || networkId === "1") {
 		return deployToMainNetwork.bind(undefined, name, truffleConfigPath);
 	}
+
 	return deployToNetwork.bind(undefined, name, truffleConfigPath);
 }
 
@@ -246,9 +258,11 @@ function getConsortiumCreateFunction(
 			truffleConfigPath,
 		);
 	}
+
 	if (consortium instanceof MainNetworkConsortium) {
 		return createMainNetwork.bind(undefined, consortium, truffleConfigPath);
 	}
+
 	return createNetwork.bind(undefined, consortium, truffleConfigPath);
 }
 
@@ -257,6 +271,7 @@ async function execute(deployDestination: IDeployDestination[]): Promise<void> {
 		ignoreFocusOut: true,
 		placeHolder: Constants.placeholders.selectDeployDestination,
 	});
+
 	await command.cmd();
 }
 
@@ -278,6 +293,7 @@ async function createNetwork(
 	const network = await consortium.getTruffleNetwork();
 
 	const truffleConfig = new TruffleConfig(truffleConfigPath);
+
 	await truffleConfig.setNetworks(network);
 
 	await deployToNetwork(network.name, truffleConfigPath);
@@ -305,6 +321,7 @@ async function deployToNetwork(
 	const workspaceRoot = path.dirname(truffleConfigPath);
 
 	await fs.ensureDir(workspaceRoot);
+
 	await outputCommandHelper.executeCommand(
 		workspaceRoot,
 		"npx",

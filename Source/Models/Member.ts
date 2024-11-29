@@ -10,6 +10,7 @@ export class Member extends ExtensionItem {
 		super(ItemType.MEMBER, memberName);
 
 		this.contextValue = Constants.contextValue.member;
+
 		this.iconPath = Constants.icons.member;
 	}
 

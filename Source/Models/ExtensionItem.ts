@@ -11,7 +11,9 @@ import Timeout = NodeJS.Timeout;
 
 export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 	protected static timeoutID: NodeJS.Timeout | undefined;
+
 	protected children: IExtensionItem[];
+
 	protected parent: IExtensionItem | null;
 
 	protected constructor(
@@ -22,6 +24,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 		super(label);
 
 		this.children = [];
+
 		this.parent = null;
 	}
 
@@ -45,6 +48,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 		}
 
 		child.addParent(this);
+
 		this.children.push(child);
 
 		this.collapse();
@@ -62,6 +66,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 
 	public setChildren(children: IExtensionItem[]): void {
 		this.children = children;
+
 		this.children.forEach((child) => child.addParent(this));
 
 		this.collapse();
@@ -86,6 +91,7 @@ export abstract class ExtensionItem extends TreeItem implements IExtensionItem {
 
 	private refreshTree(): void {
 		clearTimeout(ExtensionItem.timeoutID as Timeout);
+
 		ExtensionItem.timeoutID = setTimeout(async () => {
 			try {
 				await commands.executeCommand("azureBlockchainService.refresh");

@@ -3,8 +3,11 @@
 
 export interface IRegion {
 	geoOrder?: number;
+
 	key: string;
+
 	label: string;
+
 	regionSegment?: number;
 }
 

@@ -9,7 +9,9 @@ import { Output } from "../Output";
 
 export interface ICommandResult {
 	code: number;
+
 	cmdOutput: string;
+
 	cmdOutputIncludingStderr: string;
 }
 
@@ -74,7 +76,9 @@ export async function tryExecuteCommand(
 
 			childProcess.stdout.on("data", (data: string | Buffer) => {
 				data = data.toString();
+
 				cmdOutput = cmdOutput.concat(data);
+
 				cmdOutputIncludingStderr =
 					cmdOutputIncludingStderr.concat(data);
 
@@ -83,6 +87,7 @@ export async function tryExecuteCommand(
 
 			childProcess.stderr.on("data", (data: string | Buffer) => {
 				data = data.toString();
+
 				cmdOutputIncludingStderr =
 					cmdOutputIncludingStderr.concat(data);
 
@@ -90,6 +95,7 @@ export async function tryExecuteCommand(
 			});
 
 			childProcess.on("error", reject);
+
 			childProcess.on("close", (code: number) => {
 				resolve({
 					cmdOutput,

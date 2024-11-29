@@ -19,6 +19,7 @@ export abstract class NetworkConsortium extends ProtectedConsortium {
 		const network = await super.getTruffleNetwork();
 
 		network.options.gasPrice = await this.getGasPrice();
+
 		network.options.gas = await this.getGasLimit();
 
 		return network;

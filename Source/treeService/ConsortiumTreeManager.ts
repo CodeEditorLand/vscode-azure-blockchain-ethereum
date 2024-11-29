@@ -15,6 +15,7 @@ import { Output } from "../Output";
 
 export class ConsortiumTreeManager {
 	private readonly items: IExtensionItem[];
+
 	private readonly resourceKey: string = "treeContent";
 
 	constructor(private readonly context: ExtensionContext) {
@@ -67,6 +68,7 @@ export class ConsortiumTreeManager {
 				result = defaultCommandsItems();
 			}
 		}
+
 		return result;
 	}
 

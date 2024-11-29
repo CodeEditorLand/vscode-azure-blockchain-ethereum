@@ -10,6 +10,7 @@ import { ConsortiumTreeManager } from "./ConsortiumTreeManager";
 export class ConsortiumTree implements TreeDataProvider<IExtensionView> {
 	public _onDidChangeTreeData: EventEmitter<IExtensionView> =
 		new EventEmitter<IExtensionView>();
+
 	public readonly onDidChangeTreeData: Event<IExtensionView> =
 		this._onDidChangeTreeData.event;
 
@@ -17,6 +18,7 @@ export class ConsortiumTree implements TreeDataProvider<IExtensionView> {
 
 	public refresh(element: IExtensionView): void {
 		this.treeManager.saveState();
+
 		this._onDidChangeTreeData.fire(element);
 	}
 

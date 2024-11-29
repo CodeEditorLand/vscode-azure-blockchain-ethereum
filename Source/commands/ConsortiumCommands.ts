@@ -19,7 +19,9 @@ import { WestlakeCommands } from "./WestlakeCommands";
 
 interface IConsortiumDestination {
 	cmd: (childrenFilters?: string[]) => Promise<Consortium>;
+
 	itemType: ItemType;
+
 	label: string;
 }
 
@@ -79,6 +81,7 @@ export namespace ConsortiumCommands {
 		if (viewItem.extensionItem instanceof LocalNetworkConsortium) {
 			GanacheCommands.stopGanacheServer();
 		}
+
 		return consortiumTreeManager.removeItem(viewItem.extensionItem);
 	}
 }
@@ -184,6 +187,7 @@ async function getConsortiumName() {
 			if (!value) {
 				return Constants.validationMessages.valueCannotBeEmpty;
 			}
+
 			return;
 		},
 	});

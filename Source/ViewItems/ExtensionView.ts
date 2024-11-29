@@ -23,6 +23,7 @@ export abstract class ExtensionView<T extends IExtensionItem>
 		const children = this.extensionItem
 			.getChildren()
 			.map((item) => ViewItemFactory.create(item));
+
 		children.forEach((child) => child.setParent(this));
 
 		return children;

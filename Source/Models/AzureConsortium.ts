@@ -9,7 +9,9 @@ import { ProtectedConsortium } from "./ProtectedConsortium";
 
 export class AzureConsortium extends ProtectedConsortium {
 	private readonly subscriptionId: string;
+
 	private readonly resourcesGroup: string;
+
 	private readonly memberName: string;
 
 	constructor(
@@ -22,7 +24,9 @@ export class AzureConsortium extends ProtectedConsortium {
 		super(ItemType.AZURE_CONSORTIUM, consortiumName);
 
 		this.subscriptionId = subscriptionId;
+
 		this.resourcesGroup = resourcesGroup;
+
 		this.memberName = memberName;
 
 		if (url) {
@@ -34,6 +38,7 @@ export class AzureConsortium extends ProtectedConsortium {
 		const network = await super.getTruffleNetwork();
 
 		network.options.gasPrice = 0;
+
 		network.options.gas = 0;
 
 		return network;
@@ -77,7 +82,9 @@ export class AzureConsortium extends ProtectedConsortium {
 		const obj = super.toJSON();
 
 		obj.subscriptionId = this.subscriptionId;
+
 		obj.resourcesGroup = this.resourcesGroup;
+
 		obj.memberName = this.memberName;
 
 		return obj;

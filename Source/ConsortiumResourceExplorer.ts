@@ -75,6 +75,7 @@ export class ConsortiumResourceExplorer {
 
 	public async getAccessKeys(consortium: AzureConsortium): Promise<string[]> {
 		await this.waitForLogin();
+
 		await this._accountApi.waitForFilters();
 
 		const subscriptionId = consortium.getSubscriptionId();
@@ -186,7 +187,9 @@ export class ConsortiumResourceExplorer {
 		};
 
 		const items: QuickPickItem[] = [];
+
 		items.push(createGroupItem);
+
 		items.push(...(await this.getResourceGroupItems(subscriptionItem)));
 
 		const pick = await showQuickPick(items, {
@@ -454,6 +457,7 @@ export class ConsortiumResourceExplorer {
 
 		if (!result) {
 			await commands.executeCommand("azure-account.askForLogin");
+
 			result = await this._accountApi.waitForLogin();
 
 			if (!result) {

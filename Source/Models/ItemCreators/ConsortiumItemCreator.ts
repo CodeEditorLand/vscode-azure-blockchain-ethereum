@@ -13,6 +13,7 @@ export abstract class ConsortiumItemCreator extends ItemCreator {
 		const consortium = this.createConsortium(label, ...args);
 
 		consortium.addUrls(urls);
+
 		consortium.setConsortiumId(consortiumId);
 
 		return consortium;
@@ -20,6 +21,7 @@ export abstract class ConsortiumItemCreator extends ItemCreator {
 
 	protected getRequiredFields(): Array<{ fieldName: string; type: string }> {
 		const requiredFields = super.getRequiredFields();
+
 		requiredFields.push(
 			...[
 				{ fieldName: "urls", type: "array" },
@@ -33,6 +35,7 @@ export abstract class ConsortiumItemCreator extends ItemCreator {
 	protected abstract getAdditionalConstructorArguments(obj: {
 		[key: string]: any;
 	}): any[];
+
 	protected abstract createConsortium(
 		consortiumName: string,
 		...args: any[]

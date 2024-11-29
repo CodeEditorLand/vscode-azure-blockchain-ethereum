@@ -30,7 +30,9 @@ import { WelcomePage } from "./WelcomePage";
 
 export async function activate(context: ExtensionContext) {
 	Constants.initialize(context);
+
 	MnemonicRepository.initialize(context.globalState);
+
 	TelemetryClient.initialize();
 
 	setCommandContext(CommandContext.Enabled, true);
@@ -46,6 +48,7 @@ export async function activate(context: ExtensionContext) {
 	const consortiumTree = new ConsortiumTree(consortiumTreeManager);
 
 	welcomePage.checkAndShow();
+
 	window.registerTreeDataProvider("AzureBlockchain", consortiumTree);
 
 	//#region azureBlockchain extension commands
@@ -275,31 +278,57 @@ export async function activate(context: ExtensionContext) {
 	//#endregion
 
 	context.subscriptions.push(showWelcomePage);
+
 	context.subscriptions.push(showRequirementsPage);
+
 	context.subscriptions.push(installNpm);
+
 	context.subscriptions.push(installTruffle);
+
 	context.subscriptions.push(installGanache);
+
 	context.subscriptions.push(getAllVersions);
+
 	context.subscriptions.push(generateSmartContractUI);
+
 	context.subscriptions.push(refresh);
+
 	context.subscriptions.push(newSolidityProject);
+
 	context.subscriptions.push(buildContracts);
+
 	context.subscriptions.push(deployContracts);
+
 	context.subscriptions.push(pushLedgerEvents);
+
 	context.subscriptions.push(pushCurrentLedgerEvents);
+
 	context.subscriptions.push(viewGasEstimates);
+
 	context.subscriptions.push(createConsortium);
+
 	context.subscriptions.push(connectConsortium);
+
 	context.subscriptions.push(disconnectConsortium);
+
 	context.subscriptions.push(copyByteCode);
+
 	context.subscriptions.push(copyABI);
+
 	context.subscriptions.push(copyRPCEndpointAddress);
+
 	context.subscriptions.push(copyAccessKey);
+
 	context.subscriptions.push(startGanacheServer);
+
 	context.subscriptions.push(stopGanacheServer);
+
 	context.subscriptions.push(generateMicroservicesWorkflows);
+
 	context.subscriptions.push(generateDataPublishingWorkflows);
+
 	context.subscriptions.push(generateEventPublishingWorkflows);
+
 	context.subscriptions.push(generateReportPublishingWorkflows);
 
 	return required.checkAllApps();
@@ -322,6 +351,7 @@ async function tryExecute(
 		if (error instanceof CancellationEvent) {
 			return;
 		}
+
 		window.showErrorMessage(errorMessage ? errorMessage : error.message);
 	}
 }

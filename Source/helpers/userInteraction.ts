@@ -87,6 +87,7 @@ export async function saveTextInFile(
 	ext?: { [name: string]: string[] },
 ): Promise<string> {
 	const document = await workspace.openTextDocument({ content: text });
+
 	await window.showTextDocument(document);
 
 	const file = await window.showSaveDialog({

@@ -26,6 +26,7 @@ function buildFunction(item: any): Nethereum.Generators.Model.FunctionABI {
 
 function buildEvent(item: any): Nethereum.Generators.Model.EventABI {
 	var eventItem = new Nethereum.Generators.Model.EventABI(item.name);
+
 	eventItem.set_InputParameters(buildEventParameters(item.inputs));
 
 	return eventItem;
@@ -46,8 +47,10 @@ function buildFunctionParameters(
 			items[i].name,
 			parameterOrder,
 		);
+
 		parameters.push(parameter);
 	}
+
 	return parameters;
 }
 
@@ -66,9 +69,12 @@ function buildEventParameters(
 			items[i].name,
 			parameterOrder,
 		);
+
 		parameter.set_Indexed(items[i].indexed);
+
 		parameters.push(parameter);
 	}
+
 	return parameters;
 }
 
@@ -98,8 +104,11 @@ export function buildContract(
 	}
 
 	let contract = new Nethereum.Generators.Model.ContractABI();
+
 	contract.set_Constructor(constructor);
+
 	contract.set_Functions(functions);
+
 	contract.set_Events(events);
 
 	return contract;

@@ -17,6 +17,7 @@ export class Network extends ExtensionItem {
 		super(itemType, networkName);
 
 		this.contextValue = Constants.contextValue.blockchainService;
+
 		this.iconPath = Constants.icons.blockchainService;
 	}
 }

@@ -25,7 +25,9 @@ export class MnemonicRepository {
 			(MnemonicRepository.globalState.get(
 				Constants.mnemonicConstants.mnemonicStorage,
 			) as string[]) || [];
+
 		storage.push(filePath);
+
 		MnemonicRepository.globalState.update(
 			Constants.mnemonicConstants.mnemonicStorage,
 			storage,

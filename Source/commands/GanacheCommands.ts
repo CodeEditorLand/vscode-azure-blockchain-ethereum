@@ -55,6 +55,7 @@ export namespace GanacheCommands {
 	export async function startGanacheServer(): Promise<void> {
 		if (!server && (await required.checkRequiredApps())) {
 			server = spawn("npx", ["ganache-cli"], { shell: true });
+
 			server.stdout.on("data", (data: string | Buffer) => {
 				ganacheOutputChannel.appendLine(data.toString());
 			});
@@ -70,12 +71,16 @@ export namespace GanacheCommands {
 	export async function stopGanacheServer(): Promise<void> {
 		if (server) {
 			await shell.freePort(Constants.defaultLocalhostPort);
+
 			server.removeAllListeners();
+
 			server = undefined;
+
 			window.showInformationMessage(
 				Constants.ganacheCommandStrings.serverSuccessfullyStopped,
 			);
 		}
+
 		setCommandContext(CommandContext.IsGanacheRunning, false);
 	}
 

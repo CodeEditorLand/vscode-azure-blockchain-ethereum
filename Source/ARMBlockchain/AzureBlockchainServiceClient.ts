@@ -24,7 +24,9 @@ import { TransactionNodeResource } from "./Operations/TransactionNodeResource";
 
 export class AzureBlockchainServiceClient extends AzureServiceClient {
 	public memberResource: MemberResource;
+
 	public transactionNodeResource: TransactionNodeResource;
+
 	public consortiumResource: ConsortiumResource;
 
 	constructor(
@@ -40,15 +42,19 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 		if (credentials === null || credentials === undefined) {
 			throw new Error("'credentials' cannot be null.");
 		}
+
 		if (subscriptionId === null || subscriptionId === undefined) {
 			throw new Error("'subscriptionId' cannot be null.");
 		}
 
 		const packageInfo = this.getPackageJsonInfo(__dirname);
+
 		this.addUserAgentInfo(`${packageInfo.name}/${packageInfo.version}`);
 
 		this.memberResource = new MemberResource(this);
+
 		this.transactionNodeResource = new TransactionNodeResource(this);
+
 		this.consortiumResource = new ConsortiumResource(this);
 	}
 
@@ -136,6 +142,7 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 
 					return callback(err);
 				}
+
 				const statusCode = response.statusCode;
 
 				if (statusCode !== 200) {
@@ -167,7 +174,9 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 		const httpRequest = new WebResource();
 
 		httpRequest.method = method;
+
 		httpRequest.url = url;
+
 		httpRequest.headers = {};
 
 		httpRequest.headers["Content-Type"] = "application/json";
@@ -175,6 +184,7 @@ export class AzureBlockchainServiceClient extends AzureServiceClient {
 		if (this.options.generateClientRequestId) {
 			httpRequest.headers["x-ms-client-request-id"] = uuid.v4();
 		}
+
 		if (this.options.acceptLanguage) {
 			httpRequest.headers["accept-language"] =
 				this.options.acceptLanguage;

@@ -21,12 +21,15 @@ export namespace TruffleConfiguration {
 
 	interface IFound {
 		node: ESTree.Node;
+
 		state: string | undefined;
 	}
 
 	export interface IProvider {
 		mnemonic?: string;
+
 		raw?: string;
+
 		url?: string;
 	}
 
@@ -36,7 +39,9 @@ export namespace TruffleConfiguration {
 		 * if "*" - match any network
 		 */
 		network_id: string | number;
+
 		port?: number;
+
 		host?: string;
 		/**
 		 * You will need this enabled to use the confirmations listener
@@ -78,6 +83,7 @@ export namespace TruffleConfiguration {
 
 	export interface INetwork {
 		name: string;
+
 		options: INetworkOption;
 	}
 
@@ -111,6 +117,7 @@ export namespace TruffleConfiguration {
 		public async getAST(): Promise<ESTree.BaseNode> {
 			if (!this.ast) {
 				const file = await fs.readFile(this.filePath, "utf8");
+
 				this.ast = acorn.parse(file, {
 					allowHashBang: true,
 					allowReserved: true,
@@ -167,6 +174,7 @@ export namespace TruffleConfiguration {
 										),
 									});
 								}
+
 								if (property.key.type === "Literal") {
 									networks.push({
 										name: "" + property.key.value,
@@ -212,6 +220,7 @@ export namespace TruffleConfiguration {
 							"networks",
 							generateObjectExpression(),
 						);
+
 						rightExpression.properties.push(networksNode);
 					}
 
@@ -230,7 +239,9 @@ export namespace TruffleConfiguration {
 								network.name,
 								generateObjectExpression(),
 							);
+
 							networkNode.value = networkOptionsToAst(network);
+
 							networksNode.value.properties.push(networkNode);
 						}
 					}
@@ -262,6 +273,7 @@ export namespace TruffleConfiguration {
 			}
 
 			this.ast = ast;
+
 			await this.writeAST();
 		}
 	}
@@ -306,6 +318,7 @@ export namespace TruffleConfiguration {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -324,6 +337,7 @@ export namespace TruffleConfiguration {
 					return true;
 				}
 			}
+
 			return false;
 		};
 	}

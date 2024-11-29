@@ -7,6 +7,7 @@ import { ConsortiumItemCreator } from "./ConsortiumItemCreator";
 export class AzureConsortiumItemCreator extends ConsortiumItemCreator {
 	protected getRequiredFields(): Array<{ fieldName: string; type: string }> {
 		const requiredFields = super.getRequiredFields();
+
 		requiredFields.push(
 			...[
 				{ fieldName: "subscriptionId", type: "string" },
