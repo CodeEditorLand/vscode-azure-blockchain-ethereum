@@ -384,7 +384,7 @@
 		"acorn-walk": "8.3.4",
 		"astring": "1.9.0",
 		"bip39": "3.1.0",
-		"fs-extra": "11.2.0",
+		"fs-extra": "11.3.0",
 		"ms-rest": "2.5.6",
 		"semver": "7.6.3",
 		"uuid": "11.0.5"
@@ -393,7 +393,7 @@
 		"@types/astring": "1.7.4",
 		"@types/estree": "1.0.6",
 		"@types/fs-extra": "11.0.4",
-		"@types/node": "22.10.6",
+		"@types/node": "22.10.7",
 		"@types/semver": "7.5.8",
 		"@types/uuid": "10.0.0",
 		"ts-loader": "9.5.2"
